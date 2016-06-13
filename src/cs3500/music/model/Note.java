@@ -57,12 +57,12 @@ public class Note implements Comparable<Note> {
     }
   }
 
-  protected int startbeatNo;
-  protected Pitch value;
-  protected int duration;
-  protected int octave;
-  protected int keyVal;
-  protected boolean start;
+  private int startbeatNo;
+  private Pitch pitch;
+  private int duration;
+  private int octave;
+  private int keyVal;
+  private boolean start;
 
 
   public Note() {
@@ -76,20 +76,11 @@ public class Note implements Comparable<Note> {
       throw new IllegalArgumentException("Octaves start at 1");
     }
     this.startbeatNo = beat;
-    this.value = value;
+    this.pitch = value;
     this.duration = duration;
     this.octave = octave;
     this.keyVal = this.octave * 12 + value.ordinal();
     this.start = true;
-  }
-
-  // Creates the tail of a note
-  protected Note trim(int beatNo) {
-    Note n = new cs3500.music.model.Note(beatNo,
-            this.value, this.duration - 1, this.octave);
-    n.start = false;
-    return n;
-
   }
 
   // Changes the start time of the note by the specified length
@@ -112,7 +103,7 @@ public class Note implements Comparable<Note> {
       return false;
     }
     Note that = (Note) o;
-    return this.value == that.value && this.startbeatNo == that.startbeatNo &&
+    return this.pitch == that.pitch && this.startbeatNo == that.startbeatNo &&
             this.duration == that.duration && this.octave == that.octave
             && this.start == that.start;
   }
@@ -120,10 +111,31 @@ public class Note implements Comparable<Note> {
   @Override
   public int compareTo(Note n) {
     if (this.octave == n.octave) {
-      return this.value.ordinal() - n.value.ordinal();
+      return this.pitch.ordinal() - n.pitch.ordinal();
     } else {
       return this.octave - n.octave;
     }
+  }
+
+  protected int getStartbeatNo() {
+    return this.startbeatNo;
+  }
+  protected int getDuration() {
+    return this.duration;
+  }
+  protected int getOctave() {
+    return this.octave;
+  }
+  protected Pitch getPitch() {
+    return this.pitch;
+  }
+
+  protected boolean isStart() {
+    return this.start;
+  }
+
+  protected int getKeyVal() {
+    return this.keyVal;
   }
 
 }
