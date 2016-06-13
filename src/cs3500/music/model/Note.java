@@ -3,7 +3,7 @@ package cs3500.music.model;
 import java.util.Objects;
 
 
-public class Note implements Comparable<cs3500.music.model.Note> {
+public class Note implements Comparable<Note> {
   public enum Pitch {
     C, CSHARP, D, DSHARP, E, F, FSHARP, G, GSHARP, A, ASHARP, B;
 
