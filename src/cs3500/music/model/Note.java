@@ -108,10 +108,10 @@ public class Note implements Comparable<Note> {
     if (this == o) {
       return true;
     }
-    if (!(o instanceof cs3500.music.model.Note)) {
+    if (!(o instanceof  Note)) {
       return false;
     }
-    cs3500.music.model.Note that = (cs3500.music.model.Note) o;
+    Note that = (Note) o;
     return this.value == that.value && this.startbeatNo == that.startbeatNo &&
             this.duration == that.duration && this.octave == that.octave
             && this.start == that.start;
