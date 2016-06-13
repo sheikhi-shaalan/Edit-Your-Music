@@ -118,16 +118,6 @@ public class Note implements Comparable<Note> {
   }
 
   @Override
-  public String toString() {
-    StringBuffer s = new StringBuffer();
-    s.append("  X  ");
-    for (int i = 0; i < duration - 1; i++) {
-      s.append("\n  |  ");
-    }
-    return s.toString();
-  }
-
-  @Override
   public int compareTo(Note n) {
     if (this.octave == n.octave) {
       return this.value.ordinal() - n.value.ordinal();
