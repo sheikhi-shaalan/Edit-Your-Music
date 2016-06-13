@@ -1,3 +1,5 @@
+package cs3500.music.model;
+
 import cs3500.music.model.MusicCreator;
 import cs3500.music.model.Note;
 
