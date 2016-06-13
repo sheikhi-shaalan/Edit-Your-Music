@@ -83,15 +83,6 @@ public class Note implements Comparable<Note> {
     this.start = true;
   }
 
-  // Creates the tail of a note
-  protected Note trim(int beatNo) {
-    Note n = new cs3500.music.model.Note(beatNo,
-            this.value, this.duration - 1, this.octave);
-    n.start = false;
-    return n;
-
-  }
-
   // Changes the start time of the note by the specified length
   public void changeStart(int growth) {
 
