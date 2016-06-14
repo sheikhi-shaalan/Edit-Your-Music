@@ -147,13 +147,6 @@ public class Note implements Comparable<Note> {
     return this.keyVal;
   }
 
-  public String renderString() {
-    StringBuffer ret = new StringBuffer("  X  \n");
-    for (int i = 0; i < this.duration - 1; i++) {
-      ret.append("  |  \n");
-    }
-    return ret.toString();
-  }
 
 }
 

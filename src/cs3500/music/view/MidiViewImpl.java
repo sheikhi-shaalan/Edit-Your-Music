@@ -29,11 +29,6 @@ public class MidiViewImpl implements IView {
     this.receiver = tempr;
   }
 
-  @Override
-  public void initialize() {
-
-  }
-
   /**
    * Relevant classes and methods from the javax.sound.midi library:
    * <ul>
@@ -65,10 +60,6 @@ public class MidiViewImpl implements IView {
    *   </a>
    */
 
-  // TODO ????
-  public Dimension getPreferredSize() {
-    return new Dimension(400,400);
-  }
 
   public void playNote() throws InvalidMidiDataException {
     MidiMessage start = new ShortMessage(ShortMessage.NOTE_ON, 0, 60, 64);

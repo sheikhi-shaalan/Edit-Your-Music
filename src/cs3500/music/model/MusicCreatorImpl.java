@@ -165,10 +165,6 @@ public class MusicCreatorImpl implements MusicCreator {
   }
 
 
-
-
-
-
   @Override
   public List<Note> asList() {
     ArrayList<Note> temp = new ArrayList<Note>();
