@@ -94,6 +94,15 @@ public class Note implements Comparable<Note> {
     return Objects.hash(this.keyVal, this.start, this.duration, this.startbeatNo);
   }
 
+  protected String renderString() {
+    StringBuilder s = new StringBuilder();
+    s.append("  X  ");
+    for (int i = 1; i < this.duration ; i ++) {
+      s.append("\n  |  ");
+    }
+     return s.toString();
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
