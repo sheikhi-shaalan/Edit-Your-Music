@@ -18,7 +18,7 @@ public class MusicCreatorImpl implements MusicCreator {
     // if this beat already has notes in it
     if (this.composition.containsKey(note.getStartbeatNo())) {
       // add the note to the arrayList
-      List<Note> list =  this.composition.get(note.getStartbeatNo());
+      List<Note> list = this.composition.get(note.getStartbeatNo());
       list.add(note);
       Collections.sort(list);
     }
@@ -77,10 +77,97 @@ public class MusicCreatorImpl implements MusicCreator {
     }
   }
 
-  @Override
+//  @Override
+//  public String render() {
+//    StringBuffer ret = new StringBuffer();
+//    ret.append(this.octaveRow());
+//    //pads the 0th row with the correct number of spaces
+//    for (int i = 0; i < (int) (Math.log10(this.getSongDuration())); i++) {
+//      ret.append(" ");
+//    }
+//
+//    //starts padding the songDuration amount of notes
+//    for (int i = 0; i < this.getSongDuration(); i++) {
+//      //pads the beginning of each row appropriately
+//      for (int j = 0; j < (((int)
+//              Math.log10(getSongDuration())) - ((int) Math.log10(i))); j++) {
+//        ret.append(" ");
+//      }
+//
+//      ret.append(Integer.toString(i));
+//      if (ret.charAt(ret.length() - 1) == '\n') {
+//        ret.deleteCharAt(ret.charAt(ret.length() - 1));
+//        ret.append(" ");
+//      }
+//      if (this.composition.containsKey(i)) {
+//        this.renderHelp(ret, i);
+//      }
+//      else {
+//        for (int h = 0; h < 12; h++) {
+//          ret.append("     ");
+//        }
+//      }
+//      ret.append("\n");
+//
+//    }
+//    return ret.toString();
+//  }
+
   public String render() {
-    return null;
+    // Get all the notes
+    ArrayList<Note> listOfNote = (ArrayList<Note>) this.asList();
+    // Create a new string builder
+    StringBuilder result= new StringBuilder();
+    // Amount of padding necessary
+    int width = String.valueOf(getSongDuration()).length();
+
+
+    // Print out the beat numbers with the proper padding
+    for (int i = 0; i <= this.getSongDuration(); i++) {
+      result.append(String.format("%" + width + "s", i));
+      int temp = 0;
+      for (int j = getMin(); j <= getMax() ; j++) {
+        // If there isn't an array list
+        if (composition.get(i) == null) {
+          result.append("     ");
+        }
+        // if there is a note at this beat, that coresponds to the keyVal we're on, print it
+        // If there are multiple notes at this beat
+        // TODO THIS IS UGLY
+        else if (keyValAt(composition.get(i), j).size() == 1){
+          result.append("  X  ");
+        }
+        // There are multiple notes at this location
+        else if (keyValAt(composition.get(i), j).size() > 1) {
+          // if there are any starts we print an X
+          // else we print a |
+        }
+        // Else just a "     "
+        else {
+          result.append("     ");
+        }
+
+      }
+      result.append("\n");
+    }
+
+    return this.octaveRow() + result.toString();
   }
+
+  private ArrayList<Note> keyValAt(List<Note> list, int key) {
+    ArrayList<Note> result = new ArrayList<Note>();
+    for (Note n: list) {
+      if (n.getKeyVal() == key) {
+        result.add(n);
+      }
+    }
+    return result;
+  }
+
+
+
+
+
 
   @Override
   public List<Note> asList() {
@@ -94,17 +181,16 @@ public class MusicCreatorImpl implements MusicCreator {
   }
 
 
-
   @Override
   public int getSongDuration() {
-      ArrayList<Note> temp = new ArrayList<Note>(this.asList());
-      int maxBeatNo = 0;
-      for (Note n : temp) {
-        if (n.getStartbeatNo() + n.getDuration() - 1 > maxBeatNo) {
-          maxBeatNo = n.getStartbeatNo()+ n.getDuration() - 1;
-        }
+    ArrayList<Note> temp = new ArrayList<Note>(this.asList());
+    int maxBeatNo = 0;
+    for (Note n : temp) {
+      if (n.getStartbeatNo() + n.getDuration() - 1 > maxBeatNo) {
+        maxBeatNo = n.getStartbeatNo() + n.getDuration() - 1;
       }
-      return maxBeatNo;
+    }
+    return maxBeatNo;
   }
 
   @Override
@@ -115,20 +201,25 @@ public class MusicCreatorImpl implements MusicCreator {
   private int getMin() {
     int min = Integer.MAX_VALUE;
     for (Integer i : this.composition.keySet()) {
-      int temp = composition.get(i).get(0).getKeyVal();
-      if (temp < min) {
-        min = temp;
+      if (this.composition.get(i).size() != 0) {
+        int temp = composition.get(i).get(0).getKeyVal();
+        if (temp < min) {
+          min = temp;
+        }
       }
     }
     return min;
   }
+
   private int getMax() {
     int max = Integer.MIN_VALUE;
     for (Integer i : this.composition.keySet()) {
       List<Note> list = composition.get(i);
-      int temp = list.get(list.size()-1).getKeyVal();
-      if (temp > max) {
-        max = temp;
+      if (list.size() != 0) {
+        int temp = list.get(list.size() - 1).getKeyVal();
+        if (temp > max) {
+          max = temp;
+        }
       }
     }
     return max;
@@ -143,8 +234,7 @@ public class MusicCreatorImpl implements MusicCreator {
     if (getSongDuration() == 0) {
       minNoteValue = 12;
       maxNoteValue = 24;
-    }
-    else {
+    } else {
       minNoteValue = getMin();
       maxNoteValue = getMax();
     }
@@ -162,13 +252,35 @@ public class MusicCreatorImpl implements MusicCreator {
         s.append("  " + actualString + " ");
       } else if (strlen == 3) {
         s.append(" " + actualString + " ");
-      }
-      else {
-        s.append(" " + actualString );
+      } else {
+        s.append(" " + actualString);
       }
     }
     return s.toString() + "\n";
 
+  }
+
+  public void renderHelp(StringBuffer ret, int beat) {
+    int minKeyVal = this.getMin();
+    for (int i = minKeyVal; i <= this.getMax(); i++) {
+      for (Note n : this.composition.get(beat)) {
+        int noteVal = i % 12;
+        int octaveVal = (int) Math.floor(i / 12);
+        String actualString = Note.Pitch.values()[noteVal].toNoteString() + octaveVal;
+
+        if (actualString.equals(n.getPitch().toNoteString() + n.getOctave())) {
+          ret.append(n.renderString());
+        }
+        else {
+          if (ret.charAt(ret.length() - 1) == '\n') {
+            ret.deleteCharAt(ret.charAt(ret.length() - 1));
+            ret.append(" ");
+          }
+          ret.append("     ");
+        }
+      }
+
+    }
   }
 
 }
