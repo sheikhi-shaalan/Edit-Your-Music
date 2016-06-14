@@ -65,8 +65,8 @@ public class Note implements Comparable<Note> {
   private boolean start;
 
 
-  public Note() {
-  }
+//  public Note() {
+//  }
 
   public Note(int beat, Pitch value, int duration, int octave) {
     if (beat < 0 || duration < 0) {
@@ -136,6 +136,14 @@ public class Note implements Comparable<Note> {
 
   protected int getKeyVal() {
     return this.keyVal;
+  }
+
+  public String renderString() {
+    StringBuffer ret = new StringBuffer("  X  \n");
+    for (int i = 0; i < this.duration - 1; i++) {
+      ret.append("  |  \n");
+    }
+    return ret.toString();
   }
 
 }
