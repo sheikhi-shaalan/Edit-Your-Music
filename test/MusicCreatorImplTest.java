@@ -1,5 +1,3 @@
-package cs3500.music.model;
-
 import org.junit.Test;
 
 import static org.junit.Assert.*;
