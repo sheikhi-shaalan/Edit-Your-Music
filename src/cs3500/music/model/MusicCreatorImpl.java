@@ -114,51 +114,45 @@ public class MusicCreatorImpl implements MusicCreator {
 //  }
 
   public String render() {
-    // Get all the notes
-    ArrayList<Note> listOfNote = (ArrayList<Note>) this.asList();
     // Create a new string builder
     StringBuilder result= new StringBuilder();
     // Amount of padding necessary
     int width = String.valueOf(getSongDuration()).length();
 
-
     // Print out the beat numbers with the proper padding
     for (int i = 0; i <= this.getSongDuration(); i++) {
       result.append(String.format("%" + width + "s", i));
-      int temp = 0;
-      for (int j = getMin(); j <= getMax() ; j++) {
+      //int temp = 0;
+      for (int j = getMin(); j <= getMax(); j++) {
         // If there isn't an array list
         if (composition.get(i) == null) {
           result.append("     ");
         }
         // if there is a note at this beat, that coresponds to the keyVal we're on, print it
-        // If there are multiple notes at this beat
-        // TODO THIS IS UGLY
-        else if (keyValAt(composition.get(i), j).size() == 1){
+        else if (keyValAt(composition.get(i), j)) {
           result.append("  X  ");
         }
-        // There are multiple notes at this location
-        else if (keyValAt(composition.get(i), j).size() > 1) {
-          // if there are any starts we print an X
-          // else we print a |
-        }
-        // Else just a "     "
+        // Else (there are no starts here) just a "     "
         else {
-          result.append("     ");
+          //Check if there are any durations above this
+          if (1 == 1) {
+            result.append("  |  ");
+          } else {
+            result.append("     ");
+          }
         }
-
+        result.append("\n");
       }
-      result.append("\n");
     }
 
     return this.octaveRow() + result.toString();
   }
 
-  private ArrayList<Note> keyValAt(List<Note> list, int key) {
-    ArrayList<Note> result = new ArrayList<Note>();
+  private boolean keyValAt(List<Note> list, int key) {
+    boolean result = false;
     for (Note n: list) {
       if (n.getKeyVal() == key) {
-        result.add(n);
+        result = true;
       }
     }
     return result;
@@ -191,7 +185,12 @@ public class MusicCreatorImpl implements MusicCreator {
 
   @Override
   public List<Note> notesAtBeat(int beat) {
-    return this.composition.get(beat);
+    if (composition.containsKey(beat)) {
+      return this.composition.get(beat);
+    }
+    else {
+      return new ArrayList<Note>();
+    }
   }
 
   private int getMin() {

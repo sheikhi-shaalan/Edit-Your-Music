@@ -22,10 +22,11 @@ public class GuiViewFrame extends JFrame implements IView {
     this.pack();
   }
 
-  @Override
-  public void initialize(){
-    this.setVisible(true);
-  }
+//  @Override
+//  public void initialize(){
+//
+//    this.setVisible(true);
+//  }
 
   @Override
   public Dimension getPreferredSize(){

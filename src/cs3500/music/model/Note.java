@@ -129,7 +129,7 @@ public class Note implements Comparable<Note> {
   protected int getStartbeatNo() {
     return this.startbeatNo;
   }
-  protected int getDuration() {
+  public int getDuration() {
     return this.duration;
   }
   protected int getOctave() {
@@ -143,7 +143,7 @@ public class Note implements Comparable<Note> {
     return this.start;
   }
 
-  protected int getKeyVal() {
+  public int getKeyVal() {
     return this.keyVal;
   }
 

@@ -6,5 +6,4 @@ import java.awt.*;
  * Created by NadineShaalan on 6/14/16.
  */
 public class ConsoleView implements IView {
-
 }
