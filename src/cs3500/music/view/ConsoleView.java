@@ -10,10 +10,10 @@ import cs3500.music.model.Note;
 /**
  * Created by NadineShaalan on 6/14/16.
  */
-public class ConsoleView implements IView {
+public class ConsoleView implements IView{
   public ConsoleView() {}
 
-  public String Render(MusicCreator c) {
+  public String render(MusicCreator c) {
     int min = this.getMin(c);
     int max = this.getMax(c);
     int dur = c.getSongDuration();

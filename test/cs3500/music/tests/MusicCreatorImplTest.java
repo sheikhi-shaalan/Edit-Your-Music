@@ -3,6 +3,9 @@ package cs3500.music.tests;
 import cs3500.music.model.MusicCreator;
 import cs3500.music.model.MusicCreatorImpl;
 import cs3500.music.model.Note;
+import cs3500.music.view.ConsoleView;
+import cs3500.music.view.IView;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -11,13 +14,27 @@ import static org.junit.Assert.*;
  * Created by NadineShaalan on 6/13/16.
  */
 public class MusicCreatorImplTest {
-//  MusicCreator model;
-//  MusicCreator model2;
-//
-//  public void initData() {
-//    this.model = new MusicCreatorImpl();
-//    this.model2 = new MusicCreatorImpl();
-//  }
+  MusicCreator model;
+  MusicCreator model2;
+
+  public void initData() {
+    this.model = new MusicCreatorImpl();
+    this.model2 = new MusicCreatorImpl();
+  }
+
+  @Test
+  public void testOutConsole() {
+    this.initData();
+    this.model.addNote(
+            new Note(0, Note.Pitch.C, 2, 2));
+    this.model.addNote(
+            new Note(1, Note.Pitch.D, 1, 2));
+    this.model.addNote(
+            new Note(2, Note.Pitch.E, 3, 2));
+    ConsoleView view = new ConsoleView();
+    System.out.println(view.render(model));
+  }
+
 //
 //  @Test
 //  public void testEmptyGetSongDuration() {

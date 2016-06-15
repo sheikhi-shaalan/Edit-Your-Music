@@ -5,6 +5,8 @@ import java.awt.event.MouseListener; // Possibly of interest for handling mouse 
 
 import javax.swing.*;
 
+import cs3500.music.model.MusicCreator;
+
 /**
  * A skeleton Frame (i.e., a window) in Swing
  */
