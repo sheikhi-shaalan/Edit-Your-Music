@@ -35,13 +35,6 @@ public interface MusicCreator {
   void combineCon(MusicCreator c2);
 
   /**
-   * Renders this song as a string
-   * Prints the 3rd octave if no notes have been added yet
-   * @return a string representation of the song
-   */
-  String render();
-
-  /**
    *
    * @return the song as a list of notes
    */
@@ -58,4 +51,5 @@ public interface MusicCreator {
    * @return notes at given beat
    */
   List<Note> notesAtBeat(int beat);
+
 }
