@@ -1,10 +1,8 @@
 package cs3500.music.view;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 import javax.sound.midi.*;
-import javax.swing.*;
 
 import cs3500.music.model.MusicCreator;
 import cs3500.music.model.MusicCreatorImpl;
@@ -103,9 +101,22 @@ public class MidiViewImpl implements IView {
     c.addNote(new Note(0, Note.Pitch.B, 1, 5));
     c.addNote(new Note(1, Note.Pitch.A, 1, 5));
     c.addNote(new Note(2, Note.Pitch.G, 1, 5));
-    c.addNote(new Note(3, Note.Pitch.B, 1, 5));
-    c.addNote(new Note(4, Note.Pitch.A, 1, 5));
-    c.addNote(new Note(5, Note.Pitch.G, 1, 5));
+    c.addNote(new Note(4, Note.Pitch.B, 1, 5));
+    c.addNote(new Note(5, Note.Pitch.A, 1, 5));
+    c.addNote(new Note(6, Note.Pitch.G, 1, 5));
+    c.addNote(new Note(7, Note.Pitch.G, 1, 5));
+    c.addNote(new Note(8, Note.Pitch.G, 1, 5));
+    c.addNote(new Note(9, Note.Pitch.G, 1, 5));
+    c.addNote(new Note(10, Note.Pitch.G, 1, 5));
+    c.addNote(new Note(11, Note.Pitch.A, 1, 5));
+    c.addNote(new Note(12, Note.Pitch.A, 1, 5));
+    c.addNote(new Note(13, Note.Pitch.A, 1, 5));
+    c.addNote(new Note(14, Note.Pitch.A, 1, 5));
+    c.addNote(new Note(15, Note.Pitch.B, 1, 5));
+    c.addNote(new Note(16, Note.Pitch.A, 1, 5));
+    c.addNote(new Note(17, Note.Pitch.G, 1, 5));
+
+
     m.playComposition(c);
   }
 }
