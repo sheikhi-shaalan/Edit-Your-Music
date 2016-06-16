@@ -126,7 +126,7 @@ public class Note implements Comparable<Note> {
     }
   }
 
-  protected int getStartbeatNo() {
+  public int getStartbeatNo() {
     return this.startbeatNo;
   }
   public int getDuration() {
