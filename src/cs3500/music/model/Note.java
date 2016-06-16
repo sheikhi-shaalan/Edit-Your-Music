@@ -63,6 +63,8 @@ public class Note implements Comparable<Note> {
   private int octave;
   private int keyVal;
   private boolean start;
+  private int instrument;
+  private int volume;
 
 
   public Note() {
@@ -81,6 +83,22 @@ public class Note implements Comparable<Note> {
     this.octave = octave;
     this.keyVal = this.octave * 12 + value.ordinal();
     this.start = true;
+    this.volume = 64;
+    this.instrument = 0;
+  }
+
+  public Note(int beat, int pitch, int duration, int instrument, int volume) {
+    if (beat < 0 || pitch < 0 || duration < 0 || instrument < 0 || volume < 0 || instrument > 128
+            || volume > 127) {
+      throw new IllegalArgumentException("Please enter valid inputs");
+    }
+
+    this.startbeatNo = beat;
+    this.octave = (int)Math.floor(pitch/12);
+    this.pitch = Note.Pitch.values()[pitch % 12];
+    this.keyVal = pitch;
+    this.instrument = instrument;
+    this.volume = volume;
   }
 
   // Changes the start time of the note by the specified length
@@ -145,6 +163,14 @@ public class Note implements Comparable<Note> {
 
   public int getKeyVal() {
     return this.keyVal;
+  }
+
+  public int getInstrument() {
+    return this.instrument;
+  }
+
+  public int getVolume() {
+    return this.volume;
   }
 
 }
