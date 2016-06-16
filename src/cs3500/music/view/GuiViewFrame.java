@@ -2,9 +2,9 @@ package cs3500.music.view;
 
 import java.awt.*;
 import java.awt.event.MouseListener; // Possibly of interest for handling mouse events
-
-import javax.sound.midi.InvalidMidiDataException;
+import java.util.Collections;
 import javax.swing.*;
+import java.util.List;
 
 import cs3500.music.model.MusicCreator;
 import cs3500.music.model.MusicCreatorImpl;
@@ -37,7 +37,12 @@ public class GuiViewFrame extends JFrame implements IView {
 
   @Override
   public Dimension getPreferredSize() {
-    return new Dimension(100, 100);
+    List<Note> list = c.asList();
+    int min = Collections.min(list).getKeyVal();
+    int max = Collections.max(list).getKeyVal();
+    System.out.println(((max - min + 1) * 10 + 20));
+    return new Dimension(200, (max - min + 1) * 10 + 40);
+
   }
 
   public static void main(String[] args) {
@@ -48,8 +53,9 @@ public class GuiViewFrame extends JFrame implements IView {
             new Note(1, Note.Pitch.D, 1, 2));
     c.addNote(
             new Note(2, Note.Pitch.B, 10, 2));
-    System.out.println("DUR :" + c.getSongDuration());
-    System.out.println(Math.ceil(13.0/4));
+    c.addNote(
+            new Note(5, Note.Pitch.B, 4, 2));
+    c.addNote(new Note( 8, Note.Pitch.B, 5, 3));
     JFrame frame = new GuiViewFrame(c);
     frame.setVisible(true);
   }
