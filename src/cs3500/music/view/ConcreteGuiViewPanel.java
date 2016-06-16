@@ -57,19 +57,18 @@ public class ConcreteGuiViewPanel extends JPanel {
     }
   }
 
-  // todo flip it
   // Paints the notes
   private void paintNotes(Graphics g) {
     for (Note n : list) {
       // DRAWS THE TRAIL
       g.setColor(new Color(70, 200, 255));
       g.fillRect(n.getStartbeatNo() * PIXEL_SIZE + (3 * PIXEL_SIZE),
-              (n.getKeyVal() - min) * PIXEL_SIZE + (1 * PIXEL_SIZE),
+              (max - n.getKeyVal()) * PIXEL_SIZE + (1 * PIXEL_SIZE),
               n.getDuration()*PIXEL_SIZE, PIXEL_SIZE);
       // DRAWS THE STARTING HEADER
       g.setColor(new Color(204, 196, 36));
       g.fillRect(n.getStartbeatNo() * PIXEL_SIZE + (3 * PIXEL_SIZE) ,
-              (n.getKeyVal() - min) * PIXEL_SIZE + (1 * PIXEL_SIZE),
+              (max - n.getKeyVal()) * PIXEL_SIZE + (1 * PIXEL_SIZE),
               PIXEL_SIZE, PIXEL_SIZE);
     }
   }
