@@ -51,6 +51,7 @@ public class ConcreteGuiViewPanel extends JPanel {
   // Paints the beat numbers so that every four beats it displays beat number
   //  We can change this so that it looks more like the picture (every 16 beats)
   private void paintBeats(Graphics g) {
+    g.setFont(new Font("Courier New", Font.BOLD, 12));
     g.setColor(new Color(0, 0, 0));
     for (int i = 0; i< c.getSongDuration(); i+=4){
       g.drawString(""+ i, i * PIXEL_SIZE + (2 * PIXEL_SIZE) , PIXEL_SIZE );

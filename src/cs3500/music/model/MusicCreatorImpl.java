@@ -3,6 +3,8 @@ package cs3500.music.model;
 import java.util.HashMap;
 import java.util.*;
 
+import cs3500.music.util.CompositionBuilder;
+
 public class MusicCreatorImpl implements MusicCreator {
 
   // INVARIANT: The startBeatNo of the note must match the note in the composition
@@ -108,6 +110,29 @@ public class MusicCreatorImpl implements MusicCreator {
     }
     else {
       return new ArrayList<Note>();
+    }
+  }
+
+  public static final class Builder implements CompositionBuilder<MusicCreator> {
+
+    Map composition;
+    @Override
+    public MusicCreator build() {
+      //todo Do we create a constructor to add notes by musicCreatorImp(list of notes)?
+      MusicCreator c = new MusicCreatorImpl();
+      return c;
+    }
+
+    @Override
+    public CompositionBuilder<MusicCreator> setTempo(int tempo) {
+
+      return this;
+    }
+
+    @Override
+    public CompositionBuilder<MusicCreator>
+    addNote(int start, int end, int instrument, int pitch, int volume) {
+      return this;
     }
   }
 

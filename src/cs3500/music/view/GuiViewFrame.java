@@ -1,7 +1,7 @@
 package cs3500.music.view;
 
 import java.awt.*;
-import java.awt.event.MouseListener; // Possibly of interest for handling mouse events
+//import java.awt.event.MouseListener; // Possibly of interest for handling mouse events
 import java.util.Collections;
 import javax.swing.*;
 import java.util.List;
@@ -22,9 +22,20 @@ public class GuiViewFrame extends JFrame implements IView {
    */
   public GuiViewFrame(MusicCreator c) {
     this.c = c;
-    this.displayPanel = new ConcreteGuiViewPanel(c);
     this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-    this.getContentPane().add(displayPanel);
+
+    this.displayPanel = new ConcreteGuiViewPanel(c);
+
+    JScrollPane scroller = new JScrollPane(displayPanel);
+    this.getContentPane().add(scroller, BorderLayout.CENTER);
+
+    //add the JScrollPane to wherever you would have added the drawPanel
+    //this.add(scrolls);
+
+
+
+
+   // this.getContentPane().add(displayPanel);
     this.pack();
   }
 
@@ -40,9 +51,13 @@ public class GuiViewFrame extends JFrame implements IView {
     List<Note> list = c.asList();
     int min = Collections.min(list).getKeyVal();
     int max = Collections.max(list).getKeyVal();
-    System.out.println(((max - min + 1) * 10 + 20));
     return new Dimension(200, (max - min + 1) * 10 + 40);
 
+  }
+  public void setCanvasSize(int width, int height) {
+    displayPanel.setPreferredSize(new Dimension(width, height));
+    displayPanel.revalidate();
+    displayPanel.repaint();
   }
 
   public static void main(String[] args) {
@@ -56,6 +71,7 @@ public class GuiViewFrame extends JFrame implements IView {
     c.addNote(
             new Note(5, Note.Pitch.B, 4, 2));
     c.addNote(new Note( 8, Note.Pitch.B, 5, 3));
+    c.addNote(new Note(40, Note.Pitch.G, 10,3));
     JFrame frame = new GuiViewFrame(c);
     frame.setVisible(true);
   }
