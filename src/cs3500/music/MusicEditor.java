@@ -29,6 +29,7 @@ public class MusicEditor {
 //      case "console":
 //        System.out.println(consoleView.render(creator));
 //        break;
+      //jfjfjf
       case "midi" :
         midiView.playComposition(creator);
         break;
