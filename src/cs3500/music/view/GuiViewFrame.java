@@ -43,7 +43,7 @@ public class GuiViewFrame extends JFrame implements IView {
 //  @Override
 //  public void initialize(){
 //
-//    this.setVisible(true);
+//    thisullpull.setVisible(true);
 //  }
 
   @Override
