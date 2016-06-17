@@ -9,7 +9,9 @@ import cs3500.music.model.Note;
  * Created by NadineShaalan on 6/14/16.
  */
 public class ConsoleView implements IView {
-  public ConsoleView() {}
+  public ConsoleView() {
+
+  }
 
   public String render(MusicCreator c) {
     List<Note> listC = c.asList();
