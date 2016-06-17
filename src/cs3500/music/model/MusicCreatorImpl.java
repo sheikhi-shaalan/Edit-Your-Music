@@ -18,6 +18,7 @@ public class MusicCreatorImpl implements MusicCreator {
     this.tempo = 2000;
   }
   public MusicCreatorImpl(int tempo, List<Note> comp) {
+    this.composition = new HashMap<Integer, List<Note>>();
     this.tempo = tempo;
     for (Note n: comp) {
       this.addNote(n);

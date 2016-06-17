@@ -27,6 +27,14 @@ public class MusicEditor {
     switch (args[0]) {
       case "console":
        consoleView.render(creator);
+        break;
+      case "midi":
+        midiView.playComposition(creator);
+        break;
+        case "gui":
+            GuiViewFrame gui = new GuiViewFrame(creator);
+            gui.setVisible(true);
+      default:
     }
 
   }
