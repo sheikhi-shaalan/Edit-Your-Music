@@ -68,8 +68,8 @@ public class MidiViewImpl implements IView {
   private void playBeat(ArrayList<Note> list) throws InvalidMidiDataException {
     for (Note n : list) {
       //TODO Uncouple this (DIVORCE)
-      ShortMessage start = new ShortMessage(ShortMessage.NOTE_ON, 0, n.getKeyVal(), 64);
-      ShortMessage end = new ShortMessage(ShortMessage.NOTE_OFF, 0, n.getKeyVal(), 64);
+      ShortMessage start = new ShortMessage(ShortMessage.NOTE_ON, 1, n.getKeyVal(), 64);
+      ShortMessage end = new ShortMessage(ShortMessage.NOTE_OFF, 1, n.getKeyVal(), 64);
       this.receiver.send(start, -1);
       this.receiver.send(end
               , this.synth.getMicrosecondPosition() + (n.getDuration() * ONE_BEAT_COEFF));
