@@ -18,7 +18,10 @@ import javax.sound.midi.VoiceStatus;
  */
 public class MockMidi implements Synthesizer {
 
-  //StringBuilder
+  StringBuilder result;
+  MockMidi(StringBuilder result) {
+    this.result = result;
+  }
   @Override
   public int getMaxPolyphony() {
     return 0;
