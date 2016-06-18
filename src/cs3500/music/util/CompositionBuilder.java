@@ -31,4 +31,5 @@ public interface CompositionBuilder<T> {
    * @return
    */
   CompositionBuilder<T> addNote(int start, int end, int instrument, int pitch, int volume);
+
 }

@@ -52,4 +52,6 @@ public interface MusicCreator {
    */
   List<Note> notesAtBeat(int beat);
 
+  int getTempo();
+
 }
