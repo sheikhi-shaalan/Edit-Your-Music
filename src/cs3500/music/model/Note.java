@@ -92,9 +92,9 @@ public class Note implements Comparable<Note> {
             || volume > 127) {
       throw new IllegalArgumentException("Please enter valid inputs");
     }
-
+    this.duration = duration;
     this.startbeatNo = beat;
-    this.octave = (int)Math.floor(pitch/12);
+    this.octave = (int) Math.floor(pitch / 12) - 1;
     this.pitch = Note.Pitch.values()[pitch % 12];
     this.keyVal = pitch;
     this.instrument = instrument;

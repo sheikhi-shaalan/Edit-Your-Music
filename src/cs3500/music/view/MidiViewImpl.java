@@ -1,6 +1,6 @@
 package cs3500.music.view;
 
-import java.util.ArrayList;
+import java.util.*;
 
 import javax.sound.midi.*;
 
@@ -14,24 +14,58 @@ import cs3500.music.model.Note;
 public class MidiViewImpl implements IView {
   private final Synthesizer synth;
   private final Receiver receiver;
+  private final Sequencer sequencer;
+  private final Sequence sequence;
   private final int ONE_BEAT_COEFF = 1000000;
   private final int SLEEP_NUMBER = 1000;
 
   public MidiViewImpl() {
     Synthesizer temps = null;
     Receiver tempr = null;
+    Sequencer tempseqr = null;
+    Sequence tempseq = null;
 
     try {
       temps = MidiSystem.getSynthesizer();
       tempr = temps.getReceiver();
+      tempseqr = MidiSystem.getSequencer();
+      tempseq = new Sequence(Sequence.PPQ, 1);
       temps.open();
+      tempseqr.open();
+      tempseqr.getTransmitter().setReceiver(tempr);
 
-    } catch (MidiUnavailableException e) {
+    } catch (Exception e) {
       e.printStackTrace();
     }
 
     this.synth = temps;
     this.receiver = tempr;
+    this.sequencer = tempseqr;
+    this.sequence = tempseq;
+
+  }
+
+  public MidiViewImpl(Synthesizer s, Receiver r) {
+    Synthesizer temps = null;
+    Receiver tempr = null;
+    Sequencer tempseqr = null;
+    Sequence tempseq = null;
+    try {
+      temps = s;
+      tempr = r;
+      tempseqr = MidiSystem.getSequencer();
+      tempseq = new Sequence(Sequence.PPQ, 1);
+      temps.open();
+      tempseqr.open();
+      tempseqr.getTransmitter().setReceiver(tempr);
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    this.synth = temps;
+    this.receiver = tempr;
+    this.sequencer = tempseqr;
+    this.sequence = tempseq;
   }
 
 
@@ -48,75 +82,70 @@ public class MidiViewImpl implements IView {
    * @see <a href="https://en.wikipedia.org/wiki/General_MIDI"> https://en.wikipedia.org/wiki/General_MIDI
    * </a>
    */
-  public void playComposition(MusicCreator c) throws InvalidMidiDataException {
+  public void playComposition(MusicCreator c) {
+    this.sequencer.setTempoInMPQ(c.getTempo());
     for (int i = 0; i <= c.getSongDuration(); i++) {
       try {
-        playBeat((ArrayList<Note>) c.notesAtBeat(i));
+        this.playBeat(c.notesAtBeat(i));
       } catch (InvalidMidiDataException e) {
         e.getStackTrace();
       }
-
-      try {
-        Thread.sleep(SLEEP_NUMBER);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
     }
-    this.receiver.close();
-  }
-
-  private void playBeat(ArrayList<Note> list) throws InvalidMidiDataException {
-    for (Note n : list) {
-      //TODO Uncouple this (DIVORCE)
-      ShortMessage start = new ShortMessage(ShortMessage.NOTE_ON, 1, n.getKeyVal(), 64);
-      ShortMessage end = new ShortMessage(ShortMessage.NOTE_OFF, 1, n.getKeyVal(), 64);
-      this.receiver.send(start, -1);
-      this.receiver.send(end
-              , this.synth.getMicrosecondPosition() + (n.getDuration() * ONE_BEAT_COEFF));
-    }
-
-
-  }
-
-  private void playNote() throws InvalidMidiDataException {
-    MidiMessage start = new ShortMessage(ShortMessage.NOTE_ON, 0, 60, 64);
-    //MidiMessage changeNote = new ShortMessage(ShortMessage.PROGRAM_CHANGE, 0, 28);
-    MidiMessage stop = new ShortMessage(ShortMessage.NOTE_OFF, 0, 60, 64);
-    this.receiver.send(start, -1);
-    //this.receiver.send(changeNote, this.synth.getMicrosecondPosition() + 5000);
-    this.receiver.send(stop, this.synth.getMicrosecondPosition() + 1000000);
-    // TODO CHANGE THIS TO A JAVA TIMER
     try {
-      Thread.sleep(1000);
-
-    } catch (InterruptedException e) {
+      this.sequencer.setSequence(this.sequence);
+    } catch (InvalidMidiDataException e) {
       e.printStackTrace();
     }
-    this.receiver.close(); // Only call this once you're done playing *all* notes
+
+    this.sequencer.start();
+
+    if (this.sequencer.getTickPosition() == this.sequencer.getTickLength()) {
+      System.out.print("end");
+      this.sequencer.close();
+      this.receiver.close();
+    }
   }
 
-  public static void main(String[] args) throws InvalidMidiDataException {
-    MidiViewImpl m = new MidiViewImpl();
-    MusicCreator c = new MusicCreatorImpl();
-    c.addNote(new Note(0, Note.Pitch.B, 1, 5));
-    c.addNote(new Note(1, Note.Pitch.A, 1, 5));
-    c.addNote(new Note(2, Note.Pitch.G, 1, 5));
-    c.addNote(new Note(4, Note.Pitch.B, 1, 5));
-    c.addNote(new Note(5, Note.Pitch.A, 1, 5));
-    c.addNote(new Note(6, Note.Pitch.G, 1, 5));
-    c.addNote(new Note(7, Note.Pitch.G, 1, 5));
-    c.addNote(new Note(8, Note.Pitch.G, 1, 5));
-    c.addNote(new Note(9, Note.Pitch.G, 1, 5));
-    c.addNote(new Note(10, Note.Pitch.G, 1, 5));
-    c.addNote(new Note(11, Note.Pitch.A, 1, 5));
-    c.addNote(new Note(12, Note.Pitch.A, 1, 5));
-    c.addNote(new Note(13, Note.Pitch.A, 1, 5));
-    c.addNote(new Note(14, Note.Pitch.A, 1, 5));
-    c.addNote(new Note(15, Note.Pitch.B, 1, 5));
-    c.addNote(new Note(16, Note.Pitch.A, 1, 5));
-    c.addNote(new Note(17, Note.Pitch.G, 1, 5));
+  private void playBeat(List<Note> list) throws InvalidMidiDataException {
+    Track track = sequence.createTrack();
+    for (Note n : list) {
+
+      ShortMessage start = null;
+      ShortMessage end = null;
+      ShortMessage changeSound = null;
+      try {
+        changeSound = new ShortMessage(ShortMessage.PROGRAM_CHANGE, n.getInstrument(), 0);
+        start = new ShortMessage(ShortMessage.NOTE_ON, 0, n.getKeyVal(), n.getVolume());
+        end = new ShortMessage(ShortMessage.NOTE_OFF, 0, n.getKeyVal(), n.getVolume());
+
+      } catch (InvalidMidiDataException e) {
+        e.printStackTrace();
+      }
 
 
-    m.playComposition(c);
+      MidiEvent eventOn = new MidiEvent(start, n.getStartbeatNo());
+      MidiEvent eventChangeSound = new MidiEvent(changeSound, n.getStartbeatNo());
+      MidiEvent eventOff = new MidiEvent(end, n.getStartbeatNo() + n.getDuration() + 1);
+
+
+      track.add(eventChangeSound);
+      track.add(eventOn);
+      track.add(eventOff);
+
+    }
+
+  }
+
+  public static void main(String[] args) {
+    MusicCreatorImpl.Builder b = MusicCreatorImpl.getBuilder();
+    MusicCreator c = b.setTempo(1000000).build();
+    c.addNote(new Note(0, Note.Pitch.B, 1, 4));
+    c.addNote(new Note(1, Note.Pitch.A, 1, 4));
+    c.addNote(new Note(2, Note.Pitch.G, 1, 4));
+    c.addNote(new Note(3, Note.Pitch.B, 1, 4));
+    c.addNote(new Note(4, Note.Pitch.A, 1, 4));
+    c.addNote(new Note(5, Note.Pitch.G, 1, 4));
+    MidiViewImpl v = new MidiViewImpl();
+    v.playComposition(c);
   }
 }

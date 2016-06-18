@@ -24,15 +24,17 @@ public class MusicEditor {
     MusicReader reader = new MusicReader();
     MusicCreator creator = reader.parseFile(new FileReader(args[1]), b);
 
-    // You probably need to connect these views to your model, too...
     switch (args[0]) {
-//      case "console":
-//        System.out.println(consoleView.render(creator));
-//        break;
-      //jfjfjf
-      case "midi" :
+      case "console":
+        System.out.println(consoleView.render(creator));
+        break;
+      case "midi":
         midiView.playComposition(creator);
         break;
+      case "gui":
+        GuiViewFrame gui = new GuiViewFrame(creator);
+        gui.setVisible(true);
+        default:
     }
 
   }

@@ -96,7 +96,7 @@ public class ConsoleView implements IView {
 
       int noteVal = i % 12;
 
-      int octaveVal = (int) Math.floor(i / 12);
+      int octaveVal = (int) Math.floor(i / 12) - 1;
       String actualString = Note.Pitch.values()[noteVal].toNoteString() + octaveVal;
       int strlen = actualString.length();
       if (strlen == 2) {
