@@ -84,7 +84,7 @@ public class MusicCreatorImpl implements MusicCreator {
       throw new IllegalArgumentException("c2 must be initialized!");
     }
     for (Note n : c2.asList()) {
-      n.changeStart(dur);
+      n.changeStart(dur + 1);
       this.addNote(n);
     }
   }
@@ -129,11 +129,10 @@ public class MusicCreatorImpl implements MusicCreator {
 
   public static final class Builder implements CompositionBuilder<MusicCreator> {
 
-    List<Note> composition;
-    int tempo;
+    private List<Note> composition;
+    private int tempo;
      private Builder() {
-      //moderate pace 120 BPM
-      this.tempo = 2000;
+      this.tempo = 200000;
       this.composition = new ArrayList<Note>();
 
     }

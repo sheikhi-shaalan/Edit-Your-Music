@@ -18,8 +18,9 @@ public class MidiViewImpl implements IView {
   private final Sequence sequence;
   private final int ONE_BEAT_COEFF = 1000000;
   private final int SLEEP_NUMBER = 1000;
-
-  public MidiViewImpl() {
+  MusicCreator c;
+  public MidiViewImpl(MusicCreator creator) {
+    this.c = creator;
     Synthesizer temps = null;
     Receiver tempr = null;
     Sequencer tempseqr = null;
@@ -82,7 +83,7 @@ public class MidiViewImpl implements IView {
    * @see <a href="https://en.wikipedia.org/wiki/General_MIDI"> https://en.wikipedia.org/wiki/General_MIDI
    * </a>
    */
-  public void playComposition(MusicCreator c) {
+  private void playComposition() {
     this.sequencer.setTempoInMPQ(c.getTempo());
     for (int i = 0; i <= c.getSongDuration(); i++) {
       try {
@@ -136,16 +137,8 @@ public class MidiViewImpl implements IView {
 
   }
 
-  public static void main(String[] args) {
-    MusicCreatorImpl.Builder b = MusicCreatorImpl.getBuilder();
-    MusicCreator c = b.setTempo(1000000).build();
-    c.addNote(new Note(0, Note.Pitch.B, 1, 4));
-    c.addNote(new Note(1, Note.Pitch.A, 1, 4));
-    c.addNote(new Note(2, Note.Pitch.G, 1, 4));
-    c.addNote(new Note(3, Note.Pitch.B, 1, 4));
-    c.addNote(new Note(4, Note.Pitch.A, 1, 4));
-    c.addNote(new Note(5, Note.Pitch.G, 1, 4));
-    MidiViewImpl v = new MidiViewImpl();
-    v.playComposition(c);
+  @Override
+  public void initialize() {
+    this.playComposition();
   }
 }

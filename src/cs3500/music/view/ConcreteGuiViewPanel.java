@@ -16,15 +16,18 @@ public class ConcreteGuiViewPanel extends JPanel {
   int max;
   List<Note> list;
 
-  // TODO should this be in the construtor?
   public ConcreteGuiViewPanel(MusicCreator c) {
     this.c = c;
     list = c.asList();
     min = Collections.min(list).getKeyVal();
     max = Collections.max(list).getKeyVal();
-    this.setSize(new Dimension(c.getSongDuration() * 10 + 40, (max - min + 1) * 10 + 40));
+    //this.setSize(new Dimension(c.getSongDuration() * 10 + 40, (max - min + 1) * 10 + 40));
     this.setVisible(true);
 
+  }
+
+  public Dimension getSongDimensions() {
+    return new Dimension(c.getSongDuration() * 10 + 40, (max - min + 1) * 10 + 40);
   }
 
   @Override
@@ -78,7 +81,6 @@ public class ConcreteGuiViewPanel extends JPanel {
     }
   }
 
-  // FIXED: THE ORDERING OF OCTKEYS + SPACING
   private void paintOctKey(Graphics g) {
     g.setColor(Color.white);
     for (int i = max ; i >= min; i --) {

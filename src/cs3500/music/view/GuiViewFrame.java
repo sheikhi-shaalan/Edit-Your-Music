@@ -15,7 +15,7 @@ import cs3500.music.model.Note;
  */
 public class GuiViewFrame extends JFrame implements IView {
   MusicCreator c;
-  private final JPanel displayPanel; // You may want to refine this to a subtype of JPanel
+  private final ConcreteGuiViewPanel displayPanel; // You may want to refine this to a subtype of JPanel
   private		JScrollPane scrollPane = new JScrollPane();
   /**
    * Creates new GuiView
@@ -25,13 +25,12 @@ public class GuiViewFrame extends JFrame implements IView {
     this.setSize(800,600);
 
     this.displayPanel = new ConcreteGuiViewPanel(c);
-    this.displayPanel.setPreferredSize(new Dimension(10000,10000));
+    this.displayPanel.setPreferredSize(displayPanel.getSongDimensions());
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.scrollPane = new JScrollPane(displayPanel);
-    this.scrollPane.setPreferredSize(new Dimension(100,100));
+    this.scrollPane.setPreferredSize(new Dimension(600,200));
     //add the JScrollPane to wherever you would have added the drawPanel
     this.add(scrollPane);
-    setVisible(true);
   }
 
 
@@ -49,6 +48,12 @@ public class GuiViewFrame extends JFrame implements IView {
         c.addNote(new Note(40, Note.Pitch.G, 10, 3));
 
        JFrame frame = new GuiViewFrame(c);
+
+  }
+
+  @Override
+  public void initialize() {
+    this.setVisible(true);
 
   }
 }
