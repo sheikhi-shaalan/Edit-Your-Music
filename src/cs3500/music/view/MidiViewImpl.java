@@ -46,7 +46,8 @@ public class MidiViewImpl implements IView {
 
   }
 
-  public MidiViewImpl(Synthesizer s, Receiver r) {
+  public MidiViewImpl(Synthesizer s, Receiver r, MusicCreator creator) {
+    this.c = creator;
     Synthesizer temps = null;
     Receiver tempr = null;
     Sequencer tempseqr = null;
@@ -84,6 +85,7 @@ public class MidiViewImpl implements IView {
    *   https://en.wikipedia.org/wiki/General_MIDI
    * </a>
    */
+  // Plays a complete composition
   private void playComposition() {
     Track track = sequence.createTrack();
 
@@ -110,6 +112,7 @@ public class MidiViewImpl implements IView {
     }
   }
 
+  // Plays all the notes at a specific beat
   private void playBeat(List<Note> list, Track track) throws InvalidMidiDataException {
     for (Note n : list) {
 
@@ -126,7 +129,6 @@ public class MidiViewImpl implements IView {
         e.printStackTrace();
       }
 
-
       MidiEvent eventOn = new MidiEvent(start, n.getStartbeatNo());
       MidiEvent eventOff = new MidiEvent(end, n.getStartbeatNo() + n.getDuration() + 1);
 
@@ -139,7 +141,7 @@ public class MidiViewImpl implements IView {
   }
 
 
-
+  // Full culmination
   @Override
   public void initialize() {
     this.playComposition();

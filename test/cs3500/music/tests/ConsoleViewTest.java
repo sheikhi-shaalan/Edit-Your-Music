@@ -106,25 +106,6 @@ public class ConsoleViewTest {
   }
 
   @Test
-  public void testAddRange() {
-    this.init();
-    this.model.addNote(
-            new Note(0, Note.Pitch.C, 3, 7));
-    this.model.addNote(
-            new Note(2, Note.Pitch.C, 2, 7));
-    //add a song at beat 0 of duration 4 and in the 9th octave
-    this.model.addNote(
-            new Note(0, Note.Pitch.CSHARP, 4, 9));
-    assertEquals("   C7  C#7   D7  D#7   E7   F7  F#7   G7  G#7   A7  A#7   B7   C8  C#8" +
-            "   D8  D#8   E8   F8  F#8   G8  G#8   A8  A#8   B8   C9  C#9 \n" +
-            "0  X                                                                                                                            X  \n" +
-            "1  |                                                                                                                            |  \n" +
-            "2  X                                                                                                                            |  \n" +
-            "3  |                                                                                                                            |  \n", this.view.render());
-
-  }
-
-  @Test
   public void testBasicRemove() {
     this.init();
     this.model.addNote(
@@ -344,5 +325,6 @@ public class ConsoleViewTest {
             " 9  |                      \n" +
             "10  |                      \n",this.view3.render());
   }
+
 
 }

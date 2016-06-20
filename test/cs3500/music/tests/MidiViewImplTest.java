@@ -90,7 +90,8 @@ public class MidiViewImplTest {
             "Status: ON  Instrument 0 Oct/Pitch Value: 55 Volume: 100 Length: 3\n" +
             "Status: ON  Instrument 0 Oct/Pitch Value: 59 Volume: 100 Length: 3\n" +
             "Status: ON  Instrument 0 Oct/Pitch Value: 57 Volume: 100 Length: 3\n" +
-            "Status: ON  Instrument 0 Oct/Pitch Value: 55 Volume: 100 Length: 3\n", this.receiver.getResult());
+            "Status: ON  Instrument 0 Oct/Pitch Value: 55 Volume: 100 Length: 3\n",
+            this.receiver.getResult());
   }
 
 
@@ -169,4 +170,7 @@ public class MidiViewImplTest {
 
     assertEquals(2010000, this.receiver.getResult().length());
   }
+
+
+
 }
