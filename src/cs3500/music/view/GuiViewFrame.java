@@ -9,7 +9,7 @@ import cs3500.music.model.MusicCreator;
 /**
  * A skeleton Frame (i.e., a window) in Swing
  */
-public class GuiViewFrame extends JFrame implements IView {
+public class GuiViewFrame extends JFrame implements GuiView {
   MusicCreator c;
   private final ConcreteGuiViewPanel displayPanel;
   private		JScrollPane scrollPane = new JScrollPane();

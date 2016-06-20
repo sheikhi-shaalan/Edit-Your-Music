@@ -1,0 +1,131 @@
+Nadine Shaalan and Bahar Haji-Sheikhi
+CS 3500
+Summer I 2016
+
+HW 6:
+
+MODEL:
+
+------------------------------------------------------------------------------
+
+For this weeks assignment, I created a interface and a basic implementation of a
+music editor.
+The Interface - MusicCreator:
+----------------------------
+Requires the following functionality
+	- add a specified note
+	- remove a specified note
+	- change an existing note to a specified note
+	- produce a list representation of all the notes being played
+	- Combine two music pieces together so that they play one after the other
+	- Combine two music pieces so that they play simultaneously
+	- Get the total number of beats in a piece
+	- Get the list of notes at the specified beat
+	- Renders the piece as a string
+	- Gets the tempo of the piece
+
+Modifications made to the interface for homework 6:
+- getTempo method was created to get a piece's tempo
+
+The Implementation of the Interface (The class MusicCreatorImpl):
+------------------------------------------------------------------
+	I chose to represent a song as a HashMap<Integer,ArrayList<Note>>.
+	The Integer key was the beat number, and the ArrayList<Note> were
+	the notes at the beat.
+
+	I chose to do this because, a beat number is unique.
+
+
+	Other Important Design Aspects:
+	How you add a note:
+		- To add a note, it checks if there is already a beat.
+			- If there is an existing key, it adds to the value's Arraylist.
+			- If there is not an existing key, it does a similar process as
+			 mentioned above,
+			but puts a beat pairing in the hash map.
+		** YOU CAN HAVE SEPARATE OVERLAPPING NOTES IN THIS IMPLEMENTATION
+			- This allows for more efficient removal,
+			since you can be sure you have removed the proper note,
+			and not one that you had previously replaced.
+
+
+Modifications added to this class for homework 6:
+- Added a tempo field to keep track of a piece's tempo
+- Added a builder as specified in the assignment
+- A getBuilder() method was created to get a builder for the class
+- A piece was previously represented via KeyVal (octave and pitch number) to
+ ArrayList<Note>, but this
+implementation was changed in order to allow the view to play notes a beat
+at a time.
+- Rendering was removed from this class
+
+
+Helper Class- Note:
+-------------------
+	A note contains the starting beat, the Key (number to represent the key and
+	the octave),
+	the pitch, the octave, the instrument, and the volume
+
+	The important design aspects of the Note class are:
+	How you create one:
+		-  A beat has a duration but it only exists in the arraylist of the beat
+		it starts on
+
+Modifications added to this class for homework 6:
+- A second constructor as specified by the builder was added.
+- Instrument and volume fields (ints) were added
+- public getters for the instrument and volume were added.
+- implementation of the note was changed such that a note was added only at the first
+beat it was played, however, it had a duration. Previously, a note existed at
+every beat it was played.
+
+VIEW:
+
+---------------------------------------------------------------------------------------
+
+Interface: IView
+----------------
+This class represents the different types of views for this assignment. It has one
+methodinitialize(), which starts the desired view type.
+
+Class: ConsoleView
+-------------------
+To render a Composition,
+I created an ArrayList<ArrayList<String>> and then appended the strings to form the final
+“image”.This is because I saw the console as a grid, and the easiest way to
+access/modify information in a grid like structure is a 2 dimensional list.
+
+Class: MidiViewImpl
+-------------------
+To play a composition out loud.
+Implements a sequencer to do this.
+Adds each note--via a midiEvent--, by using the interface's notesAtBeat method
+(which gets the arraylist of note at the given beat) to a track, which
+gets added to a sequence, which gets added to the sequencer.
+And then starts the sequencer.
+
+Class: ConcreteGuiViewPanel:
+----------------------------
+Paints the beat, paints the grid, and overrides paintComponent in order to display the GUI.
+
+Class: GuiViewFrame:
+--------------------
+Using the ConcreteGuiViewPanel class, adds the grid and the notes to a frame.
+Allows scrolling as well.
+
+Class: MockMidi
+----------------
+Represents a synthesizer but for testing purposes.
+Has a stringBuilder to accumulate messages sent.
+
+Class: MockMidiReciever
+------------------------
+Represents a synthesizer but for testing purposes.
+Accumulates MidiMessages sent via the "send" method
+which stores it in its StringBuilder.
+
+
+
+
+
+
