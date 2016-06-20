@@ -1,9 +1,17 @@
 package cs3500.music.view;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 import cs3500.music.model.MusicCreator;
+import cs3500.music.model.MusicCreatorImpl;
 import cs3500.music.model.Note;
+import cs3500.music.util.CompositionBuilder;
+import cs3500.music.util.MusicReader;
 
 /**
  * Created by NadineShaalan on 6/14/16.
@@ -123,6 +131,30 @@ public class ConsoleView implements IView {
     }
     return s.toString() + "\n";
 
+  }
+
+  public static void main(String[] args) {
+    try {
+      MusicReader reader = new MusicReader();
+      CompositionBuilder<MusicCreator> b = MusicCreatorImpl.getBuilder();
+      MusicCreator creator = reader.parseFile(new FileReader("mystery-1.txt"), b);
+      ConsoleView consoleView = new ConsoleView(creator);
+      String content = consoleView.render();
+      File file = new File("console-transcript.txt");
+
+      // if file doesnt exists, then create it
+      if (!file.exists()) {
+        file.createNewFile();
+      }
+
+      FileWriter fw = new FileWriter(file.getAbsoluteFile());
+      BufferedWriter bw = new BufferedWriter(fw);
+      bw.write(content);
+      bw.close();
+
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   @Override

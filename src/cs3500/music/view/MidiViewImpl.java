@@ -80,14 +80,17 @@ public class MidiViewImpl implements IView {
    * MidiChannel#getProgram()}</li> <li>{@link MidiChannel#programChange(int)}</li> </ul> </li>
    * </ul>
    *
-   * @see <a href="https://en.wikipedia.org/wiki/General_MIDI"> https://en.wikipedia.org/wiki/General_MIDI
+   * @see <a href="https://en.wikipedia.org/wiki/General_MIDI">
+   *   https://en.wikipedia.org/wiki/General_MIDI
    * </a>
    */
   private void playComposition() {
+    Track track = sequence.createTrack();
+
     this.sequencer.setTempoInMPQ(c.getTempo());
     for (int i = 0; i <= c.getSongDuration(); i++) {
       try {
-        this.playBeat(c.notesAtBeat(i));
+        this.playBeat(c.notesAtBeat(i),track);
       } catch (InvalidMidiDataException e) {
         e.getStackTrace();
       }
@@ -107,17 +110,17 @@ public class MidiViewImpl implements IView {
     }
   }
 
-  private void playBeat(List<Note> list) throws InvalidMidiDataException {
-    Track track = sequence.createTrack();
+  private void playBeat(List<Note> list, Track track) throws InvalidMidiDataException {
     for (Note n : list) {
 
       ShortMessage start = null;
       ShortMessage end = null;
       ShortMessage changeSound = null;
       try {
-        changeSound = new ShortMessage(ShortMessage.PROGRAM_CHANGE, n.getInstrument(), 0);
-        start = new ShortMessage(ShortMessage.NOTE_ON, 0, n.getKeyVal(), n.getVolume());
-        end = new ShortMessage(ShortMessage.NOTE_OFF, 0, n.getKeyVal(), n.getVolume());
+        start = new ShortMessage(ShortMessage.NOTE_ON,  n.getInstrument()-1,
+                n.getKeyVal(), n.getVolume());
+        end = new ShortMessage(ShortMessage.NOTE_OFF,
+                n.getInstrument()-1, n.getKeyVal(), n.getVolume());
 
       } catch (InvalidMidiDataException e) {
         e.printStackTrace();
@@ -125,17 +128,17 @@ public class MidiViewImpl implements IView {
 
 
       MidiEvent eventOn = new MidiEvent(start, n.getStartbeatNo());
-      MidiEvent eventChangeSound = new MidiEvent(changeSound, n.getStartbeatNo());
       MidiEvent eventOff = new MidiEvent(end, n.getStartbeatNo() + n.getDuration() + 1);
 
 
-      track.add(eventChangeSound);
       track.add(eventOn);
       track.add(eventOff);
 
     }
 
   }
+
+
 
   @Override
   public void initialize() {

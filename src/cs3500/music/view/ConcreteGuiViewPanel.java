@@ -21,7 +21,6 @@ public class ConcreteGuiViewPanel extends JPanel {
     list = c.asList();
     min = Collections.min(list).getKeyVal();
     max = Collections.max(list).getKeyVal();
-    //this.setSize(new Dimension(c.getSongDuration() * 10 + 40, (max - min + 1) * 10 + 40));
     this.setVisible(true);
 
   }

@@ -1,11 +1,19 @@
 package cs3500.music.tests;
 
 import cs3500.music.model.*;
+import cs3500.music.util.CompositionBuilder;
+import cs3500.music.util.MusicReader;
 import cs3500.music.view.*;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 
 /**
@@ -234,7 +242,7 @@ public class ConsoleViewTest {
   @Test
   public void renderEmpty() {
     init();
-    String defaultPrintOut = "   C4  C#4   D4  D#4   E4   F4  F#4   G4  G#4   A4  A#4   B4 ";
+    String defaultPrintOut = "   C3  C#3   D3  D#3   E3   F3  F#3   G3  G#3   A3  A#3   B3 ";
     assertEquals(defaultPrintOut,this.view3.render().split("\n")[0]);
   }
 
