@@ -10,6 +10,7 @@ import static org.junit.Assert.*;
 
 /**
  * Created by baharsheikhi on 6/18/16.
+ * A class to test the midi view
  */
 public class MidiViewImplTest {
   Synthesizer synth;
