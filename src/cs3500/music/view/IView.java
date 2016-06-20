@@ -1,7 +1,10 @@
 package cs3500.music.view;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
 
+import cs3500.music.controller.KeyboardHandler;
 import cs3500.music.model.MusicCreator;
 
 /**
@@ -11,5 +14,8 @@ public interface IView {
   /**
    * Creates the actual views
    */
-   void initialize();
+  void initialize();
+
+  void addActionListener(ActionListener action);
+  void addKeyListener(KeyListener keyListener);
 }

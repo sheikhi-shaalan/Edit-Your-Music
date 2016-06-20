@@ -1,5 +1,7 @@
 package cs3500.music.view;
 
+import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
 import java.util.*;
 
 import cs3500.music.model.MusicCreator;
@@ -128,5 +130,15 @@ public class ConsoleView implements IView {
   @Override
   public void initialize() {
     System.out.println(render());
+  }
+
+  @Override
+  public void addActionListener(ActionListener action) {
+
+  }
+
+  @Override
+  public void addKeyListener(KeyListener keyListener) {
+
   }
 }
