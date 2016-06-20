@@ -1,23 +1,45 @@
 package cs3500.music.view;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 import cs3500.music.model.MusicCreator;
+import cs3500.music.model.MusicCreatorImpl;
 import cs3500.music.model.Note;
+import cs3500.music.util.CompositionBuilder;
+import cs3500.music.util.MusicReader;
 
 /**
  * Created by NadineShaalan on 6/14/16.
  */
 public class ConsoleView implements IView {
-  public ConsoleView() {
+  MusicCreator c;
 
+  public ConsoleView(MusicCreator creator) {
+      this.c = creator;
   }
 
-  public String render(MusicCreator c) {
+
+  public String render() {
     List<Note> listC = c.asList();
-    int min =  Collections.min(listC).getKeyVal();
-    int max = Collections.max(listC).getKeyVal();
-    int dur = c.getSongDuration();
+    int min;
+    int max;
+    int dur;
+    if (listC.size() != 0) {
+       min = Collections.min(listC).getKeyVal();
+       max = Collections.max(listC).getKeyVal();
+       dur = c.getSongDuration();
+    }
+    else {
+      min = 48;
+      max = 59;
+      dur = 0;
+
+    }
     // -------------- Creates empty array list to modify
     ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
     for (int i = 0; i <= dur; i++) {
@@ -82,8 +104,8 @@ public class ConsoleView implements IView {
     int maxNoteValue;
     int dur = c.getSongDuration();
     if (dur == 0) {
-      minNoteValue = 12;
-      maxNoteValue = 24;
+      minNoteValue = 48;
+      maxNoteValue = 59;
     } else {
       List<Note> list = c.asList();
       minNoteValue =  Collections.min(list).getKeyVal();
@@ -96,7 +118,7 @@ public class ConsoleView implements IView {
 
       int noteVal = i % 12;
 
-      int octaveVal = (int) Math.floor(i / 12) - 1;
+      int octaveVal = (int) Math.floor(i / 12) -1 ;
       String actualString = Note.Pitch.values()[noteVal].toNoteString() + octaveVal;
       int strlen = actualString.length();
       if (strlen == 2) {
@@ -109,5 +131,34 @@ public class ConsoleView implements IView {
     }
     return s.toString() + "\n";
 
+  }
+
+  public static void main(String[] args) {
+    try {
+      MusicReader reader = new MusicReader();
+      CompositionBuilder<MusicCreator> b = MusicCreatorImpl.getBuilder();
+      MusicCreator creator = reader.parseFile(new FileReader("mystery-1.txt"), b);
+      ConsoleView consoleView = new ConsoleView(creator);
+      String content = consoleView.render();
+      File file = new File("console-transcript.txt");
+
+      // if file doesnt exists, then create it
+      if (!file.exists()) {
+        file.createNewFile();
+      }
+
+      FileWriter fw = new FileWriter(file.getAbsoluteFile());
+      BufferedWriter bw = new BufferedWriter(fw);
+      bw.write(content);
+      bw.close();
+
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Override
+  public void initialize() {
+    System.out.println(render());
   }
 }

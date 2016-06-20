@@ -17,24 +17,28 @@ import javax.sound.midi.InvalidMidiDataException;
 
 public class MusicEditor {
   public static void main(String[] args) throws IOException, InvalidMidiDataException {
-    //GuiViewFrame view = new GuiViewFrame();
-    MidiViewImpl midiView = new MidiViewImpl();
-    ConsoleView consoleView = new ConsoleView();
-    CompositionBuilder<MusicCreator> b = MusicCreatorImpl.getBuilder();
+
     MusicReader reader = new MusicReader();
+    CompositionBuilder<MusicCreator> b = MusicCreatorImpl.getBuilder();
     MusicCreator creator = reader.parseFile(new FileReader(args[1]), b);
 
-    switch (args[0]) {
+    MusicEditor m = new MusicEditor();
+    IView v = m.create(args[0], creator);
+    v.initialize();
+
+
+  }
+
+  IView create(String type, MusicCreator creator) {
+    switch (type) {
       case "console":
-        System.out.println(consoleView.render(creator));
-        break;
+        return new ConsoleView(creator);
       case "midi":
-        midiView.playComposition(creator);
-        break;
+        return new MidiViewImpl(creator);
       case "gui":
-        GuiViewFrame gui = new GuiViewFrame(creator);
-        gui.setVisible(true);
-        default:
+        return new GuiViewFrame(creator);
+      default:
+        throw new IllegalArgumentException("Must enter valid view type");
     }
 
   }

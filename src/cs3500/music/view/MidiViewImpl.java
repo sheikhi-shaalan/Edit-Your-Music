@@ -18,8 +18,9 @@ public class MidiViewImpl implements IView {
   private final Sequence sequence;
   private final int ONE_BEAT_COEFF = 1000000;
   private final int SLEEP_NUMBER = 1000;
-
-  public MidiViewImpl() {
+  MusicCreator c;
+  public MidiViewImpl(MusicCreator creator) {
+    this.c = creator;
     Synthesizer temps = null;
     Receiver tempr = null;
     Sequencer tempseqr = null;
@@ -53,7 +54,7 @@ public class MidiViewImpl implements IView {
     try {
       temps = s;
       tempr = r;
-      tempseqr = MidiSystem.getSequencer(false);
+      tempseqr = MidiSystem.getSequencer();
       tempseq = new Sequence(Sequence.PPQ, 1);
       temps.open();
       tempseqr.open();
@@ -79,29 +80,51 @@ public class MidiViewImpl implements IView {
    * MidiChannel#getProgram()}</li> <li>{@link MidiChannel#programChange(int)}</li> </ul> </li>
    * </ul>
    *
-   * @see <a href="https://en.wikipedia.org/wiki/General_MIDI"> https://en.wikipedia.org/wiki/General_MIDI
+   * @see <a href="https://en.wikipedia.org/wiki/General_MIDI">
+   *   https://en.wikipedia.org/wiki/General_MIDI
    * </a>
    */
-  public void playComposition(MusicCreator c) {
-      Track track = sequence.createTrack();
+  private void playComposition() {
+    Track track = sequence.createTrack();
+
     this.sequencer.setTempoInMPQ(c.getTempo());
     for (int i = 0; i <= c.getSongDuration(); i++) {
       try {
-        this.playBeat(c.notesAtBeat(i), track, i);
+        this.playBeat(c.notesAtBeat(i),track);
       } catch (InvalidMidiDataException e) {
         e.getStackTrace();
-      } catch (InterruptedException e) {
-          e.printStackTrace();
       }
     }
+    try {
+      this.sequencer.setSequence(this.sequence);
+    } catch (InvalidMidiDataException e) {
+      e.printStackTrace();
+    }
 
+    this.sequencer.start();
+
+    if (this.sequencer.getTickPosition() == this.sequencer.getTickLength()) {
+      System.out.print("end");
+      this.sequencer.close();
+      this.receiver.close();
+    }
   }
 
-  private void playBeat(List<Note> list, Track track, int beatNo) throws InvalidMidiDataException, InterruptedException {
+  private void playBeat(List<Note> list, Track track) throws InvalidMidiDataException {
     for (Note n : list) {
 
-        ShortMessage start = new ShortMessage(ShortMessage.NOTE_ON, n.getInstrument() - 1, n.getKeyVal(), n.getVolume());
-        ShortMessage end = new ShortMessage(ShortMessage.NOTE_OFF, n.getInstrument() - 1, n.getKeyVal(), n.getVolume());
+      ShortMessage start = null;
+      ShortMessage end = null;
+      ShortMessage changeSound = null;
+      try {
+        start = new ShortMessage(ShortMessage.NOTE_ON,  n.getInstrument()-1,
+                n.getKeyVal(), n.getVolume());
+        end = new ShortMessage(ShortMessage.NOTE_OFF,
+                n.getInstrument()-1, n.getKeyVal(), n.getVolume());
+
+      } catch (InvalidMidiDataException e) {
+        e.printStackTrace();
+      }
 
 
       MidiEvent eventOn = new MidiEvent(start, n.getStartbeatNo());
@@ -113,30 +136,12 @@ public class MidiViewImpl implements IView {
 
     }
 
-      try {
-          this.sequencer.setSequence(this.sequence);
-      } catch (InvalidMidiDataException e) {
-          e.printStackTrace();
-      }
-
-      this.sequencer.setTickPosition(beatNo);
-      this.sequencer.start();
-      Thread.sleep((int) Math.floor(sequencer.getTempoInMPQ() / 1000.0),
-              Math.floorMod((int) sequencer.getTempoInMPQ(), 1000) * 1000);
-      this.sequencer.stop();
-
   }
 
-  public static void main(String[] args) {
-    MusicCreatorImpl.Builder b = MusicCreatorImpl.getBuilder();
-    MusicCreator c = b.setTempo(1000000).build();
-    c.addNote(new Note(0, Note.Pitch.B, 1, 4));
-    c.addNote(new Note(1, Note.Pitch.A, 1, 4));
-    c.addNote(new Note(2, Note.Pitch.G, 1, 4));
-    c.addNote(new Note(3, Note.Pitch.B, 1, 4));
-    c.addNote(new Note(4, Note.Pitch.A, 1, 4));
-    c.addNote(new Note(5, Note.Pitch.G, 1, 4));
-    MidiViewImpl v = new MidiViewImpl();
-    v.playComposition(c);
+
+
+  @Override
+  public void initialize() {
+    this.playComposition();
   }
 }
