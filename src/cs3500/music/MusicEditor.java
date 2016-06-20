@@ -11,6 +11,7 @@ import cs3500.music.view.MidiViewImpl;
 
 import java.io.FileReader;
 import java.io.IOException;
+
 import javax.sound.midi.InvalidMidiDataException;
 
 
@@ -23,18 +24,17 @@ public class MusicEditor {
     MusicReader reader = new MusicReader();
     MusicCreator creator = reader.parseFile(new FileReader(args[1]), b);
 
-    // You probably need to connect these views to your model, too...
     switch (args[0]) {
       case "console":
-       consoleView.render(creator);
+        System.out.println(consoleView.render(creator));
         break;
       case "midi":
         midiView.playComposition(creator);
         break;
-        case "gui":
-            GuiViewFrame gui = new GuiViewFrame(creator);
-            gui.setVisible(true);
-      default:
+      case "gui":
+        GuiViewFrame gui = new GuiViewFrame(creator);
+        gui.setVisible(true);
+        default:
     }
 
   }

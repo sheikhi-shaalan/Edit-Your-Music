@@ -51,7 +51,8 @@ public interface MusicCreator {
    * @return notes at given beat
    */
   List<Note> notesAtBeat(int beat);
-
+  /**
+   * @return the tempo of the song in microseconds per beat
+   */
   int getTempo();
-
 }

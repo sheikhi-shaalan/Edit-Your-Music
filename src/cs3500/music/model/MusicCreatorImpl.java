@@ -18,8 +18,8 @@ public class MusicCreatorImpl implements MusicCreator {
     this.tempo = 2000;
   }
   public MusicCreatorImpl(int tempo, List<Note> comp) {
-    this.composition = new HashMap<Integer, List<Note>>();
     this.tempo = tempo;
+    this.composition = new HashMap<Integer, List<Note>>();
     for (Note n: comp) {
       this.addNote(n);
     }
@@ -123,11 +123,6 @@ public class MusicCreatorImpl implements MusicCreator {
     }
   }
 
-  @Override
-  public int getTempo() {
-    return this.tempo;
-  }
-
   public static Builder getBuilder() {
     return new Builder();
   }
@@ -157,9 +152,13 @@ public class MusicCreatorImpl implements MusicCreator {
     @Override
     public CompositionBuilder<MusicCreator>
     addNote(int start, int end, int instrument, int pitch, int volume) {
-      this.composition.add(new Note(start, pitch, (end - start), instrument, volume));
+      this.composition.add(new Note(start, pitch,((end - start) + 1), instrument, volume));
       return this;
     }
+  }
+
+  public int getTempo() {
+    return this.tempo;
   }
 
 }
