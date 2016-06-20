@@ -16,7 +16,7 @@ public class MockMidiReciever implements Receiver {
   public void send(MidiMessage message, long timeStamp) {
     ShortMessage shortMessage = (ShortMessage) message;
     if (shortMessage.getCommand() == ShortMessage.NOTE_ON) {
-      this.result.append("Status: " + "ON " + " Intrument " + shortMessage.getChannel()
+      this.result.append("Status: " + "ON " + " Instrument " + shortMessage.getChannel()
               + " Oct/Pitch Value: " +
               shortMessage.getData1() + " Volume: " + shortMessage.getData2() +
               " Length: " + shortMessage.getLength() + "\n");

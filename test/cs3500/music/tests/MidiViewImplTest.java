@@ -49,23 +49,23 @@ public class MidiViewImplTest {
     this.receiver.send(new ShortMessage(ShortMessage.NOTE_ON, 0, 55, 100), 1);
 
 
-    assertEquals("Status: ON  Channel 0 Oct/Pitch Value: 59 Volume: 100 Length: 3\n" +
-            "Status: ON  Channel 0 Oct/Pitch Value: 57 Volume: 100 Length: 3\n" +
-            "Status: ON  Channel 0 Oct/Pitch Value: 55 Volume: 100 Length: 3\n" +
-            "Status: ON  Channel 0 Oct/Pitch Value: 59 Volume: 100 Length: 3\n" +
-            "Status: ON  Channel 0 Oct/Pitch Value: 57 Volume: 100 Length: 3\n" +
-            "Status: ON  Channel 0 Oct/Pitch Value: 55 Volume: 100 Length: 3\n" +
-            "Status: ON  Channel 0 Oct/Pitch Value: 55 Volume: 100 Length: 3\n" +
-            "Status: ON  Channel 0 Oct/Pitch Value: 55 Volume: 100 Length: 3\n" +
-            "Status: ON  Channel 0 Oct/Pitch Value: 55 Volume: 100 Length: 3\n" +
-            "Status: ON  Channel 0 Oct/Pitch Value: 55 Volume: 100 Length: 3\n" +
-            "Status: ON  Channel 0 Oct/Pitch Value: 57 Volume: 100 Length: 3\n" +
-            "Status: ON  Channel 0 Oct/Pitch Value: 57 Volume: 100 Length: 3\n" +
-            "Status: ON  Channel 0 Oct/Pitch Value: 57 Volume: 100 Length: 3\n" +
-            "Status: ON  Channel 0 Oct/Pitch Value: 57 Volume: 100 Length: 3\n" +
-            "Status: ON  Channel 0 Oct/Pitch Value: 59 Volume: 100 Length: 3\n" +
-            "Status: ON  Channel 0 Oct/Pitch Value: 57 Volume: 100 Length: 3\n" +
-            "Status: ON  Channel 0 Oct/Pitch Value: 55 Volume: 100 Length: 3\n",
+    assertEquals("Status: ON  Instrument 0 Oct/Pitch Value: 59 Volume: 100 Length: 3\n" +
+                    "Status: ON  Instrument 0 Oct/Pitch Value: 57 Volume: 100 Length: 3\n" +
+                    "Status: ON  Instrument 0 Oct/Pitch Value: 55 Volume: 100 Length: 3\n" +
+                    "Status: ON  Instrument 0 Oct/Pitch Value: 59 Volume: 100 Length: 3\n" +
+                    "Status: ON  Instrument 0 Oct/Pitch Value: 57 Volume: 100 Length: 3\n" +
+                    "Status: ON  Instrument 0 Oct/Pitch Value: 55 Volume: 100 Length: 3\n" +
+                    "Status: ON  Instrument 0 Oct/Pitch Value: 55 Volume: 100 Length: 3\n" +
+                    "Status: ON  Instrument 0 Oct/Pitch Value: 55 Volume: 100 Length: 3\n" +
+                    "Status: ON  Instrument 0 Oct/Pitch Value: 55 Volume: 100 Length: 3\n" +
+                    "Status: ON  Instrument 0 Oct/Pitch Value: 55 Volume: 100 Length: 3\n" +
+                    "Status: ON  Instrument 0 Oct/Pitch Value: 57 Volume: 100 Length: 3\n" +
+                    "Status: ON  Instrument 0 Oct/Pitch Value: 57 Volume: 100 Length: 3\n" +
+                    "Status: ON  Instrument 0 Oct/Pitch Value: 57 Volume: 100 Length: 3\n" +
+                    "Status: ON  Instrument 0 Oct/Pitch Value: 57 Volume: 100 Length: 3\n" +
+                    "Status: ON  Instrument 0 Oct/Pitch Value: 59 Volume: 100 Length: 3\n" +
+                    "Status: ON  Instrument 0 Oct/Pitch Value: 57 Volume: 100 Length: 3\n" +
+                    "Status: ON  Instrument 0 Oct/Pitch Value: 55 Volume: 100 Length: 3\n",
             this.receiver.getResult());
 
   }
@@ -84,13 +84,12 @@ public class MidiViewImplTest {
     this.receiver.send(new ShortMessage(ShortMessage.NOTE_ON, 0, 57, 100), 1);
     this.receiver.send(new ShortMessage(ShortMessage.NOTE_ON, 0, 55, 100), 1);
 
-    assertEquals("Status: ON  Channel 0 Oct/Pitch Value: 59 Volume: 100 Length: 3\n" +
-            "Status: ON  Channel 0 Oct/Pitch Value: 57 Volume: 100 Length: 3\n" +
-            "Status: ON  Channel 0 Oct/Pitch Value: 55 Volume: 100 Length: 3\n" +
-            "Instrument: 127 Channel: 0\n" +
-            "Status: ON  Channel 0 Oct/Pitch Value: 59 Volume: 100 Length: 3\n" +
-            "Status: ON  Channel 0 Oct/Pitch Value: 57 Volume: 100 Length: 3\n" +
-            "Status: ON  Channel 0 Oct/Pitch Value: 55 Volume: 100 Length: 3\n", this.receiver.getResult());
+    assertEquals("Status: ON  Instrument 0 Oct/Pitch Value: 59 Volume: 100 Length: 3\n" +
+            "Status: ON  Instrument 0 Oct/Pitch Value: 57 Volume: 100 Length: 3\n" +
+            "Status: ON  Instrument 0 Oct/Pitch Value: 55 Volume: 100 Length: 3\n" +
+            "Status: ON  Instrument 0 Oct/Pitch Value: 59 Volume: 100 Length: 3\n" +
+            "Status: ON  Instrument 0 Oct/Pitch Value: 57 Volume: 100 Length: 3\n" +
+            "Status: ON  Instrument 0 Oct/Pitch Value: 55 Volume: 100 Length: 3\n", this.receiver.getResult());
   }
 
 
@@ -107,8 +106,8 @@ public class MidiViewImplTest {
     this.receiver.send(new ShortMessage(ShortMessage.NOTE_ON, 0, 3, 100), 1);
     this.receiver.send(new ShortMessage(ShortMessage.NOTE_ON, 0, 120, 100), 1);
 
-    assertEquals("Status: ON  Intrument 0 Oct/Pitch Value: 3 Volume: 100 Length: 3\n" +
-                    "Status: ON  Intrument 0 Oct/Pitch Value: 120 Volume: 100 Length: 3\n",
+    assertEquals("Status: ON  Instrument 0 Oct/Pitch Value: 3 Volume: 100 Length: 3\n" +
+                    "Status: ON  Instrument 0 Oct/Pitch Value: 120 Volume: 100 Length: 3\n",
             this.receiver.getResult());
   }
 
@@ -118,8 +117,8 @@ public class MidiViewImplTest {
     this.receiver.send(new ShortMessage(ShortMessage.NOTE_ON, 0, 3, 100), 3);
     this.receiver.send(new ShortMessage(ShortMessage.NOTE_ON, 0, 3, 100), 100);
 
-    assertEquals("Status: ON  Channel 0 Oct/Pitch Value: 3 Volume: 100 Length: 3\n" +
-            "Status: ON  Channel 0 Oct/Pitch Value: 3 Volume: 100 Length: 3\n",
+    assertEquals("Status: ON  Instrument 0 Oct/Pitch Value: 3 Volume: 100 Length: 3\n" +
+                    "Status: ON  Instrument 0 Oct/Pitch Value: 3 Volume: 100 Length: 3\n",
             this.receiver.getResult());
   }
 
@@ -130,8 +129,8 @@ public class MidiViewImplTest {
     this.receiver.send(new ShortMessage(ShortMessage.NOTE_ON, 0, 3, 2), 3);
     this.receiver.send(new ShortMessage(ShortMessage.NOTE_ON, 0, 3, 120), 100);
 
-    assertEquals("Status: ON  Channel 0 Oct/Pitch Value: 3 Volume: 2 Length: 3\n" +
-            "Status: ON  Channel 0 Oct/Pitch Value: 3 Volume: 120 Length: 3\n",
+    assertEquals("Status: ON  Instrument 0 Oct/Pitch Value: 3 Volume: 2 Length: 3\n" +
+                    "Status: ON  Instrument 0 Oct/Pitch Value: 3 Volume: 120 Length: 3\n",
             this.receiver.getResult());
 
   }
@@ -167,6 +166,6 @@ public class MidiViewImplTest {
       this.receiver.send(new ShortMessage(ShortMessage.NOTE_ON, 0, 59, 100), 1);
     }
 
-    assertEquals(1980000, this.receiver.getResult().length());
+    assertEquals(2010000, this.receiver.getResult().length());
   }
 }
