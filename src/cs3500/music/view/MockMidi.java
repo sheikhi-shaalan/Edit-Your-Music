@@ -18,137 +18,139 @@ import javax.sound.midi.VoiceStatus;
  */
 public class MockMidi implements Synthesizer {
 
-  StringBuilder result;
-  MockMidi(StringBuilder result) {
-    this.result = result;
-  }
-  @Override
-  public int getMaxPolyphony() {
-    return 0;
-  }
+    StringBuilder result;
 
-  @Override
-  public long getLatency() {
-    return 0;
-  }
+    public MockMidi() {
+        this.result = new StringBuilder();
+    }
 
-  @Override
-  public MidiChannel[] getChannels() {
-    return new MidiChannel[0];
-  }
+    @Override
+    public Receiver getReceiver() throws MidiUnavailableException {
+        return new MockMidiReciever(this.result);
+    }
 
-  @Override
-  public VoiceStatus[] getVoiceStatus() {
-    return new VoiceStatus[0];
-  }
+    @Override
+    public int getMaxPolyphony() {
+        throw new IllegalArgumentException("Cannot call this method on a mock midi device");
+    }
 
-  @Override
-  public boolean isSoundbankSupported(Soundbank soundbank) {
-    return false;
-  }
+    @Override
+    public long getLatency() {
+        throw new IllegalArgumentException("Cannot call this method on a mock midi device");
+    }
 
-  @Override
-  public boolean loadInstrument(Instrument instrument) {
-    return false;
-  }
+    @Override
+    public MidiChannel[] getChannels() {
+        throw new IllegalArgumentException("Cannot call this method on a mock midi device");
+    }
 
-  @Override
-  public void unloadInstrument(Instrument instrument) {
+    @Override
+    public VoiceStatus[] getVoiceStatus() {
+        throw new IllegalArgumentException("Cannot call this method on a mock midi device");
+    }
 
-  }
+    @Override
+    public boolean isSoundbankSupported(Soundbank soundbank) {
+        throw new IllegalArgumentException("Cannot call this method on a mock midi device");
+    }
 
-  @Override
-  public boolean remapInstrument(Instrument from, Instrument to) {
-    return false;
-  }
+    @Override
+    public boolean loadInstrument(Instrument instrument) {
+        throw new IllegalArgumentException("Cannot call this method on a mock midi device");
+    }
 
-  @Override
-  public Soundbank getDefaultSoundbank() {
-    return null;
-  }
+    @Override
+    public void unloadInstrument(Instrument instrument) {
+        throw new IllegalArgumentException("Cannot call this method on a mock midi device");
+    }
 
-  @Override
-  public Instrument[] getAvailableInstruments() {
-    return new Instrument[0];
-  }
+    @Override
+    public boolean remapInstrument(Instrument from, Instrument to) {
+        throw new IllegalArgumentException("Cannot call this method on a mock midi device");
+    }
 
-  @Override
-  public Instrument[] getLoadedInstruments() {
-    return new Instrument[0];
-  }
+    @Override
+    public Soundbank getDefaultSoundbank() {
+        throw new IllegalArgumentException("Cannot call this method on a mock midi device");
+    }
 
-  @Override
-  public boolean loadAllInstruments(Soundbank soundbank) {
-    return false;
-  }
+    @Override
+    public Instrument[] getAvailableInstruments() {
+        throw new IllegalArgumentException("Cannot call this method on a mock midi device");
+    }
 
-  @Override
-  public void unloadAllInstruments(Soundbank soundbank) {
+    @Override
+    public Instrument[] getLoadedInstruments() {
+        throw new IllegalArgumentException("Cannot call this method on a mock midi device");
+    }
 
-  }
+    @Override
+    public boolean loadAllInstruments(Soundbank soundbank) {
+        throw new IllegalArgumentException("Cannot call this method on a mock midi device");
+    }
 
-  @Override
-  public boolean loadInstruments(Soundbank soundbank, Patch[] patchList) {
-    return false;
-  }
+    @Override
+    public void unloadAllInstruments(Soundbank soundbank) {
+        throw new IllegalArgumentException("Cannot call this method on a mock midi device");
+    }
 
-  @Override
-  public void unloadInstruments(Soundbank soundbank, Patch[] patchList) {
+    @Override
+    public boolean loadInstruments(Soundbank soundbank, Patch[] patchList) {
+        throw new IllegalArgumentException("Cannot call this method on a mock midi device");
+    }
 
-  }
+    @Override
+    public void unloadInstruments(Soundbank soundbank, Patch[] patchList) {
+        throw new IllegalArgumentException("Cannot call this method on a mock midi device");
+    }
 
-  @Override
-  public Info getDeviceInfo() {
-    return null;
-  }
+    @Override
+    public Info getDeviceInfo() {
+        throw new IllegalArgumentException("Cannot call this method on a mock midi device");
+    }
 
-  @Override
-  public void open() throws MidiUnavailableException {
+    @Override
+    public void open() throws MidiUnavailableException {
+        throw new IllegalArgumentException("Cannot call this method on a mock midi device");
+    }
 
-  }
+    @Override
+    public void close() {
+        throw new IllegalArgumentException("Cannot call this method on a mock midi device");
+    }
 
-  @Override
-  public void close() {
+    @Override
+    public boolean isOpen() {
+        throw new IllegalArgumentException("Cannot call this method on a mock midi device");
+    }
 
-  }
+    @Override
+    public long getMicrosecondPosition() {
+        throw new IllegalArgumentException("Cannot call this method on a mock midi device");
+    }
 
-  @Override
-  public boolean isOpen() {
-    return false;
-  }
+    @Override
+    public int getMaxReceivers() {
+        throw new IllegalArgumentException("Cannot call this method on a mock midi device");
+    }
 
-  @Override
-  public long getMicrosecondPosition() {
-    return 0;
-  }
+    @Override
+    public int getMaxTransmitters() {
+        throw new IllegalArgumentException("Cannot call this method on a mock midi device");
+    }
 
-  @Override
-  public int getMaxReceivers() {
-    return 0;
-  }
+    @Override
+    public List<Receiver> getReceivers() {
+        throw new IllegalArgumentException("Cannot call this method on a mock midi device");
+    }
 
-  @Override
-  public int getMaxTransmitters() {
-    return 0;
-  }
+    @Override
+    public Transmitter getTransmitter() throws MidiUnavailableException {
+        throw new IllegalArgumentException("Cannot call this method on a mock midi device");
+    }
 
-  @Override
-  public Receiver getReceiver() throws MidiUnavailableException {
-    return new MockMidiReciever();
-  }
-
-  @Override
-  public List<Receiver> getReceivers() {
-    return null;
-  }
-
-  @Override
-  public Transmitter getTransmitter() throws MidiUnavailableException {
-    return null;
-  }
-
-  @Override
-  public List<Transmitter> getTransmitters() {
-    return null;
-  }
+    @Override
+    public List<Transmitter> getTransmitters() {
+        throw new IllegalArgumentException("Cannot call this method on a mock midi device");
+    }
 }

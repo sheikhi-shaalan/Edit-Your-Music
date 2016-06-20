@@ -53,7 +53,7 @@ public class MidiViewImpl implements IView {
     try {
       temps = s;
       tempr = r;
-      tempseqr = MidiSystem.getSequencer();
+      tempseqr = MidiSystem.getSequencer(false);
       tempseq = new Sequence(Sequence.PPQ, 1);
       temps.open();
       tempseqr.open();
@@ -83,56 +83,47 @@ public class MidiViewImpl implements IView {
    * </a>
    */
   public void playComposition(MusicCreator c) {
+      Track track = sequence.createTrack();
     this.sequencer.setTempoInMPQ(c.getTempo());
     for (int i = 0; i <= c.getSongDuration(); i++) {
       try {
-        this.playBeat(c.notesAtBeat(i));
+        this.playBeat(c.notesAtBeat(i), track, i);
       } catch (InvalidMidiDataException e) {
         e.getStackTrace();
+      } catch (InterruptedException e) {
+          e.printStackTrace();
       }
     }
-    try {
-      this.sequencer.setSequence(this.sequence);
-    } catch (InvalidMidiDataException e) {
-      e.printStackTrace();
-    }
 
-    this.sequencer.start();
-
-    if (this.sequencer.getTickPosition() == this.sequencer.getTickLength()) {
-      System.out.print("end");
-      this.sequencer.close();
-      this.receiver.close();
-    }
   }
 
-  private void playBeat(List<Note> list) throws InvalidMidiDataException {
-    Track track = sequence.createTrack();
+  private void playBeat(List<Note> list, Track track, int beatNo) throws InvalidMidiDataException, InterruptedException {
     for (Note n : list) {
 
-      ShortMessage start = null;
-      ShortMessage end = null;
-      ShortMessage changeSound = null;
-      try {
-        changeSound = new ShortMessage(ShortMessage.PROGRAM_CHANGE, n.getInstrument(), 0);
-        start = new ShortMessage(ShortMessage.NOTE_ON, 0, n.getKeyVal(), n.getVolume());
-        end = new ShortMessage(ShortMessage.NOTE_OFF, 0, n.getKeyVal(), n.getVolume());
-
-      } catch (InvalidMidiDataException e) {
-        e.printStackTrace();
-      }
+        ShortMessage start = new ShortMessage(ShortMessage.NOTE_ON, n.getInstrument() - 1, n.getKeyVal(), n.getVolume());
+        ShortMessage end = new ShortMessage(ShortMessage.NOTE_OFF, n.getInstrument() - 1, n.getKeyVal(), n.getVolume());
 
 
       MidiEvent eventOn = new MidiEvent(start, n.getStartbeatNo());
-      MidiEvent eventChangeSound = new MidiEvent(changeSound, n.getStartbeatNo());
       MidiEvent eventOff = new MidiEvent(end, n.getStartbeatNo() + n.getDuration() + 1);
 
 
-      track.add(eventChangeSound);
       track.add(eventOn);
       track.add(eventOff);
 
     }
+
+      try {
+          this.sequencer.setSequence(this.sequence);
+      } catch (InvalidMidiDataException e) {
+          e.printStackTrace();
+      }
+
+      this.sequencer.setTickPosition(beatNo);
+      this.sequencer.start();
+      Thread.sleep((int) Math.floor(sequencer.getTempoInMPQ() / 1000.0),
+              Math.floorMod((int) sequencer.getTempoInMPQ(), 1000) * 1000);
+      this.sequencer.stop();
 
   }
 

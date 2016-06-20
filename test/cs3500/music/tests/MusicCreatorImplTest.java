@@ -273,6 +273,19 @@ public class MusicCreatorImplTest {
     model2.combineSym(model);
 
   }
+
+  @Test
+  public void testBigNotesAtBeat() {
+    this.initData();
+      for (int i = 0; i < 35000; i++) {
+          for (int j = 0; j < 100; j++) {
+              this.model.addNote(new Note(i, 55, 1, 0, 100));
+          }
+          this.model.notesAtBeat(i);
+          }
+      }
+
+  }
 //
 //  //just a test I used kind of as a main method to see if things were printing right
 //  @Test
@@ -289,4 +302,4 @@ public class MusicCreatorImplTest {
 //  }
 //
 //
-}
+
