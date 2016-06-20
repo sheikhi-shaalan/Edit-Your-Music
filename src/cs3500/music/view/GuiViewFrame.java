@@ -34,5 +34,10 @@ public class GuiViewFrame extends JFrame implements GuiView {
     this.setVisible(true);
 
   }
+
+  @Override
+  public void removeMouseListener() {
+
+  }
 }
 
