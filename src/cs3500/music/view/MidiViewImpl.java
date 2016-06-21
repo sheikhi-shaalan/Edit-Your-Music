@@ -50,15 +50,15 @@ public class MidiViewImpl implements IView {
 
   }
 
-  public MidiViewImpl(Synthesizer s, Receiver r, MusicCreator creator) {
+  public MidiViewImpl(Sequencer sequencer, MusicCreator creator) {
     this.c = creator;
     Synthesizer temps = null;
     Receiver tempr = null;
     Sequencer tempseqr = null;
     Sequence tempseq = null;
     try {
-      temps = s;
-      tempr = r;
+      temps = MidiSystem.getSynthesizer();
+      tempr = temps.getReceiver();
       tempseqr = MidiSystem.getSequencer();
       tempseq = new Sequence(Sequence.PPQ, 1);
       temps.open();
@@ -70,7 +70,7 @@ public class MidiViewImpl implements IView {
     }
     this.synth = temps;
     this.receiver = tempr;
-    this.sequencer = tempseqr;
+    this.sequencer = sequencer;
     this.sequence = tempseq;
   }
 
@@ -108,12 +108,6 @@ public class MidiViewImpl implements IView {
     }
 
     this.sequencer.start();
-
-    if (this.sequencer.getTickPosition() == this.sequencer.getTickLength()) {
-      System.out.print("end");
-      this.sequencer.close();
-      this.receiver.close();
-    }
   }
 
   // Plays all the notes at a specific beat
