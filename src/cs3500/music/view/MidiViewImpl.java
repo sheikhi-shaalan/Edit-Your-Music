@@ -1,5 +1,7 @@
 package cs3500.music.view;
 
+import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
 import java.util.*;
 
 import javax.sound.midi.*;
@@ -19,6 +21,8 @@ public class MidiViewImpl implements IView {
   private final int ONE_BEAT_COEFF = 1000000;
   private final int SLEEP_NUMBER = 1000;
   MusicCreator c;
+  private int tick;
+
   public MidiViewImpl(MusicCreator creator) {
     this.c = creator;
     Synthesizer temps = null;
@@ -46,7 +50,8 @@ public class MidiViewImpl implements IView {
 
   }
 
-  public MidiViewImpl(Synthesizer s, Receiver r) {
+  public MidiViewImpl(Synthesizer s, Receiver r, MusicCreator creator) {
+    this.c = creator;
     Synthesizer temps = null;
     Receiver tempr = null;
     Sequencer tempseqr = null;
@@ -74,7 +79,7 @@ public class MidiViewImpl implements IView {
    * Relevant classes and methods from the javax.sound.midi library: <ul> <li>{@link
    * MidiSystem#getSynthesizer()}</li> <li>{@link Synthesizer} <ul> <li>{@link
    * Synthesizer#open()}</li> <li>{@link Synthesizer#getReceiver()}</li> <li>{@link
-   * SynthesiCCzer#getChannels()}</li> </ul> </li> <li>{@link Receiver} <ul> <li>{@link
+   * Synthesizer#getChannels()}</li> </ul> </li> <li>{@link Receiver} <ul> <li>{@link
    * Receiver#send(MidiMessage, long)}</li> <li>{@link Receiver#close()}</li> </ul> </li> <li>{@link
    * MidiMessage}</li> <li>{@link ShortMessage}</li> <li>{@link MidiChannel} <ul> <li>{@link
    * MidiChannel#getProgram()}</li> <li>{@link MidiChannel#programChange(int)}</li> </ul> </li>
@@ -84,6 +89,7 @@ public class MidiViewImpl implements IView {
    *   https://en.wikipedia.org/wiki/General_MIDI
    * </a>
    */
+  // Plays a complete composition
   private void playComposition() {
     Track track = sequence.createTrack();
 
@@ -110,6 +116,7 @@ public class MidiViewImpl implements IView {
     }
   }
 
+  // Plays all the notes at a specific beat
   private void playBeat(List<Note> list, Track track) throws InvalidMidiDataException {
     for (Note n : list) {
 
@@ -126,22 +133,35 @@ public class MidiViewImpl implements IView {
         e.printStackTrace();
       }
 
-
       MidiEvent eventOn = new MidiEvent(start, n.getStartbeatNo());
       MidiEvent eventOff = new MidiEvent(end, n.getStartbeatNo() + n.getDuration() + 1);
 
 
       track.add(eventOn);
       track.add(eventOff);
-
     }
+    this.tick += 1;
 
   }
 
+  protected int getTick() {
+    return tick;
+  }
 
 
+  // Full culmination
   @Override
   public void initialize() {
     this.playComposition();
+  }
+
+  @Override
+  public void addActionListener(ActionListener action) {
+
+  }
+
+  @Override
+  public void addKeyListener(KeyListener keyListener) {
+
   }
 }

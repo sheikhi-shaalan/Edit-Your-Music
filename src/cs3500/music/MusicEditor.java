@@ -4,6 +4,7 @@ import cs3500.music.model.MusicCreator;
 import cs3500.music.model.MusicCreatorImpl;
 import cs3500.music.util.CompositionBuilder;
 import cs3500.music.util.MusicReader;
+import cs3500.music.view.CompositeView;
 import cs3500.music.view.ConsoleView;
 import cs3500.music.view.GuiViewFrame;
 import cs3500.music.view.IView;
@@ -37,6 +38,8 @@ public class MusicEditor {
         return new MidiViewImpl(creator);
       case "gui":
         return new GuiViewFrame(creator);
+      case "both":
+        return new CompositeView(new GuiViewFrame(creator), new MidiViewImpl(creator));
       default:
         throw new IllegalArgumentException("Must enter valid view type");
     }

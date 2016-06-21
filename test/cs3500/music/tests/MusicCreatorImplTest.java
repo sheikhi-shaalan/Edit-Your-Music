@@ -120,66 +120,6 @@ public class MusicCreatorImplTest {
   }
 
   @Test
-  public void testBasicConcat() {
-    this.initData();
-    this.model.addNote(
-            new Note(0, Note.Pitch.C, 2, 2));
-    this.model.addNote(
-            new Note(1, Note.Pitch.D, 1, 2));
-    this.model.addNote(
-            new Note(2, Note.Pitch.E, 3, 2));
-   /* assertEquals("   C2  C♯2   D2 " +
-                    " D♯2   E2 \n" +
-                    "0  X                 " +
-                    "                        " +
-                    "       " +
-                    "    " +
-                    "     \n" +
-                    "1            X         " +
-                    "                              " +
-                    "  " +
-                    "   " +
-                    "   \n" +
-                    "2                      X      " +
-                    "      " +
-                    "           " +
-                    "       " +
-                    "       \n",
-            this.model.render());
-    this.model2.addNote(
-            new Note(0, Note.Pitch.C, 1, 2));
-    this.model2.addNote(
-            new Note(1, Note.Pitch.D, 1, 2));
-    this.model2.addNote(
-            new Note(2, Note.Pitch.E, 1, 2));
-    assertEquals("   C2  C♯2   D2  D♯2   E2 \n" +
-                    "0  X                              " +
-                    "         " +
-                    "                  \n" +
-                    "1            X           " +
-                    "                                    \n" +
-                    "2                      X   " +
-                    "                                  \n",
-            this.model2.render());
-    this.model.combineCon(this.model2);
-    assertEquals("   C2  C♯2   D2  D♯2   E2 \n" +
-                    "0  X                      " +
-                    "                                   \n" +
-                    "1            X              " +
-                    "                                 \n" +
-                    "2                      X      " +
-                    "                               \n" +
-                    "3  X                         " +
-                    "                                \n" +
-                    "4            X                 " +
-                    "                              \n" +
-                    "5                      X       " +
-                    "                              \n",
-            this.model.render());
-    System.out.println(this.model.render()); */
-  }
-
-  @Test
   public void createMediumModel() {
     this.initData();
     for (int i = 0; i < 100; i++) {

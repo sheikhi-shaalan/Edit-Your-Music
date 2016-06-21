@@ -1,5 +1,6 @@
 package cs3500.music.view;
 
+import java.awt.*;
 import java.awt.event.MouseListener;
 
 /**
@@ -12,6 +13,4 @@ public interface GuiView extends IView {
     void addMouseListener(MouseListener m);
 
     void removeMouseListener();
-
-
 }

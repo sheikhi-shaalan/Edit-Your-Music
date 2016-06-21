@@ -10,7 +10,7 @@ import cs3500.music.model.MusicCreator;
 import cs3500.music.model.Note;
 
 public class ConcreteGuiViewPanel extends JPanel {
-  int PIXEL_SIZE = 10;
+  public static int PIXEL_SIZE = 10;
   MusicCreator c;
   int min;
   int max;
