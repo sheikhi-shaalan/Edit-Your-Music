@@ -20,28 +20,16 @@ public class GuiViewFrame extends JFrame implements GuiView {
   /**
    * Creates new GuiView
    */
-  public GuiViewFrame(MusicCreator c) {
+  public GuiViewFrame(MusicCreator c, ConcreteGuiViewPanel panel) {
     this.c = c;
     this.setSize(800,600);
 
-    this.displayPanel = new ConcreteGuiViewPanel(c);
+    this.displayPanel = panel;
     this.displayPanel.setPreferredSize(displayPanel.getSongDimensions());
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.scrollPane = new JScrollPane(displayPanel);
     this.scrollPane.setPreferredSize(new Dimension(600,200));
-    //add the JScrollPane to wherever you would have added the drawPanel
-    this.add(scrollPane);
-  }
 
-  public GuiViewFrame(MusicCreator c, int two) {
-    this.c = c;
-    this.setSize(800,600);
-    this.displayPanel = new PlayableGuiViewPanel(c);
-      //this.displayPanel = new ConcreteGuiViewPanel(c);
-    this.displayPanel.setPreferredSize(displayPanel.getSongDimensions());
-    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    this.scrollPane = new JScrollPane(displayPanel);
-    this.scrollPane.setPreferredSize(new Dimension(600,200));
     //add the JScrollPane to wherever you would have added the drawPanel
     this.add(scrollPane);
   }
@@ -51,6 +39,9 @@ public class GuiViewFrame extends JFrame implements GuiView {
   public void initialize() {
     this.setVisible(true);
 
+  }
+  protected ConcreteGuiViewPanel getDisplayPanel() {
+    return this.displayPanel;
   }
 
   @Override

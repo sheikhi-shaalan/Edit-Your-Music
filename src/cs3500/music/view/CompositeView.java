@@ -20,18 +20,19 @@ import cs3500.music.util.MusicReader;
  * Created by NadineShaalan on 6/20/16.
  */
 public class CompositeView implements GuiView {
-  JLabel label;
   GuiViewFrame gui;
   MidiViewImpl midi;
 
   public CompositeView(GuiViewFrame gui, MidiViewImpl midi) {
     this.gui= gui;
     this.midi = midi;
+
   }
 
   // Action
   private void play() {
-
+    PlayablePanel p = (PlayablePanel)gui.getDisplayPanel();
+    p.visualPlay();
   }
 
   // Shows up
@@ -69,7 +70,8 @@ public class CompositeView implements GuiView {
     MusicCreator creator = reader.parseFile(new FileReader("mary-little-lamb.txt"), b);
 
     MusicEditor m = new MusicEditor();
-    CompositeView v = new CompositeView(new GuiViewFrame(creator, 2), new MidiViewImpl(creator));
+    CompositeView v = new CompositeView(new GuiViewFrame(creator, new PlayablePanel(creator)),
+            new MidiViewImpl(creator));
     v.initialize();
 
   }

@@ -16,6 +16,4 @@ public interface IView {
    */
   void initialize();
 
-  void addActionListener(ActionListener action);
-  void addKeyListener(KeyListener keyListener);
 }

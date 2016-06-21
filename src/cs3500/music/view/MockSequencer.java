@@ -41,14 +41,17 @@ public class MockSequencer implements Sequencer {
                     MidiEvent event = t.get(i);
                     ShortMessage shortMessage = (ShortMessage) t.get(i).getMessage();
                     if (shortMessage.getCommand() == ShortMessage.NOTE_ON) {
-                        this.stringBuiler.append("Status: " + "ON " + " Instrument " + shortMessage.getChannel()
+                        this.stringBuiler.append("Status: " + "ON " + " Instrument " +
+                                shortMessage.getChannel()
                                 + " Oct/Pitch Value: " +
                                 shortMessage.getData1() + " Volume: " + shortMessage.getData2() +
                                 " Position: " + event.getTick() + "\n");
                     } else if (shortMessage.getCommand() == ShortMessage.NOTE_OFF) {
-                        this.stringBuiler.append("Status: " + "OFF " + " Instrument " + shortMessage.getChannel()
+                        this.stringBuiler.append("Status: " + "OFF " + " Instrument " +
+                                shortMessage.getChannel()
                                 + " Oct/Pitch Value: " +
-                                shortMessage.getData1() + " Volume: " + shortMessage.getData2() + "\n" +
+                                shortMessage.getData1() + " Volume: " + shortMessage.getData2()
+                                + "\n" +
                                 " Position: " + event.getTick() + "\n");
                     }
                 }
@@ -289,7 +292,8 @@ public class MockSequencer implements Sequencer {
     }
 
     @Override
-    public int[] removeControllerEventListener(ControllerEventListener listener, int[] controllers) {
+    public int[] removeControllerEventListener(ControllerEventListener listener, int[] controllers)
+    {
         throw new IllegalArgumentException("Cannot access this method in a mock Sequencer");
     }
 

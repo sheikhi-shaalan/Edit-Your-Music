@@ -21,7 +21,7 @@ public class MusicController implements ActionListener {
     this.creator = m;
     this.view = v;
     configureKeyBoardListener();
-    this.view.addActionListener(this);
+    //this.view.addActionListener(this);
   }
 
   // TODO install the runnables we want
@@ -30,11 +30,18 @@ public class MusicController implements ActionListener {
     Map<Integer, Runnable> keyPresses = new HashMap<>();
     Map<Integer, Runnable> keyReleases = new HashMap<>();
 
+    // TODO add arrow keys to the key pressed? Key typed?
+    keyPresses.put(2, new Runnable() {
+      public void run() {
+        // TODO ?????? SHOULD THIS BE IN THE STANDARD GUI
+      //  view.moveScreen();
+      }
+    });
     kbd.setTyped(keyTypes);
     kbd.setPressed(keyPresses);
     kbd.setReleased(keyReleases);
 
-    view.addKeyListener(kbd);
+    //view.addKeyListener(kbd);
   }
 
   @Override

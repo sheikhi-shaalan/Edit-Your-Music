@@ -132,13 +132,4 @@ public class ConsoleView implements IView {
     System.out.println(render());
   }
 
-  @Override
-  public void addActionListener(ActionListener action) {
-
-  }
-
-  @Override
-  public void addKeyListener(KeyListener keyListener) {
-
-  }
 }

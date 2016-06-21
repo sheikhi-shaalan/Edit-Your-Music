@@ -148,14 +148,4 @@ public class MidiViewImpl implements IView {
   public void initialize() {
     this.playComposition();
   }
-
-  @Override
-  public void addActionListener(ActionListener action) {
-
-  }
-
-  @Override
-  public void addKeyListener(KeyListener keyListener) {
-
-  }
 }

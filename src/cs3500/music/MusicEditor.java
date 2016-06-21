@@ -5,10 +5,12 @@ import cs3500.music.model.MusicCreatorImpl;
 import cs3500.music.util.CompositionBuilder;
 import cs3500.music.util.MusicReader;
 import cs3500.music.view.CompositeView;
+import cs3500.music.view.ConcreteGuiViewPanel;
 import cs3500.music.view.ConsoleView;
 import cs3500.music.view.GuiViewFrame;
 import cs3500.music.view.IView;
 import cs3500.music.view.MidiViewImpl;
+import cs3500.music.view.PlayablePanel;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -37,9 +39,10 @@ public class MusicEditor {
       case "midi":
         return new MidiViewImpl(creator);
       case "gui":
-        return new GuiViewFrame(creator);
+        return new GuiViewFrame(creator,  new ConcreteGuiViewPanel(creator));
       case "both":
-        return new CompositeView(new GuiViewFrame(creator), new MidiViewImpl(creator));
+        return new CompositeView(new GuiViewFrame(creator, new PlayablePanel(creator)),
+                new MidiViewImpl(creator));
       default:
         throw new IllegalArgumentException("Must enter valid view type");
     }
