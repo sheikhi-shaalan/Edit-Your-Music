@@ -9,8 +9,10 @@ import javax.swing.*;
 import cs3500.music.model.MusicCreator;
 import cs3500.music.model.Note;
 
-public class ConcreteGuiViewPanel extends JPanel {
+public class ConcreteGuiViewPanel extends JPanel implements Playable{
   public static int PIXEL_SIZE = 10;
+  boolean isPlaying;
+  int xlocation = 30;
   MusicCreator c;
   int min;
   int max;
@@ -26,7 +28,7 @@ public class ConcreteGuiViewPanel extends JPanel {
   }
 
   public Dimension getSongDimensions() {
-    return new Dimension(c.getSongDuration() * 10 + 40, (max - min + 1) * 10 + 40);
+    return new Dimension(c.getSongDuration() * 10 + 70, (max - min + 1) * 10 + 20);
   }
 
   @Override
@@ -38,7 +40,16 @@ public class ConcreteGuiViewPanel extends JPanel {
     this.paintBeats(g);
     this.paintOctKey(g);
     this.setBackground(new Color(37, 67, 91));
+    this.paintLine(g);
   }
+
+  private void paintLine(Graphics g) {
+    g.setColor(Color.RED);
+    g.drawRect(xlocation,0,1, this.getSongDimensions().height);
+    this.updateTime();
+
+  }
+
 
   // Paints the beat numbers so that every four beats it displays beat number
   //  We can change this so that it looks more like the picture (every 16 beats)
@@ -93,4 +104,36 @@ public class ConcreteGuiViewPanel extends JPanel {
     }
   }
 
+  @Override
+  public void play() {
+    this.isPlaying = true;
+    updateTime();
+  }
+
+  @Override
+  public void pause() {
+    this.isPlaying = false;
+    updateTime();
+  }
+
+  @Override
+  public void reset() {
+    this.isPlaying = false;
+    this.xlocation = 30;
+    repaint();
+  }
+
+  @Override
+  public void skipToEnd() {
+    this.isPlaying = false;
+    this.xlocation = c.getSongDuration() * 10 + 30 + 10;
+    repaint();
+  }
+
+  private void updateTime() {
+    if (isPlaying) {
+      this.xlocation += 1;
+      repaint();
+    }
+  }
 }

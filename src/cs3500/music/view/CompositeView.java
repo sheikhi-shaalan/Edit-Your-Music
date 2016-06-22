@@ -16,23 +16,37 @@ import cs3500.music.model.MusicCreatorImpl;
 import cs3500.music.util.CompositionBuilder;
 import cs3500.music.util.MusicReader;
 
-/**
- * Created by NadineShaalan on 6/20/16.
- */
-public class CompositeView implements GuiView {
+
+public class CompositeView implements GuiView, Playable {
   GuiViewFrame gui;
   MidiViewImpl midi;
-
+// TODO think about ways to abstract
   public CompositeView(GuiViewFrame gui, MidiViewImpl midi) {
-    this.gui= gui;
+    this.gui = gui;
     this.midi = midi;
 
   }
 
   // Action
-  private void play() {
-    PlayablePanel p = (PlayablePanel)gui.getDisplayPanel();
-    p.visualPlay();
+  public void play() {
+    gui.play();
+    midi.play();
+  }
+
+  public void pause() {
+    gui.pause();
+    midi.pause();
+  }
+
+  public void reset() {
+    gui.reset();
+    midi.reset();
+    midi.pause();
+  }
+
+  public void skipToEnd() {
+    gui.skipToEnd();
+    midi.pause();
   }
 
   // Shows up
@@ -42,15 +56,21 @@ public class CompositeView implements GuiView {
     this.midi.initialize();
   }
 
+  @Override
+  public void refresh() {
+    this.gui.refresh();
+    this.midi.refresh();
+  }
+
 
   @Override
   public void addActionListener(ActionListener action) {
-
+    this.gui.addActionListener(action);
   }
 
   @Override
   public void addKeyListener(KeyListener keyListener) {
-
+    this.gui.addKeyListener(keyListener);
   }
 
   @Override
@@ -67,10 +87,10 @@ public class CompositeView implements GuiView {
 
     MusicReader reader = new MusicReader();
     CompositionBuilder<MusicCreator> b = MusicCreatorImpl.getBuilder();
-    MusicCreator creator = reader.parseFile(new FileReader("mary-little-lamb.txt"), b);
+    MusicCreator creator = reader.parseFile(new FileReader("mystery-1.txt"), b);
 
     MusicEditor m = new MusicEditor();
-    CompositeView v = new CompositeView(new GuiViewFrame(creator, new PlayablePanel(creator)),
+    CompositeView v = new CompositeView(new GuiViewFrame(creator),
             new MidiViewImpl(creator));
     v.initialize();
 

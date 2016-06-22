@@ -13,15 +13,14 @@ import cs3500.music.model.Note;
 /**
  * A skeleton for MIDI playback
  */
-public class MidiViewImpl implements IView {
+public class MidiViewImpl implements IView, Playable{
   private final Synthesizer synth;
   private final Receiver receiver;
-  private final Sequencer sequencer;
+  protected final Sequencer sequencer;
   private final Sequence sequence;
   private final int ONE_BEAT_COEFF = 1000000;
   private final int SLEEP_NUMBER = 1000;
-  MusicCreator c;
-  private int tick;
+  protected MusicCreator c;
 
   public MidiViewImpl(MusicCreator creator) {
     this.c = creator;
@@ -107,7 +106,7 @@ public class MidiViewImpl implements IView {
       e.printStackTrace();
     }
 
-    this.sequencer.start();
+    //this.sequencer.start();
   }
 
   // Plays all the notes at a specific beat
@@ -134,18 +133,39 @@ public class MidiViewImpl implements IView {
       track.add(eventOn);
       track.add(eventOff);
     }
-    this.tick += 1;
 
   }
-
-  protected int getTick() {
-    return tick;
-  }
-
 
   // Full culmination
   @Override
   public void initialize() {
     this.playComposition();
   }
+
+  @Override
+  public void refresh() {
+
+  }
+
+  public void play() {
+    this.sequencer.setTickPosition(this.sequencer.getTickPosition());
+    this.sequencer.setTempoInMPQ(c.getTempo());
+    this.sequencer.start();
+  }
+
+  public void pause() {
+    this.sequencer.stop();
+    //this.sequencer.setTickPosition(this.sequencer.getTickPosition());
+  }
+
+  public void reset() { this.sequencer.setTickPosition(0);}
+
+  @Override
+  public void skipToEnd() {
+    this.sequencer.setTickPosition(sequencer.getTickLength() -1 );
+    this.pause();
+
+  }
+
+
 }

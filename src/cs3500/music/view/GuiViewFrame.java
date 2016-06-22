@@ -13,18 +13,18 @@ import cs3500.music.model.MusicCreator;
 /**
  * A skeleton Frame (i.e., a window) in Swing
  */
-public class GuiViewFrame extends JFrame implements GuiView {
-  MusicCreator c;
+public class GuiViewFrame extends JFrame implements GuiView, Playable {
+  private MusicCreator c;
   private final ConcreteGuiViewPanel displayPanel;
   private		JScrollPane scrollPane = new JScrollPane();
   /**
    * Creates new GuiView
    */
-  public GuiViewFrame(MusicCreator c, ConcreteGuiViewPanel panel) {
+  public GuiViewFrame(MusicCreator c) {
     this.c = c;
     this.setSize(800,600);
 
-    this.displayPanel = panel;
+    this.displayPanel = new ConcreteGuiViewPanel(c);
     this.displayPanel.setPreferredSize(displayPanel.getSongDimensions());
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.scrollPane = new JScrollPane(displayPanel);
@@ -40,13 +40,10 @@ public class GuiViewFrame extends JFrame implements GuiView {
     this.setVisible(true);
 
   }
-  protected ConcreteGuiViewPanel getDisplayPanel() {
-    return this.displayPanel;
-  }
 
   @Override
-  public void addActionListener(ActionListener action) {
-
+  public void refresh() {
+    this.displayPanel.repaint();
   }
 
   @Override
@@ -54,5 +51,30 @@ public class GuiViewFrame extends JFrame implements GuiView {
 
   }
 
+  @Override
+  public void addActionListener(ActionListener action) {
+
+  }
+
+
+  @Override
+  public void play() {
+    this.displayPanel.play();
+  }
+
+  @Override
+  public void pause() {
+    this.displayPanel.pause();
+  }
+
+  @Override
+  public void reset() {
+    this.displayPanel.reset();
+  }
+
+  @Override
+  public void skipToEnd() {
+  this.displayPanel.skipToEnd();
+  }
 }
 

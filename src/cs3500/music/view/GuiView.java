@@ -11,13 +11,10 @@ import java.awt.event.MouseListener;
 public interface GuiView extends IView {
 
     //methods for dealing with keyboard and mouse
-
     void addMouseListener(MouseListener m);
-
     void removeMouseListener();
 
     void addActionListener(ActionListener action);
-
     void addKeyListener(KeyListener keyListener);
 
 }

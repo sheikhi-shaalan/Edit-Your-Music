@@ -132,4 +132,10 @@ public class ConsoleView implements IView {
     System.out.println(render());
   }
 
+  @Override
+  public void refresh() {
+
+  }
+
+
 }
