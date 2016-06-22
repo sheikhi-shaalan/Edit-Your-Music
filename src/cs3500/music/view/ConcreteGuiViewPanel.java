@@ -9,7 +9,7 @@ import javax.swing.*;
 import cs3500.music.model.MusicCreator;
 import cs3500.music.model.Note;
 
-public class ConcreteGuiViewPanel extends JPanel implements Playable{
+public class ConcreteGuiViewPanel extends JPanel{
   public static int PIXEL_SIZE = 10;
   boolean isPlaying;
   int xlocation = 30;
@@ -104,27 +104,25 @@ public class ConcreteGuiViewPanel extends JPanel implements Playable{
     }
   }
 
-  @Override
-  public void play() {
+  protected void play() {
     this.isPlaying = true;
     updateTime();
   }
 
-  @Override
-  public void pause() {
+
+  protected void pause() {
     this.isPlaying = false;
     updateTime();
   }
 
-  @Override
-  public void reset() {
+
+  protected void reset() {
     this.isPlaying = false;
     this.xlocation = 30;
     repaint();
   }
 
-  @Override
-  public void skipToEnd() {
+  protected void skipToEnd() {
     this.isPlaying = false;
     this.xlocation = c.getSongDuration() * 10 + 30 + 10;
     repaint();
