@@ -1,5 +1,7 @@
 package cs3500.music.view;
 
+import cs3500.music.model.Note;
+
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
@@ -15,5 +17,6 @@ public interface GuiView extends IView {
     void removeMouseListener();
     void addActionListener(ActionListener action);
     void addKeyListener(KeyListener keyListener);
+    Note userNote();
 
 }
