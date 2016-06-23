@@ -62,7 +62,7 @@ public class ConcreteGuiViewPanel extends JPanel{
     g.setFont(new Font("Courier New", Font.BOLD, PIXEL_SIZE));
     g.setColor(new Color(255, 255, 255));
     for (int i = 0; i <= dur; i+=4){
-      g.drawString(""+ i, i * PIXEL_SIZE + (3 * PIXEL_SIZE) - (PIXEL_SIZE/2) , PIXEL_SIZE );
+      g.drawString(""+ i, i * PIXEL_SIZE + (int)(2.5 * PIXEL_SIZE), PIXEL_SIZE );
     }
   }
   // Paint the grid
@@ -104,7 +104,7 @@ public class ConcreteGuiViewPanel extends JPanel{
       int octaveVal = (int) Math.floor(i / 12) - 1;
 
       g.drawString(Note.Pitch.values()[noteVal].toNoteString() + octaveVal,
-             0, (max - i) * PIXEL_SIZE + (3 * PIXEL_SIZE)  - (PIXEL_SIZE/2));
+             0, (max - i) * PIXEL_SIZE + (int) (2.5 * PIXEL_SIZE));
 
     }
   }

@@ -145,6 +145,9 @@ public class MidiViewImpl implements IView, Playable{
   @Override
   public void refresh(MusicCreator c) {
     this.c = c;
+    for (Track t: this.sequence.getTracks()) {
+      sequence.deleteTrack(t);
+    }
     this.playComposition();
   }
 

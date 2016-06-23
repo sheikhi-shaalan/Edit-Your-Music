@@ -7,7 +7,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import cs3500.music.MusicEditor;
@@ -35,11 +37,14 @@ public class MusicController implements ActionListener {
   private final KeyboardHandler kbd = new KeyboardHandler();
   private final MouseListenerImpl ml = new MouseListenerImpl();
   private boolean isPlaying;
+  private boolean removalState;
 
   public MusicController(MusicCreator m, IView v) {
     this.creator = m;
     this.view = v;
-    isPlaying = false;
+    this.isPlaying = false;
+    this.removalState = false;
+
     if (view instanceof GuiView) {
       configureMouseListener();
       configureKeyBoardListener();
@@ -68,11 +73,37 @@ public class MusicController implements ActionListener {
         view2.refresh(creator);
       }
     });
+    three.put(MouseEvent.MOUSE_CLICKED, new Runnable() {
+      public void run() {
+        if (removalState) {
+          GuiView view2 = (GuiView) view;
+
+            Note remove = null;
+            // An array List of notes
+            List<Note> list = creator.notesAtBeat(getBeatFromLocation(ml.getXCoord()));
+            System.out.println("YOU MADE IT METHOD");
+            System.out.println("BEAT NO: " + getBeatFromLocation(ml.getXCoord()));
+            for (Note n : list) {
+              System.out.println("YOU MADE IT FOR EACH");
+              System.out.println("PITCH NO: " + getPitchFromLocation(ml.getYCoord()));
+              if (n.getKeyVal()== getPitchFromLocation(ml.getYCoord())) {
+                System.out.println("YOU MADE IT IF STATEMENT");
+                remove = n;
+                break;
+              }
+            }
+            System.out.println("BEFORE " + creator.asList().size());
+
+            creator.removeNote(remove);
+            System.out.println("AFTER " + creator.asList().size());
+          view2.refresh(creator);
+        }
+      }
+    });
 
     this.ml.setOne(one);
     this.ml.setTwo(two);
     this.ml.setThree(three);
-   // ml.setMousey(mouseClick);
     GuiView view2 = (GuiView) view;
     view2.addMouseListener(ml);
   }
@@ -93,6 +124,13 @@ public class MusicController implements ActionListener {
             view2.pause();
           }
         }
+      }
+    });
+
+    keyPresses.put(KeyEvent.VK_R, new Runnable() {
+      public void run() {
+        removalState = true;
+        JOptionPane.showMessageDialog(null, "Right click on a note to remove it");
       }
     });
 
@@ -125,12 +163,22 @@ public class MusicController implements ActionListener {
 
   }
 
+  private static int getBeatFromLocation(int x) {
+    return (x - (int) (2.5 * ConcreteGuiViewPanel.PIXEL_SIZE))/ConcreteGuiViewPanel.PIXEL_SIZE ;
+  }
+  private  int getPitchFromLocation(int y) {
+    List<Note> list = creator.asList();
+    int  max = Collections.max(list).getKeyVal();
+    return (-(((y - (int) (2.5 * ConcreteGuiViewPanel.PIXEL_SIZE)) /ConcreteGuiViewPanel.PIXEL_SIZE)
+            - max)) ;
+  }
   public static void main(String[] args) throws IOException {
     MusicReader reader = new MusicReader();
     CompositionBuilder<MusicCreator> b = MusicCreatorImpl.getBuilder();
-    MusicCreator creator = reader.parseFile(new FileReader("mystery-3.txt"), b);
+    MusicCreator creator = reader.parseFile(new FileReader("mary-little-lamb.txt"), b);
 
     MusicEditor m = new MusicEditor();
+
     MusicController controller = new MusicController(creator, new CompositeView(
             new GuiViewFrame(creator), new MidiViewImpl(creator)));
 
