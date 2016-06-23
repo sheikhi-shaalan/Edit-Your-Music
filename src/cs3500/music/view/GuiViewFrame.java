@@ -77,13 +77,11 @@ public class GuiViewFrame extends JFrame implements GuiView, Playable {
         JLabel octaveLabel = new JLabel("Octave: ");
         JLabel durationLabel = new JLabel("Duration: ");
         JLabel startBeatNoLabel = new JLabel("Starting beat number: ");
-        JTextField pitch = new JTextField(5);
         JTextField octave = new JTextField(5);
         JTextField duration = new JTextField(5);
         JTextField startBeatNo = new JTextField(5);
 
         panel.add(pitchLabel);
-        //panel.add(pitch);
         panel.add(pitchesList);
         panel.add(octaveLabel);
         panel.add(octave);
@@ -94,9 +92,14 @@ public class GuiViewFrame extends JFrame implements GuiView, Playable {
 
         int result = JOptionPane.showConfirmDialog(null, panel, "Add A New Note",
                 JOptionPane.OK_CANCEL_OPTION);
-        if (result == JOptionPane.OK_OPTION) {
-            ret = new Note(Integer.parseInt(startBeatNo.getText()), (Note.Pitch) pitchesList.getSelectedItem(),
-            Integer.parseInt(duration.getText()), Integer.parseInt(octave.getText()));
+        try {
+            if (result == JOptionPane.OK_OPTION) {
+                ret = new Note(Integer.parseInt(startBeatNo.getText()), (Note.Pitch) pitchesList.getSelectedItem(),
+                        Integer.parseInt(duration.getText()), Integer.parseInt(octave.getText()));
+            }
+        }
+        catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(null, "Please enter valid values: ");
         }
 
         return ret;
