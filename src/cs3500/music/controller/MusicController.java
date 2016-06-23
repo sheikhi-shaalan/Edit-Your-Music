@@ -17,6 +17,7 @@ import cs3500.music.model.Note;
 import cs3500.music.util.CompositionBuilder;
 import cs3500.music.util.MusicReader;
 import cs3500.music.view.CompositeView;
+import cs3500.music.view.ConcreteGuiViewPanel;
 import cs3500.music.view.GuiView;
 import cs3500.music.view.GuiViewFrame;
 import cs3500.music.view.IView;
@@ -56,11 +57,14 @@ public class MusicController implements ActionListener {
 
       one.put(MouseEvent.MOUSE_CLICKED, new Runnable() {
       public void run() {
-        System.out.println("You clicked the mouse");
         if (view instanceof Playable) {
-          System.out.println(creator.asList().size());
-          creator.addNote(new Note(0, 78, 10, 1, 60));
-          System.out.println(creator.asList().size());
+          System.out.println("Where im putting:" + (ml.getXCoord() * ConcreteGuiViewPanel.PIXEL_SIZE));
+          System.out.println("Where im clicking" + ml.getXCoord() );
+
+          System.out.println("SIZE: "+ creator.asList().size());
+          creator.addNote(new Note(ml.getXCoord() * ConcreteGuiViewPanel.PIXEL_SIZE,
+                  78, ml.getXCoord(), 1, 60));
+          System.out.println("SIZE AFTER: "+ creator.asList().size());
           view.refresh(creator);
         }
       }
@@ -92,7 +96,15 @@ public class MusicController implements ActionListener {
         }
       }
     });
-    keyPresses.put(KeyEvent.VK_1, new Runnable() {
+//    keyPresses.put(KeyEvent.VK_1, new Runnable() {
+//      public void run() {
+//        if (view instanceof Playable) {
+//          Playable view2 = (Playable) view;
+//          view2.reset();
+//        }
+//      }
+//    });
+    keyPresses.put(KeyEvent.VK_HOME, new Runnable() {
       public void run() {
         if (view instanceof Playable) {
           Playable view2 = (Playable) view;
@@ -100,7 +112,7 @@ public class MusicController implements ActionListener {
         }
       }
     });
-    keyPresses.put(KeyEvent.VK_2, new Runnable() {
+    keyPresses.put(KeyEvent.VK_END, new Runnable() {
       public void run() {
         if (view instanceof Playable) {
           Playable view2 = (Playable) view;
