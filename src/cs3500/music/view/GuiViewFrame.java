@@ -43,8 +43,9 @@ public class GuiViewFrame extends JFrame implements GuiView, Playable {
   }
 
   @Override
-  public void refresh() {
-    this.displayPanel.refresh();
+  public void refresh(MusicCreator c) {
+    this.c = c;
+    this.displayPanel.refresh(c);
   }
 
   @Override

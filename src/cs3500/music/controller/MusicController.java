@@ -49,23 +49,31 @@ public class MusicController implements ActionListener {
 
 
   private void configureMouseListener() {
-    Map<Integer, Runnable> mouseClick = new HashMap<>();
-    mouseClick.put(MouseEvent.BUTTON1, new Runnable() {
+
+    Map<Integer, Runnable> one = new HashMap<>();
+    Map<Integer, Runnable> two = new HashMap<>();
+    Map<Integer, Runnable> three = new HashMap<>();
+
+      one.put(MouseEvent.MOUSE_CLICKED, new Runnable() {
       public void run() {
         System.out.println("You clicked the mouse");
         if (view instanceof Playable) {
           System.out.println(creator.asList().size());
-          creator.addNote(new Note(0,84,10,1,60));
+          creator.addNote(new Note(0, 78, 10, 1, 60));
           System.out.println(creator.asList().size());
-          view.refresh();
+          view.refresh(creator);
         }
       }
     });
 
-    ml.setMousey(mouseClick);
+    this.ml.setOne(one);
+    this.ml.setTwo(two);
+    this.ml.setThree(three);
+   // ml.setMousey(mouseClick);
     GuiView view2 = (GuiView) view;
     view2.addMouseListener(ml);
   }
+
   private void configureKeyBoardListener() {
     Map<Integer, Runnable> keyTypes = new HashMap<>();
     Map<Integer, Runnable> keyPresses = new HashMap<>();
@@ -78,8 +86,7 @@ public class MusicController implements ActionListener {
           Playable view2 = (Playable) view;
           if (isPlaying) {
             view2.play();
-          }
-          else {
+          } else {
             view2.pause();
           }
         }
@@ -117,7 +124,7 @@ public class MusicController implements ActionListener {
   public static void main(String[] args) throws IOException {
     MusicReader reader = new MusicReader();
     CompositionBuilder<MusicCreator> b = MusicCreatorImpl.getBuilder();
-    MusicCreator creator = reader.parseFile(new FileReader("mystery-1.txt"), b);
+    MusicCreator creator = reader.parseFile(new FileReader("mystery-3.txt"), b);
 
     MusicEditor m = new MusicEditor();
     MusicController controller = new MusicController(creator, new CompositeView(

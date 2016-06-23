@@ -15,6 +15,6 @@ public interface IView {
    * Creates the actual views
    */
   void initialize();
-  void refresh();
+  void refresh(MusicCreator c);
 
 }

@@ -57,9 +57,9 @@ public class CompositeView implements GuiView, Playable {
   }
 
   @Override
-  public void refresh() {
-    this.gui.refresh();
-    this.midi.refresh();
+  public void refresh(MusicCreator c) {
+    this.gui.refresh(c);
+    this.midi.refresh(c);
   }
 
 

@@ -151,7 +151,7 @@ public class MusicCreatorImpl implements MusicCreator {
     @Override
     public CompositionBuilder<MusicCreator>
     addNote(int start, int end, int instrument, int pitch, int volume) {
-      this.composition.add(new Note(start, pitch,((end - start) + 1), instrument, volume));
+      this.composition.add(new Note(start, pitch,(end - start), instrument, volume));
       return this;
     }
   }

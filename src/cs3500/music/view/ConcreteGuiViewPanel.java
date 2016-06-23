@@ -10,7 +10,7 @@ import cs3500.music.model.MusicCreator;
 import cs3500.music.model.Note;
 
 public class ConcreteGuiViewPanel extends JPanel{
-  public static int PIXEL_SIZE = 10;
+  public static int PIXEL_SIZE = 20;
   boolean isPlaying;
   int xlocation = 30;
   MusicCreator c;
@@ -28,7 +28,7 @@ public class ConcreteGuiViewPanel extends JPanel{
   }
 
   public Dimension getSongDimensions() {
-    return new Dimension(c.getSongDuration() * 10 + 70, (max - min + 1) * 10 + 20);
+    return new Dimension(c.getSongDuration() * 20 + 70, (max - min + 1) * 20 + 20);
   }
 
   @Override
@@ -43,6 +43,7 @@ public class ConcreteGuiViewPanel extends JPanel{
     this.paintLine(g);
   }
 
+  // TODO: Change this to match the song exactly
   private void paintLine(Graphics g) {
     g.setColor(Color.RED);
     g.drawRect(xlocation,0,1, this.getSongDimensions().height);
@@ -54,7 +55,7 @@ public class ConcreteGuiViewPanel extends JPanel{
   // Paints the beat numbers so that every four beats it displays beat number
   //  We can change this so that it looks more like the picture (every 16 beats)
   private void paintBeats(Graphics g) {
-    g.setFont(new Font("Courier New", Font.BOLD, 12));
+    g.setFont(new Font("Courier New", Font.BOLD, PIXEL_SIZE));
     g.setColor(new Color(255, 255, 255));
     for (int i = 0; i <= c.getSongDuration(); i+=4){
       g.drawString(""+ i, i * PIXEL_SIZE + (3 * PIXEL_SIZE) - (PIXEL_SIZE/2) , PIXEL_SIZE );
@@ -77,7 +78,7 @@ public class ConcreteGuiViewPanel extends JPanel{
   }
   // Paints the notes
   private void paintNotes(Graphics g) {
-    for (Note n : list) {
+    for (Note n : c.asList()) {
       // DRAWS THE TRAIL
       g.setColor(new Color(177, 95, 171));
       g.fillRect(n.getStartbeatNo() * PIXEL_SIZE + (3 * PIXEL_SIZE),
@@ -127,7 +128,11 @@ public class ConcreteGuiViewPanel extends JPanel{
     this.xlocation = c.getSongDuration() * 10 + 30 + 10;
     repaint();
   }
-  protected void refresh() {
+  protected void refresh(MusicCreator c) {
+    System.out.println(this.c.asList().size());
+    this.c = c;
+    System.out.println(this.c.asList().size());
+    this.removeAll();
     repaint();
   }
 
