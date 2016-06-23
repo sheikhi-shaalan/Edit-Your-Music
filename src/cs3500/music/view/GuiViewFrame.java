@@ -100,6 +100,7 @@ public class GuiViewFrame extends JFrame implements GuiView, Playable {
         }
         catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(null, "Please enter valid values: ");
+            this.userNote();
         }
 
         return ret;

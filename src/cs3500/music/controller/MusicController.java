@@ -60,7 +60,11 @@ public class MusicController implements ActionListener {
       one.put(MouseEvent.MOUSE_CLICKED, new Runnable() {
       public void run() {
         GuiView view2 = (GuiView) view;
-        creator.addNote(view2.userNote());
+          try {
+              creator.addNote(view2.userNote());
+          }
+          catch (NullPointerException e) {
+          }
         view2.refresh(creator);
       }
     });
