@@ -3,6 +3,7 @@ package cs3500.music.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseListener;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
@@ -28,17 +29,28 @@ public class MusicController implements ActionListener {
   private final MusicCreator creator;
   private IView view;
   private final KeyboardHandler kbd = new KeyboardHandler();
+  private final MouseListenerImpl mousey = new MouseListenerImpl();
 
   public MusicController(MusicCreator m, IView v) {
     this.creator = m;
     this.view = v;
+    configureKeyBoardListener();
     if (view instanceof GuiView) {
-      configureKeyBoardListener();
       GuiView view2 = (GuiView) view;
       view2.addActionListener(this);
       this.view = view2;
     }
     this.view.initialize();
+  }
+
+  private void configureMouseListener() {
+    Map<Integer, Runnable> one = new HashMap<>();
+    Map<Integer, Runnable> two = new HashMap<>();
+    Map<Integer, Runnable> three = new HashMap<>();
+
+    this.mousey.setOne(one);
+    this.mousey.setTwo(two);
+    this.mousey.setThree(three);
   }
 
   // TODO install the runnables we want
