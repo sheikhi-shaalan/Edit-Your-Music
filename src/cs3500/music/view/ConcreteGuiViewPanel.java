@@ -16,6 +16,7 @@ public class ConcreteGuiViewPanel extends JPanel{
   MusicCreator c;
   int min;
   int max;
+  int dur;
   List<Note> list;
 
   public ConcreteGuiViewPanel(MusicCreator c) {
@@ -23,12 +24,14 @@ public class ConcreteGuiViewPanel extends JPanel{
     list = c.asList();
     min = Collections.min(list).getKeyVal();
     max = Collections.max(list).getKeyVal();
+    this.dur = c.getSongDuration();
+
     this.setVisible(true);
 
   }
 
   public Dimension getSongDimensions() {
-    return new Dimension(c.getSongDuration() * PIXEL_SIZE + (PIXEL_SIZE * 5), ((max - min + 1) *
+    return new Dimension(dur * PIXEL_SIZE + (PIXEL_SIZE * 5), ((max - min + 1) *
            PIXEL_SIZE) + (2 *PIXEL_SIZE));
   }
 
@@ -58,7 +61,7 @@ public class ConcreteGuiViewPanel extends JPanel{
   private void paintBeats(Graphics g) {
     g.setFont(new Font("Courier New", Font.BOLD, PIXEL_SIZE));
     g.setColor(new Color(255, 255, 255));
-    for (int i = 0; i <= c.getSongDuration(); i+=4){
+    for (int i = 0; i <= dur; i+=4){
       g.drawString(""+ i, i * PIXEL_SIZE + (3 * PIXEL_SIZE) - (PIXEL_SIZE/2) , PIXEL_SIZE );
     }
   }
@@ -67,7 +70,7 @@ public class ConcreteGuiViewPanel extends JPanel{
     g.setColor(new Color(255, 255, 255));
 
     // For every
-    for (int i = 0; i <= Math.floor(c.getSongDuration() / 4.0); i++) {
+    for (int i = 0; i <= Math.floor(dur / 4.0); i++) {
       for (int j = min; j <= max; j++) {
         // CHANGE I MADE: ADDED (N * PIXEL_SIZE) so that it was slightly off center)
         g.drawRect(i * (PIXEL_SIZE * 4) + (3 * PIXEL_SIZE),
@@ -134,6 +137,9 @@ public class ConcreteGuiViewPanel extends JPanel{
   protected void refresh(MusicCreator c) {
     this.c = c;
     this.list = c.asList();
+    min = Collections.min(list).getKeyVal();
+    max = Collections.max(list).getKeyVal();
+    this.dur = c.getSongDuration();
     repaint();
   }
 
