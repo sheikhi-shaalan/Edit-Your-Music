@@ -57,14 +57,15 @@ public class CompositeView implements GuiView, Playable {
   }
 
   @Override
-  public void refresh() {
-    this.gui.refresh();
-    this.midi.refresh();
+  public void refresh(MusicCreator c) {
+    this.gui.refresh(c);
+    this.midi.refresh(c);
   }
 
 
   @Override
   public void addActionListener(ActionListener action) {
+
     this.gui.addActionListener(action);
   }
 
@@ -75,7 +76,7 @@ public class CompositeView implements GuiView, Playable {
 
   @Override
   public void addMouseListener(MouseListener m) {
-
+    this.gui.addMouseListener(m);
   }
 
   @Override

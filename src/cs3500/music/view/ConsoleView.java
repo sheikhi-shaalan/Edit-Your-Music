@@ -133,8 +133,8 @@ public class ConsoleView implements IView {
   }
 
   @Override
-  public void refresh() {
-
+  public void refresh(MusicCreator c) {
+    this.c = c;
   }
 
 

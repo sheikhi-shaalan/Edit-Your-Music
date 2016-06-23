@@ -143,8 +143,9 @@ public class MidiViewImpl implements IView, Playable{
   }
 
   @Override
-  public void refresh() {
-
+  public void refresh(MusicCreator c) {
+    this.c = c;
+    this.playComposition();
   }
 
   public void play() {

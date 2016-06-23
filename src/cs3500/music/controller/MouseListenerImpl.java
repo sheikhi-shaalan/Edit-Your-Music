@@ -82,12 +82,12 @@ public class MouseListenerImpl implements MouseListener {
             }
         }
         if (e.getButton() == MouseEvent.BUTTON2) {
-            if (this.one.containsKey(mouseEvent)) {
+            if (this.two.containsKey(mouseEvent)) {
                 this.two.get(mouseEvent).run();
             }
         }
         if (e.getButton() == MouseEvent.BUTTON3) {
-            if (this.one.containsKey(mouseEvent)) {
+            if (this.three.containsKey(mouseEvent)) {
                 this.three.get(mouseEvent).run();
             }
         }

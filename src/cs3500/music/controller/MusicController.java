@@ -3,6 +3,7 @@ package cs3500.music.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.FileReader;
 import java.io.IOException;
@@ -29,13 +30,16 @@ public class MusicController implements ActionListener {
   private final MusicCreator creator;
   private IView view;
   private final KeyboardHandler kbd = new KeyboardHandler();
-  private final MouseListenerImpl mousey = new MouseListenerImpl();
+  private final MouseListenerImpl ml = new MouseListenerImpl();
+  private boolean isPlaying;
 
   public MusicController(MusicCreator m, IView v) {
     this.creator = m;
     this.view = v;
-    configureKeyBoardListener();
+    isPlaying = false;
     if (view instanceof GuiView) {
+      configureMouseListener();
+      configureKeyBoardListener();
       GuiView view2 = (GuiView) view;
       view2.addActionListener(this);
       this.view = view2;
@@ -43,17 +47,33 @@ public class MusicController implements ActionListener {
     this.view.initialize();
   }
 
+
   private void configureMouseListener() {
+
     Map<Integer, Runnable> one = new HashMap<>();
     Map<Integer, Runnable> two = new HashMap<>();
     Map<Integer, Runnable> three = new HashMap<>();
 
-    this.mousey.setOne(one);
-    this.mousey.setTwo(two);
-    this.mousey.setThree(three);
+      one.put(MouseEvent.MOUSE_CLICKED, new Runnable() {
+      public void run() {
+        System.out.println("You clicked the mouse");
+        if (view instanceof Playable) {
+          System.out.println(creator.asList().size());
+          creator.addNote(new Note(0, 78, 10, 1, 60));
+          System.out.println(creator.asList().size());
+          view.refresh(creator);
+        }
+      }
+    });
+
+    this.ml.setOne(one);
+    this.ml.setTwo(two);
+    this.ml.setThree(three);
+   // ml.setMousey(mouseClick);
+    GuiView view2 = (GuiView) view;
+    view2.addMouseListener(ml);
   }
 
-  // TODO install the runnables we want
   private void configureKeyBoardListener() {
     Map<Integer, Runnable> keyTypes = new HashMap<>();
     Map<Integer, Runnable> keyPresses = new HashMap<>();
@@ -62,16 +82,13 @@ public class MusicController implements ActionListener {
     keyPresses.put(KeyEvent.VK_SPACE, new Runnable() {
       public void run() {
         if (view instanceof Playable) {
+          isPlaying = !isPlaying;
           Playable view2 = (Playable) view;
-          view2.play();
-        }
-      }
-    });
-    keyPresses.put(KeyEvent.VK_0, new Runnable() {
-      public void run() {
-        if (view instanceof Playable) {
-          Playable view2 = (Playable) view;
-          view2.pause();
+          if (isPlaying) {
+            view2.play();
+          } else {
+            view2.pause();
+          }
         }
       }
     });
@@ -91,13 +108,6 @@ public class MusicController implements ActionListener {
         }
       }
     });
-
-    keyPresses.put(KeyEvent.VK_3, new Runnable() {
-      public void run() {
-        creator.addNote(new Note());
-        view.refresh();
-      }
-    });
     kbd.setTyped(keyTypes);
     kbd.setPressed(keyPresses);
     kbd.setReleased(keyReleases);
@@ -114,7 +124,7 @@ public class MusicController implements ActionListener {
   public static void main(String[] args) throws IOException {
     MusicReader reader = new MusicReader();
     CompositionBuilder<MusicCreator> b = MusicCreatorImpl.getBuilder();
-    MusicCreator creator = reader.parseFile(new FileReader("mystery-1.txt"), b);
+    MusicCreator creator = reader.parseFile(new FileReader("mystery-3.txt"), b);
 
     MusicEditor m = new MusicEditor();
     MusicController controller = new MusicController(creator, new CompositeView(

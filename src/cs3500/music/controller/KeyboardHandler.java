@@ -30,6 +30,7 @@ public class KeyboardHandler implements KeyListener {
         this.released = map;
     }
 
+
     @Override
     public void keyTyped(KeyEvent e) {
         if (this.typed.containsKey(e.getKeyCode())) {
