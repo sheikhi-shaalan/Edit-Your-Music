@@ -13,6 +13,7 @@ import javax.swing.*;
 import cs3500.music.MusicEditor;
 import cs3500.music.model.MusicCreator;
 import cs3500.music.model.MusicCreatorImpl;
+import cs3500.music.model.Note;
 import cs3500.music.util.CompositionBuilder;
 import cs3500.music.util.MusicReader;
 
@@ -72,6 +73,11 @@ public class CompositeView implements GuiView, Playable {
   @Override
   public void addKeyListener(KeyListener keyListener) {
     this.gui.addKeyListener(keyListener);
+  }
+
+  @Override
+  public Note userNote() {
+    return this.gui.userNote();
   }
 
   @Override

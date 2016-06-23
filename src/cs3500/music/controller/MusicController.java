@@ -24,6 +24,8 @@ import cs3500.music.view.IView;
 import cs3500.music.view.MidiViewImpl;
 import cs3500.music.view.Playable;
 
+import javax.swing.*;
+
 /**
  * Created by NadineShaalan on 6/20/16.
  */
@@ -57,16 +59,18 @@ public class MusicController implements ActionListener {
 
       one.put(MouseEvent.MOUSE_CLICKED, new Runnable() {
       public void run() {
-        if (view instanceof Playable) {
-          System.out.println("Where im putting:" + (ml.getXCoord() * ConcreteGuiViewPanel.PIXEL_SIZE));
-          System.out.println("Where im clicking" + ml.getXCoord() );
-
-          System.out.println("SIZE: "+ creator.asList().size());
-          creator.addNote(new Note(ml.getXCoord() * ConcreteGuiViewPanel.PIXEL_SIZE,
-                  78, ml.getXCoord(), 1, 60));
-          System.out.println("SIZE AFTER: "+ creator.asList().size());
-          view.refresh(creator);
+        GuiView view2 = (GuiView) view;
+        try {
+        creator.addNote(view2.userNote());
         }
+        catch (NullPointerException n) {
+
+        }
+        catch (Exception e) {
+          JOptionPane.showMessageDialog(null, "Please enter valid values.");
+          creator.addNote(view2.userNote());
+        }
+        view2.refresh(creator);
       }
     });
 
