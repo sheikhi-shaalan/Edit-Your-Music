@@ -14,6 +14,9 @@ public class MouseListenerImpl implements MouseListener {
     private Map<Integer, Runnable> one;
     private Map<Integer, Runnable> two;
     private Map<Integer, Runnable>  three;
+    protected int x;
+    protected int y;
+
 
     public MouseListenerImpl() {
         this.one = new HashMap<Integer, Runnable>();
@@ -24,6 +27,8 @@ public class MouseListenerImpl implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         this.mouseHelp(e, MouseEvent.MOUSE_CLICKED);
+        x = e.getX();
+        y = e.getY();
     }
 
     @Override
@@ -92,5 +97,11 @@ public class MouseListenerImpl implements MouseListener {
             }
         }
 
+    }
+    public int getXCoord() {
+        return x;
+    }
+    public int getYCoord() {
+        return y;
     }
 }
