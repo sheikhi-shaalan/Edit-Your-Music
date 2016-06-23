@@ -84,7 +84,7 @@ public class Note implements Comparable<Note> {
     this.keyVal = this.octave * 12 + value.ordinal() + 12;
     this.start = true;
     this.volume = 64;
-    this.instrument = 0;
+    this.instrument = 1;
   }
 
   public Note(int beat, int pitch, int duration, int instrument, int volume) {
