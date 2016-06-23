@@ -69,21 +69,33 @@ public class GuiViewFrame extends JFrame implements GuiView, Playable {
     @Override
     public Note userNote() throws NumberFormatException, IllegalArgumentException {
         Note ret = null;
+        Note.Pitch[] pitches = {Note.Pitch.C, Note.Pitch.CSHARP,Note.Pitch.D,Note.Pitch.DSHARP, Note.Pitch.F,
+                Note.Pitch.FSHARP, Note.Pitch.G,Note.Pitch.GSHARP, Note.Pitch.A,Note.Pitch.ASHARP, Note.Pitch.B};
+        JComboBox pitchesList = new JComboBox(pitches);
         JPanel panel = new JPanel();
-        JTextField pitch = new JTextField();
-        JTextField octave = new JTextField();
-        JTextField duration = new JTextField();
-        JTextField startBeatNo = new JTextField();
+        JLabel pitchLabel = new JLabel("Pitch: ");
+        JLabel octaveLabel = new JLabel("Octave: ");
+        JLabel durationLabel = new JLabel("Duration: ");
+        JLabel startBeatNoLabel = new JLabel("Starting beat number: ");
+        JTextField pitch = new JTextField(5);
+        JTextField octave = new JTextField(5);
+        JTextField duration = new JTextField(5);
+        JTextField startBeatNo = new JTextField(5);
 
-        panel.add(pitch);
+        panel.add(pitchLabel);
+        //panel.add(pitch);
+        panel.add(pitchesList);
+        panel.add(octaveLabel);
         panel.add(octave);
+        panel.add(durationLabel);
         panel.add(duration);
+        panel.add(startBeatNoLabel);
         panel.add(startBeatNo);
 
-        int result = JOptionPane.showConfirmDialog(null, panel, "Please enter the following values: ",
+        int result = JOptionPane.showConfirmDialog(null, panel, "Add A New Note",
                 JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
-            ret = new Note(Integer.parseInt(startBeatNo.getText()), Note.Pitch.values()[Integer.parseInt(pitch.getText())],
+            ret = new Note(Integer.parseInt(startBeatNo.getText()), (Note.Pitch) pitchesList.getSelectedItem(),
             Integer.parseInt(duration.getText()), Integer.parseInt(octave.getText()));
         }
 

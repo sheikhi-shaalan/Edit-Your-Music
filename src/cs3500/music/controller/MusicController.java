@@ -66,9 +66,9 @@ public class MusicController implements ActionListener {
         catch (NullPointerException n) {
 
         }
-        catch (Exception e) {
-          JOptionPane.showMessageDialog(null, "Please enter valid values.");
-          creator.addNote(view2.userNote());
+        catch (IllegalArgumentException e) {
+                JOptionPane.showMessageDialog(null, "Please enter valid values.");
+                creator.addNote(view2.userNote());
         }
         view2.refresh(creator);
       }
