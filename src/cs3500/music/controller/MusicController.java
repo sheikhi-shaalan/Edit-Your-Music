@@ -91,14 +91,7 @@ public class MusicController implements ActionListener {
         }
       }
     });
-//    keyPresses.put(KeyEvent.VK_1, new Runnable() {
-//      public void run() {
-//        if (view instanceof Playable) {
-//          Playable view2 = (Playable) view;
-//          view2.reset();
-//        }
-//      }
-//    });
+
     keyPresses.put(KeyEvent.VK_HOME, new Runnable() {
       public void run() {
         if (view instanceof Playable) {

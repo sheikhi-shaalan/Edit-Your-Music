@@ -47,7 +47,7 @@ public class CompositeView implements GuiView, Playable {
 
   public void skipToEnd() {
     gui.skipToEnd();
-    midi.pause();
+    midi.skipToEnd();
   }
 
   // Shows up

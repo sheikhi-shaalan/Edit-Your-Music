@@ -161,6 +161,7 @@ public class MidiViewImpl implements IView, Playable{
 
   public void reset() { this.sequencer.setTickPosition(0);}
 
+
   @Override
   public void skipToEnd() {
     this.sequencer.setTickPosition(sequencer.getTickLength() -1 );
