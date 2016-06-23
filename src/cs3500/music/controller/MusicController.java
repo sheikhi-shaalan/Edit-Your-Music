@@ -101,6 +101,23 @@ public class MusicController implements ActionListener {
       }
     });
 
+      three.put(MouseEvent.MOUSE_CLICKED, new Runnable() {
+          public void run() {
+              GuiView view2 = (GuiView) view;
+              try {
+                  System.out.println(creator.asList().size());
+                  System.out.println("REMOVE!!!!");
+                  creator.removeNote(view2.userNote());
+                  System.out.println(creator.asList().size());
+              }
+              catch (NullPointerException e) {
+              }
+              view2.refresh(creator);
+          }
+      });
+
+
+
     this.ml.setOne(one);
     this.ml.setTwo(two);
     this.ml.setThree(three);

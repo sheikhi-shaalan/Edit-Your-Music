@@ -90,7 +90,7 @@ public class GuiViewFrame extends JFrame implements GuiView, Playable {
         panel.add(startBeatNoLabel);
         panel.add(startBeatNo);
 
-        int result = JOptionPane.showConfirmDialog(null, panel, "Add A New Note",
+        int result = JOptionPane.showConfirmDialog(null, panel, "Which note?",
                 JOptionPane.OK_CANCEL_OPTION);
         try {
             if (result == JOptionPane.OK_OPTION) {
