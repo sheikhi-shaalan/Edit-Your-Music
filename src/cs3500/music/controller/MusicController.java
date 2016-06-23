@@ -3,6 +3,8 @@ package cs3500.music.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
@@ -28,11 +30,15 @@ public class MusicController implements ActionListener {
   private final MusicCreator creator;
   private IView view;
   private final KeyboardHandler kbd = new KeyboardHandler();
+  private final MouseListenerImpl ml = new MouseListenerImpl();
+  private boolean isPlaying;
 
   public MusicController(MusicCreator m, IView v) {
     this.creator = m;
     this.view = v;
+    isPlaying = false;
     if (view instanceof GuiView) {
+      configureMouseListener();
       configureKeyBoardListener();
       GuiView view2 = (GuiView) view;
       view2.addActionListener(this);
@@ -41,7 +47,25 @@ public class MusicController implements ActionListener {
     this.view.initialize();
   }
 
-  // TODO install the runnables we want
+
+  private void configureMouseListener() {
+    Map<Integer, Runnable> mouseClick = new HashMap<>();
+    mouseClick.put(MouseEvent.BUTTON1, new Runnable() {
+      public void run() {
+        System.out.println("You clicked the mouse");
+        if (view instanceof Playable) {
+          System.out.println(creator.asList().size());
+          creator.addNote(new Note(0,84,10,1,60));
+          System.out.println(creator.asList().size());
+          view.refresh();
+        }
+      }
+    });
+
+    ml.setMousey(mouseClick);
+    GuiView view2 = (GuiView) view;
+    view2.addMouseListener(ml);
+  }
   private void configureKeyBoardListener() {
     Map<Integer, Runnable> keyTypes = new HashMap<>();
     Map<Integer, Runnable> keyPresses = new HashMap<>();
@@ -50,16 +74,14 @@ public class MusicController implements ActionListener {
     keyPresses.put(KeyEvent.VK_SPACE, new Runnable() {
       public void run() {
         if (view instanceof Playable) {
+          isPlaying = !isPlaying;
           Playable view2 = (Playable) view;
-          view2.play();
-        }
-      }
-    });
-    keyPresses.put(KeyEvent.VK_0, new Runnable() {
-      public void run() {
-        if (view instanceof Playable) {
-          Playable view2 = (Playable) view;
-          view2.pause();
+          if (isPlaying) {
+            view2.play();
+          }
+          else {
+            view2.pause();
+          }
         }
       }
     });
@@ -77,13 +99,6 @@ public class MusicController implements ActionListener {
           Playable view2 = (Playable) view;
           view2.skipToEnd();
         }
-      }
-    });
-
-    keyPresses.put(KeyEvent.VK_3, new Runnable() {
-      public void run() {
-        creator.addNote(new Note());
-        view.refresh();
       }
     });
     kbd.setTyped(keyTypes);

@@ -18,7 +18,7 @@ public class MouseListenerImpl implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         if (this.mousey.containsKey(e.getButton())){
-
+            this.mousey.get(e.getButton()).run();
         }
     }
 
@@ -40,5 +40,9 @@ public class MouseListenerImpl implements MouseListener {
     @Override
     public void mouseExited(MouseEvent e) {
 
+    }
+
+    public void setMousey(Map<Integer, Runnable> map) {
+        this.mousey = map;
     }
 }

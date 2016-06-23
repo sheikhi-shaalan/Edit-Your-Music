@@ -144,7 +144,7 @@ public class MidiViewImpl implements IView, Playable{
 
   @Override
   public void refresh() {
-
+    this.playComposition();
   }
 
   public void play() {

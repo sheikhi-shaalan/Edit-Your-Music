@@ -4,6 +4,7 @@ import org.omg.PortableServer.THREAD_POLICY_ID;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 
 import javax.swing.*;
 
@@ -43,7 +44,7 @@ public class GuiViewFrame extends JFrame implements GuiView, Playable {
 
   @Override
   public void refresh() {
-    this.displayPanel.repaint();
+    this.displayPanel.refresh();
   }
 
   @Override
@@ -52,11 +53,13 @@ public class GuiViewFrame extends JFrame implements GuiView, Playable {
   }
 
   @Override
-  public void addActionListener(ActionListener action) {
-
+  public void addMouseListener(MouseListener m) {
+    this.displayPanel.addMouseListener(m);
   }
 
-
+  @Override
+  public void addActionListener(ActionListener action) {
+  }
   @Override
   public void play() {
     this.displayPanel.play();

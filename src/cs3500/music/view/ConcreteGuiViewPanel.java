@@ -127,6 +127,9 @@ public class ConcreteGuiViewPanel extends JPanel{
     this.xlocation = c.getSongDuration() * 10 + 30 + 10;
     repaint();
   }
+  protected void refresh() {
+    repaint();
+  }
 
   private void updateTime() {
     if (isPlaying) {

@@ -16,4 +16,5 @@ public interface IView {
    */
   void initialize();
   void refresh();
+
 }
