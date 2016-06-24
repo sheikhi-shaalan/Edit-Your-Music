@@ -62,14 +62,13 @@ public class MusicController implements ActionListener {
     Map<Integer, Runnable> two = new HashMap<>();
     Map<Integer, Runnable> three = new HashMap<>();
 
-      one.put(MouseEvent.MOUSE_CLICKED, new Runnable() {
+    one.put(MouseEvent.MOUSE_CLICKED, new Runnable() {
       public void run() {
         GuiView view2 = (GuiView) view;
-          try {
-              creator.addNote(view2.userNote());
-          }
-          catch (NullPointerException e) {
-          }
+        try {
+          creator.addNote(view2.userNote());
+        } catch (NullPointerException e) {
+        }
         view2.refresh(creator);
       }
     });
@@ -78,24 +77,16 @@ public class MusicController implements ActionListener {
         if (removalState) {
           GuiView view2 = (GuiView) view;
 
-            Note remove = null;
-            // An array List of notes
-            List<Note> list = creator.notesAtBeat(getBeatFromLocation(ml.getXCoord()));
-            System.out.println("YOU MADE IT METHOD");
-            System.out.println("BEAT NO: " + getBeatFromLocation(ml.getXCoord()));
-            for (Note n : list) {
-              System.out.println("YOU MADE IT FOR EACH");
-              System.out.println("PITCH NO: " + getPitchFromLocation(ml.getYCoord()));
-              if (n.getKeyVal()== getPitchFromLocation(ml.getYCoord())) {
-                System.out.println("YOU MADE IT IF STATEMENT");
-                remove = n;
-                break;
-              }
+          Note remove = null;
+          // An array List of notes
+          List<Note> list = creator.notesAtBeat(getBeatFromLocation(ml.getXCoord()));
+          for (Note n : list) {
+            if (n.getKeyVal() == getPitchFromLocation(ml.getYCoord())) {
+              remove = n;
+              break;
             }
-            System.out.println("BEFORE " + creator.asList().size());
-
-            creator.removeNote(remove);
-            System.out.println("AFTER " + creator.asList().size());
+          }
+          creator.removeNote(remove);
           view2.refresh(creator);
         }
       }
@@ -164,14 +155,16 @@ public class MusicController implements ActionListener {
   }
 
   private static int getBeatFromLocation(int x) {
-    return (x - (int) (2.5 * ConcreteGuiViewPanel.PIXEL_SIZE))/ConcreteGuiViewPanel.PIXEL_SIZE ;
+    return (x - ConcreteGuiViewPanel.distanceFromSide) / ConcreteGuiViewPanel.PIXEL_SIZE;
   }
-  private  int getPitchFromLocation(int y) {
+
+  private int getPitchFromLocation(int y) {
     List<Note> list = creator.asList();
-    int  max = Collections.max(list).getKeyVal();
-    return (-(((y - (int) (2.5 * ConcreteGuiViewPanel.PIXEL_SIZE)) /ConcreteGuiViewPanel.PIXEL_SIZE)
-            - max)) ;
+    int max = Collections.max(list).getKeyVal();
+    return -(((y - ConcreteGuiViewPanel.distanceFromTop) / ConcreteGuiViewPanel.PIXEL_SIZE) - max);
   }
+
+
   public static void main(String[] args) throws IOException {
     MusicReader reader = new MusicReader();
     CompositionBuilder<MusicCreator> b = MusicCreatorImpl.getBuilder();
