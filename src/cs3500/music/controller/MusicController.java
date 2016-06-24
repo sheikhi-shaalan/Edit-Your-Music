@@ -100,22 +100,22 @@ public class MusicController implements ActionListener {
         }
       }
     });
-
-      three.put(MouseEvent.MOUSE_CLICKED, new Runnable() {
-          public void run() {
-              GuiView view2 = (GuiView) view;
-              try {
-                  System.out.println(creator.asList().size());
-                  System.out.println("REMOVE!!!!");
-                  creator.removeNote(view2.userNote());
-                  System.out.println(creator.asList().size());
-              }
-              catch (NullPointerException e) {
-              }
-              view2.refresh(creator);
-          }
-      });
-
+//
+//      three.put(MouseEvent.MOUSE_CLICKED, new Runnable() {
+//          public void run() {
+//              GuiView view2 = (GuiView) view;
+//              try {
+//                  System.out.println(creator.asList().size());
+//                  System.out.println("REMOVE!!!!");
+//                  creator.removeNote(view2.userNote());
+//                  System.out.println(creator.asList().size());
+//              }
+//              catch (NullPointerException e) {
+//              }
+//              view2.refresh(creator);
+//          }
+//      });
+//
 
 
     this.ml.setOne(one);
@@ -192,7 +192,7 @@ public class MusicController implements ActionListener {
   public static void main(String[] args) throws IOException {
     MusicReader reader = new MusicReader();
     CompositionBuilder<MusicCreator> b = MusicCreatorImpl.getBuilder();
-    MusicCreator creator = reader.parseFile(new FileReader("mary-little-lamb.txt"), b);
+    MusicCreator creator = reader.parseFile(new FileReader("mystery-1.txt"), b);
 
     MusicEditor m = new MusicEditor();
 
