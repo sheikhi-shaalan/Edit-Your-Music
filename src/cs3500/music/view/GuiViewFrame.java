@@ -106,10 +106,14 @@ public class GuiViewFrame extends JFrame implements GuiView, Playable {
         return ret;
     }
 
+    @Override
+    public int getMyLocation() {
+        return 0;
+    }
 
     @Override
-  public void play() {
-    this.displayPanel.play();
+  public void play(int where) {
+    this.displayPanel.play(where);
   }
 
   @Override

@@ -151,8 +151,13 @@ public class MidiViewImpl implements IView, Playable{
     this.playComposition();
   }
 
-  public void play() {
-    this.sequencer.setTickPosition(this.sequencer.getTickPosition());
+  @Override
+  public int getMyLocation() {
+    return Math.toIntExact(this.sequencer.getTickPosition());
+  }
+
+  public void play(int where) {
+    this.sequencer.setTickPosition(where);
     this.sequencer.setTempoInMPQ(this.c.getTempo());
     this.sequencer.start();
   }

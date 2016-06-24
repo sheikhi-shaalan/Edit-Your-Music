@@ -28,10 +28,15 @@ public class CompositeView implements GuiView, Playable {
 
   }
 
-  // Action
-  public void play() {
-    gui.play();
-    midi.play();
+  @Override
+  public int getMyLocation() {
+    return this.midi.getMyLocation();
+  }
+
+  @Override
+  public void play(int where) {
+    this.gui.play(this.midi.getMyLocation());
+    this.midi.play(where);
   }
 
   public void pause() {

@@ -5,7 +5,8 @@ package cs3500.music.view;
  */
 public interface Playable {
 
-  void play();
+  int getMyLocation();
+  void play(int where);
   void pause();
   void reset();
   void skipToEnd();

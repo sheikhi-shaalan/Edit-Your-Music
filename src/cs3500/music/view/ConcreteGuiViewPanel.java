@@ -1,6 +1,7 @@
 package cs3500.music.view;
 
 import java.awt.*;
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class ConcreteGuiViewPanel extends JPanel{
   int min;
   int max;
   int dur;
+  BigDecimal quarterNotesPerSecond;
   List<Note> list;
 
   public ConcreteGuiViewPanel(MusicCreator c) {
@@ -25,6 +27,9 @@ public class ConcreteGuiViewPanel extends JPanel{
     min = Collections.min(list).getKeyVal();
     max = Collections.max(list).getKeyVal();
     this.dur = c.getSongDuration();
+    BigDecimal tempo = new BigDecimal(c.getTempo());
+    this.quarterNotesPerSecond = BigDecimal.ONE.divide(tempo).multiply(new BigDecimal(1000000));
+    //this.quarterNotesPerSecond = this.quarterNotesPerSecond.divide(new BigDecimal(5));
 
     this.setVisible(true);
 
@@ -47,13 +52,6 @@ public class ConcreteGuiViewPanel extends JPanel{
     this.paintLine(g);
   }
 
-  // TODO: Change this to match the song exactly
-  private void paintLine(Graphics g) {
-    g.setColor(Color.RED);
-    g.drawRect(xlocation,0,1, this.getSongDimensions().height);
-    this.updateTime();
-
-  }
 
 
   // Paints the beat numbers so that every four beats it displays beat number
@@ -109,15 +107,24 @@ public class ConcreteGuiViewPanel extends JPanel{
     }
   }
 
-  protected void play() {
+  private void paintLine(Graphics g) {
+    if (xlocation != ((c.getSongDuration() * PIXEL_SIZE + (3 * PIXEL_SIZE))) + 1) {
+      g.setColor(Color.RED);
+      g.drawRect(xlocation, 0, 1, this.getSongDimensions().height);
+      //this.updateTime();
+    }
+
+  }
+
+  protected void play(int where) {
     this.isPlaying = true;
-    updateTime();
+    updateTime(where);
   }
 
 
   protected void pause() {
     this.isPlaying = false;
-    updateTime();
+    //updateTime();
   }
 
 
@@ -127,6 +134,13 @@ public class ConcreteGuiViewPanel extends JPanel{
     repaint();
   }
 
+  //not always one...depends on the beat.
+  private void updateTime(int where) {
+      if (isPlaying) {
+          this.xlocation = (where * PIXEL_SIZE) + (3 * PIXEL_SIZE);
+        repaint();
+      }
+  }
   // Todo: Fix this so that it ends at the proper place
   protected void skipToEnd() {
     this.isPlaying = false;
@@ -143,10 +157,7 @@ public class ConcreteGuiViewPanel extends JPanel{
     repaint();
   }
 
-  private void updateTime() {
-    if (isPlaying) {
-      this.xlocation += 1;
-      repaint();
-    }
-  }
+  //this works if it is called once every tick
+
+
 }
