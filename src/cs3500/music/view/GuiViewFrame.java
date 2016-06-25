@@ -11,9 +11,6 @@ import javax.swing.*;
 import cs3500.music.model.MusicCreator;
 
 
-/**
- * A skeleton Frame (i.e., a window) in Swing
- */
 public class GuiViewFrame extends JFrame implements GuiView, Playable {
   private MusicCreator c;
   private final ConcreteGuiViewPanel displayPanel;
@@ -107,9 +104,21 @@ public class GuiViewFrame extends JFrame implements GuiView, Playable {
 
   @Override
   public void play() {
-    // this.scrollIt();
     this.displayPanel.play();
   }
+
+  protected void moveScreen(int tick) {
+    if ((tick * displayPanel.PIXEL_SIZE + displayPanel.distanceFromSide) > (scrollPane.getVisibleRect().x + 800)) {
+      System.out.println(scrollPane.getVisibleRect().x + 800);
+      System.out.println((this.scrollPane.getHorizontalScrollBar().getValue() +
+              this.scrollPane.getHorizontalScrollBar().getUnitIncrement()));
+       this.scrollPane.getHorizontalScrollBar().setValue(
+               this.scrollPane.getHorizontalScrollBar().getValue() +
+       this.scrollPane.getHorizontalScrollBar().getUnitIncrement());
+    }
+  }
+
+
 
   @Override
   public void pause() {
@@ -131,6 +140,7 @@ public class GuiViewFrame extends JFrame implements GuiView, Playable {
     return true;
   }
 
+  // Sets the pane tick in the GUI panel
   protected void setPaneTick(int tick) {
     this.displayPanel.setTick(tick);
   }

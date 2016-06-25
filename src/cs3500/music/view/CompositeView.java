@@ -22,6 +22,7 @@ public class CompositeView implements GuiView, Playable {
     public void run() {
       while (midi.isPlaying()) {
         gui.setPaneTick(Math.toIntExact(midi.sequencer.getTickPosition()));
+        gui.moveScreen(Math.toIntExact(midi.sequencer.getTickPosition()));
         gui.play();
       }
     }

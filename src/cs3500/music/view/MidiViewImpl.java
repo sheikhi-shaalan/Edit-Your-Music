@@ -177,7 +177,7 @@ public class MidiViewImpl implements IView, Playable{
 
   @Override
   public boolean isPlaying() {
-    return (this.sequencer.getTickPosition() <= this.c.getSongDuration()) && this.isPlaying;
+    return (this.sequencer.getTickPosition() < this.c.getSongDuration()) && this.isPlaying;
   }
 
 }
