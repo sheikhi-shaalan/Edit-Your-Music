@@ -22,32 +22,32 @@ public class CompositeView implements GuiView, Playable {
   MidiViewImpl midi;
 
 
-    //TODO the position of the red line in the beginning and the end
+  //TODO the position of the red line in the beginning and the end
   public CompositeView(GuiViewFrame gui, MidiViewImpl midi) {
     this.gui = gui;
     this.midi = midi;
   }
 
-     class redLine extends Thread {
-        @Override
-        public void run() {
-                while (midi.isPlaying()) {
-                    gui.setPaneTick(Math.toIntExact(midi.sequencer.getTickPosition()));
-                    gui.play();
-                }
-        }
+  class redLine extends Thread {
+    @Override
+    public void run() {
+      while (midi.isPlaying()) {
+        gui.setPaneTick(Math.toIntExact(midi.sequencer.getTickPosition()));
+        gui.play();
+      }
     }
+  }
 
   @Override
   public void play() {
-      Thread redLine = new redLine();
-      redLine.start();
-      this.midi.play();
+    Thread redLine = new redLine();
+    redLine.start();
+    this.midi.play();
   }
 
   public void pause() {
-      gui.pause();
-      midi.pause();
+    gui.pause();
+    midi.pause();
   }
 
   public void reset() {

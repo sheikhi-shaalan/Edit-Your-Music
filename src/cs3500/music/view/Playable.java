@@ -25,6 +25,9 @@ public interface Playable {
    */
   void skipToEnd();
 
-  boolean isPlaying();
 
+  /**
+   * Is this view playing?
+   */
+  boolean isPlaying();
 }

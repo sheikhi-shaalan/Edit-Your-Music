@@ -154,15 +154,15 @@ public class MidiViewImpl implements IView, Playable{
 
   @Override
   public void play() {
-      this.isPlaying = true;
+    this.isPlaying = true;
     this.sequencer.setTickPosition(this.sequencer.getTickPosition());
     this.sequencer.setTempoInMPQ(this.c.getTempo());
-      this.playComposition();
+    this.playComposition();
     this.sequencer.start();
   }
 
   public void pause() {
-      this.isPlaying = false;
+    this.isPlaying = false;
     this.sequencer.stop();
     this.sequencer.setTickPosition(this.sequencer.getTickPosition());
   }
@@ -172,7 +172,7 @@ public class MidiViewImpl implements IView, Playable{
 
   @Override
   public void skipToEnd() {
-      this.isPlaying = false;
+    this.isPlaying = false;
     this.sequencer.setTickPosition(sequencer.getTickLength() -1 );
     this.pause();
 

@@ -107,7 +107,7 @@ public class GuiViewFrame extends JFrame implements GuiView, Playable {
 
   @Override
   public void play() {
-   // this.scrollIt();
+    // this.scrollIt();
     this.displayPanel.play();
   }
 
@@ -135,4 +135,3 @@ public class GuiViewFrame extends JFrame implements GuiView, Playable {
     this.displayPanel.setTick(tick);
   }
 }
-
