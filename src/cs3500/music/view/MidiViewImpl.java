@@ -21,7 +21,7 @@ public class MidiViewImpl implements IView, Playable{
   private final int ONE_BEAT_COEFF = 1000000;
   private final int SLEEP_NUMBER = 1000;
   protected MusicCreator c;
-  private int beatAt;
+  private boolean isPlaying;
 
   public MidiViewImpl(MusicCreator creator) {
     this.c = creator;
@@ -47,7 +47,6 @@ public class MidiViewImpl implements IView, Playable{
     this.receiver = tempr;
     this.sequencer = tempseqr;
     this.sequence = tempseq;
-    this.beatAt = 0;
 
   }
 
@@ -97,7 +96,6 @@ public class MidiViewImpl implements IView, Playable{
     this.sequencer.setTempoInMPQ(c.getTempo());
     for (int i = 0; i <= c.getSongDuration(); i++) {
       try {
-        this.beatAt = i;
         this.playBeat(c.notesAtBeat(i),track);
       } catch (InvalidMidiDataException e) {
         e.getStackTrace();
@@ -156,12 +154,14 @@ public class MidiViewImpl implements IView, Playable{
 
   @Override
   public void play() {
+      this.isPlaying = true;
     this.sequencer.setTickPosition(this.sequencer.getTickPosition());
     this.sequencer.setTempoInMPQ(this.c.getTempo());
     this.sequencer.start();
   }
 
   public void pause() {
+      this.isPlaying = false;
     this.sequencer.stop();
     this.sequencer.setTickPosition(this.sequencer.getTickPosition());
   }
@@ -171,6 +171,7 @@ public class MidiViewImpl implements IView, Playable{
 
   @Override
   public void skipToEnd() {
+      this.isPlaying = false;
     this.sequencer.setTickPosition(sequencer.getTickLength() -1 );
     this.pause();
 
@@ -178,15 +179,7 @@ public class MidiViewImpl implements IView, Playable{
 
   @Override
   public boolean isPlaying() {
-    return this.beatAt <= this.sequencer.getTickLength();
+    return (this.sequencer.getTickPosition() <= this.c.getSongDuration()) && this.isPlaying;
   }
 
-  public MidiDevice getDevice() {
-    return this.sequencer;
-  }
-
-
-  public int getBeat() {
-    return this.beatAt;
-  }
 }
