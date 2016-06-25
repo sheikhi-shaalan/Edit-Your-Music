@@ -21,8 +21,10 @@ public class ConcreteGuiViewPanel extends JPanel {
   private int min;
   private int max;
   private int dur;
-    private int tick;
   private int prevTick;
+
+  private int tick;
+
   private List<Note> list;
 
 
@@ -121,7 +123,7 @@ public class ConcreteGuiViewPanel extends JPanel {
 
       g.drawString(Note.Pitch.values()[noteVal].toNoteString() + octaveVal,
               // 2.5 because we want it to be in the middle
-              0, (max - i) * PIXEL_SIZE + (int) (2.5 * PIXEL_SIZE));
+              0, (max - i) * PIXEL_SIZE + distanceFromTop);
 
     }
   }
@@ -140,7 +142,11 @@ public class ConcreteGuiViewPanel extends JPanel {
 
   protected void reset() {
     this.isPlaying = false;
+
     this.xlocation = this.tick;
+
+    this.xlocation = distanceFromSide;
+
     repaint();
   }
 
@@ -166,7 +172,17 @@ public class ConcreteGuiViewPanel extends JPanel {
       System.out.println("TICK:" + tick);
       this.xlocation = (tick * PIXEL_SIZE) + distanceFromSide;
       this.prevTick = tick;
-      repaint();
+      if (isPlaying) {
+        System.out.println(tick * PIXEL_SIZE + distanceFromSide);
+        System.out.println(tick);
+        this.xlocation += tick * PIXEL_SIZE + distanceFromSide;
+        repaint();
+      }
+
     }
+  }
+
+  public void setTick(int t) {
+    this.tick = t;
   }
 }

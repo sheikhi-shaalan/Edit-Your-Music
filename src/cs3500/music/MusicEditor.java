@@ -1,5 +1,6 @@
 package cs3500.music;
 
+import cs3500.music.controller.MusicController;
 import cs3500.music.model.MusicCreator;
 import cs3500.music.model.MusicCreatorImpl;
 import cs3500.music.util.CompositionBuilder;
@@ -26,6 +27,8 @@ public class MusicEditor {
 
     MusicEditor m = new MusicEditor();
     IView v = m.create(args[0], creator);
+
+    MusicController controller = new MusicController(creator ,v);
     v.initialize();
 
 

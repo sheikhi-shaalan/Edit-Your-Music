@@ -4,33 +4,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cs3500.music.MusicEditor;
 import cs3500.music.model.MusicCreator;
-import cs3500.music.model.MusicCreatorImpl;
 import cs3500.music.model.Note;
-import cs3500.music.util.CompositionBuilder;
-import cs3500.music.util.MusicReader;
 import cs3500.music.view.CompositeView;
 import cs3500.music.view.ConcreteGuiViewPanel;
 import cs3500.music.view.GuiView;
-import cs3500.music.view.GuiViewFrame;
 import cs3500.music.view.IView;
-import cs3500.music.view.MidiViewImpl;
 import cs3500.music.view.Playable;
-
 import javax.swing.*;
 
-/**
- * Created by NadineShaalan on 6/20/16.
- */
+
 public class MusicController implements ActionListener {
   private final MusicCreator creator;
   private IView view;
@@ -56,6 +44,8 @@ public class MusicController implements ActionListener {
   }
 
 
+  // Sets up a mouse listener and adds it to the view
+  // Under the assumption the view it is a GuiView
   private void configureMouseListener() {
 
     Map<Integer, Runnable> one = new HashMap<>();
@@ -86,8 +76,14 @@ public class MusicController implements ActionListener {
               break;
             }
           }
-          creator.removeNote(remove);
-          view2.refresh(creator);
+          try {
+            creator.removeNote(remove);
+            view2.refresh(creator);
+          }
+          catch (NullPointerException e) {
+            // Do nothing if they try to click a non note area of the screen
+          }
+
         }
       }
     });
@@ -99,6 +95,8 @@ public class MusicController implements ActionListener {
     view2.addMouseListener(ml);
   }
 
+  // Sets up a keyboard listener
+  // Under the assumption the view is a GuiView
   private void configureKeyBoardListener() {
     Map<Integer, Runnable> keyTypes = new HashMap<>();
     Map<Integer, Runnable> keyPresses = new HashMap<>();
@@ -117,6 +115,7 @@ public class MusicController implements ActionListener {
         }
       }
     });
+
 
     keyPresses.put(KeyEvent.VK_R, new Runnable() {
       public void run() {
@@ -141,6 +140,14 @@ public class MusicController implements ActionListener {
         }
       }
     });
+    keyPresses.put(KeyEvent.VK_END, new Runnable() {
+      public void run() {
+        if (view instanceof Playable) {
+          Playable view2 = (Playable) view;
+          view2.skipToEnd();
+        }
+      }
+    });
     kbd.setTyped(keyTypes);
     kbd.setPressed(keyPresses);
     kbd.setReleased(keyReleases);
@@ -151,29 +158,19 @@ public class MusicController implements ActionListener {
 
   @Override
   public void actionPerformed(ActionEvent e) {
-
+    // Does Nothing
   }
 
+  // Gets a beat from an Xcoord
   private static int getBeatFromLocation(int x) {
     return (x - ConcreteGuiViewPanel.distanceFromSide) / ConcreteGuiViewPanel.PIXEL_SIZE;
   }
 
-  private int getPitchFromLocation(int y) {
+  // Gets an pitch from a YCoordinate
+  private  int getPitchFromLocation(int y) {
     List<Note> list = creator.asList();
     int max = Collections.max(list).getKeyVal();
     return -(((y - ConcreteGuiViewPanel.distanceFromTop) / ConcreteGuiViewPanel.PIXEL_SIZE) - max);
   }
 
-
-  public static void main(String[] args) throws IOException {
-    MusicReader reader = new MusicReader();
-    CompositionBuilder<MusicCreator> b = MusicCreatorImpl.getBuilder();
-    MusicCreator creator = reader.parseFile(new FileReader("mary-little-lamb.txt"), b);
-
-    MusicEditor m = new MusicEditor();
-
-    MusicController controller = new MusicController(creator, new CompositeView(
-            new GuiViewFrame(creator), new MidiViewImpl(creator)));
-
-  }
 }
