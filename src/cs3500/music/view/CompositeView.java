@@ -3,51 +3,51 @@ package cs3500.music.view;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
+import java.io.FileReader;
+import java.io.IOException;
+
+import javax.sound.midi.InvalidMidiDataException;
+
+
+import cs3500.music.MusicEditor;
 import cs3500.music.model.MusicCreator;
+import cs3500.music.model.MusicCreatorImpl;
 import cs3500.music.model.Note;
+import cs3500.music.util.CompositionBuilder;
+import cs3500.music.util.MusicReader;
 
 
 public class CompositeView implements GuiView, Playable {
   GuiViewFrame gui;
   MidiViewImpl midi;
 
-    //TODO the position of the red line in the beginning and the end
+
+  //TODO the position of the red line in the beginning and the end
   public CompositeView(GuiViewFrame gui, MidiViewImpl midi) {
     this.gui = gui;
     this.midi = midi;
   }
-  class RedLine extends Thread {
+
+  class redLine extends Thread {
     @Override
     public void run() {
       while (midi.isPlaying()) {
-        gui.setPanelTick(Math.toIntExact(midi.sequencer.getTickPosition()));
+        gui.setPaneTick(Math.toIntExact(midi.sequencer.getTickPosition()));
         gui.play();
       }
     }
   }
 
-     class redLine extends Thread {
-        @Override
-        public void run() {
-                while (midi.isPlaying()) {
-                    //System.out.println(midi.sequencer.getTickPosition());
-                    gui.setPaneMidi(Math.toIntExact(midi.sequencer.getTickPosition()));
-                    gui.play();
-                }
-        }
-    }
-
   @Override
   public void play() {
-      Thread redLine = new redLine();
-      redLine.start();
-      this.midi.play();
-    }
+    Thread redLine = new redLine();
+    redLine.start();
+    this.midi.play();
+  }
 
-  @Override
   public void pause() {
-      gui.pause();
-      midi.pause();
+    gui.pause();
+    midi.pause();
   }
 
   public void reset() {
@@ -55,7 +55,6 @@ public class CompositeView implements GuiView, Playable {
     midi.reset();
     midi.pause();
   }
-
 
   public void skipToEnd() {
     gui.skipToEnd();
@@ -78,6 +77,7 @@ public class CompositeView implements GuiView, Playable {
     this.gui.refresh(c);
     this.midi.refresh(c);
   }
+
 
   @Override
   public void addActionListener(ActionListener action) {
@@ -104,5 +104,19 @@ public class CompositeView implements GuiView, Playable {
   public void removeMouseListener() {
 
   }
+
+  public static void main(String[] args) throws IOException, InvalidMidiDataException {
+
+    MusicReader reader = new MusicReader();
+    CompositionBuilder<MusicCreator> b = MusicCreatorImpl.getBuilder();
+    MusicCreator creator = reader.parseFile(new FileReader("mystery-1.txt"), b);
+
+    MusicEditor m = new MusicEditor();
+    CompositeView v = new CompositeView(new GuiViewFrame(creator),
+            new MidiViewImpl(creator));
+    v.initialize();
+
+  }
+
 
 }

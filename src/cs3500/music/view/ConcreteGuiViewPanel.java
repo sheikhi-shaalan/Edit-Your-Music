@@ -1,11 +1,9 @@
 package cs3500.music.view;
 
 import java.awt.*;
-import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 
-import javax.sound.midi.MidiDevice;
 import javax.swing.*;
 
 import cs3500.music.model.MusicCreator;
@@ -21,10 +19,8 @@ public class ConcreteGuiViewPanel extends JPanel {
   private int min;
   private int max;
   private int dur;
-  private int prevTick;
-
   private int tick;
-
+  private int prevTick;
   private List<Note> list;
 
 
@@ -35,6 +31,7 @@ public class ConcreteGuiViewPanel extends JPanel {
     max = Collections.max(list).getKeyVal();
     this.dur = c.getSongDuration();
     this.prevTick = -1;
+    this.tick = 0;
     this.setVisible(true);
 
   }
@@ -44,10 +41,6 @@ public class ConcreteGuiViewPanel extends JPanel {
     return new Dimension(dur * PIXEL_SIZE + (PIXEL_SIZE * 5), ((max - min + 1) *
             PIXEL_SIZE) + (2 * PIXEL_SIZE));
   }
-
-    public void setMidi(int tick) {
-        this.tick = tick;
-    }
 
   @Override
   public void paintComponent(Graphics g) {
@@ -123,7 +116,7 @@ public class ConcreteGuiViewPanel extends JPanel {
 
       g.drawString(Note.Pitch.values()[noteVal].toNoteString() + octaveVal,
               // 2.5 because we want it to be in the middle
-              0, (max - i) * PIXEL_SIZE + distanceFromTop);
+              0, (max - i) * PIXEL_SIZE + (int) (2.5 * PIXEL_SIZE));
 
     }
   }
@@ -142,11 +135,7 @@ public class ConcreteGuiViewPanel extends JPanel {
 
   protected void reset() {
     this.isPlaying = false;
-
     this.xlocation = this.tick;
-
-    this.xlocation = distanceFromSide;
-
     repaint();
   }
 
@@ -168,21 +157,13 @@ public class ConcreteGuiViewPanel extends JPanel {
 
   private void updateTime() {
     if (isPlaying && (prevTick < tick)) {
-      System.out.println("POS: " + (tick * PIXEL_SIZE + distanceFromSide));
-      System.out.println("TICK:" + tick);
       this.xlocation = (tick * PIXEL_SIZE) + distanceFromSide;
       this.prevTick = tick;
-      if (isPlaying) {
-        System.out.println(tick * PIXEL_SIZE + distanceFromSide);
-        System.out.println(tick);
-        this.xlocation += tick * PIXEL_SIZE + distanceFromSide;
-        repaint();
-      }
-
+      repaint();
     }
   }
 
-  public void setTick(int t) {
-    this.tick = t;
+  protected void setTick(int tick) {
+    this.tick = tick;
   }
 }

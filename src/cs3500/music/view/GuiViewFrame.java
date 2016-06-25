@@ -5,11 +5,15 @@ import cs3500.music.model.Note;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
+
 import javax.swing.*;
 
 import cs3500.music.model.MusicCreator;
 
 
+/**
+ * A skeleton Frame (i.e., a window) in Swing
+ */
 public class GuiViewFrame extends JFrame implements GuiView, Playable {
   private MusicCreator c;
   private final ConcreteGuiViewPanel displayPanel;
@@ -21,11 +25,14 @@ public class GuiViewFrame extends JFrame implements GuiView, Playable {
   public GuiViewFrame(MusicCreator c) {
     this.c = c;
     this.setSize(800, 600);
+
     this.displayPanel = new ConcreteGuiViewPanel(c);
     this.displayPanel.setPreferredSize(displayPanel.getSongDimensions());
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.scrollPane = new JScrollPane(displayPanel);
     this.scrollPane.setPreferredSize(new Dimension(600, 200));
+
+    //add the JScrollPane to wherever you would have added the drawPanel
     this.add(scrollPane);
     this.setFocusable(true);
     this.requestFocus();
@@ -56,17 +63,13 @@ public class GuiViewFrame extends JFrame implements GuiView, Playable {
 
   @Override
   public void addActionListener(ActionListener action) {
-
   }
 
-  // Creates a JOption Pane for accepting User inputs
-  // Passes this info to Controller
   @Override
   public Note userNote() throws NumberFormatException, IllegalArgumentException {
     Note ret = null;
-    Note.Pitch[] pitches = {Note.Pitch.C, Note.Pitch.CSHARP, Note.Pitch.D, Note.Pitch.DSHARP,
-            Note.Pitch.F, Note.Pitch.FSHARP, Note.Pitch.G, Note.Pitch.GSHARP, Note.Pitch.A,
-            Note.Pitch.ASHARP, Note.Pitch.B};
+    Note.Pitch[] pitches = {Note.Pitch.C, Note.Pitch.CSHARP, Note.Pitch.D, Note.Pitch.DSHARP, Note.Pitch.F,
+            Note.Pitch.FSHARP, Note.Pitch.G, Note.Pitch.GSHARP, Note.Pitch.A, Note.Pitch.ASHARP, Note.Pitch.B};
     JComboBox pitchesList = new JComboBox(pitches);
     JPanel panel = new JPanel();
     JLabel pitchLabel = new JLabel("Pitch: ");
@@ -90,8 +93,7 @@ public class GuiViewFrame extends JFrame implements GuiView, Playable {
             JOptionPane.OK_CANCEL_OPTION);
     try {
       if (result == JOptionPane.OK_OPTION) {
-        ret = new Note(Integer.parseInt(startBeatNo.getText()),
-                (Note.Pitch) pitchesList.getSelectedItem(),
+        ret = new Note(Integer.parseInt(startBeatNo.getText()), (Note.Pitch) pitchesList.getSelectedItem(),
                 Integer.parseInt(duration.getText()), Integer.parseInt(octave.getText()));
       }
     } catch (IllegalArgumentException e) {
@@ -102,15 +104,11 @@ public class GuiViewFrame extends JFrame implements GuiView, Playable {
     return ret;
   }
 
-  public void setPaneMidi(int tick) {
-    this.displayPanel.setMidi(tick);
-  }
 
   @Override
   public void play() {
+    // this.scrollIt();
     this.displayPanel.play();
-
-   // this.scrollIt();
   }
 
   @Override
@@ -128,14 +126,12 @@ public class GuiViewFrame extends JFrame implements GuiView, Playable {
     this.displayPanel.skipToEnd();
   }
 
-
-  public void setPanelTick(int tick) {
-    this.displayPanel.setTick(tick);
-  }
-
   @Override
   public boolean isPlaying() {
     return true;
   }
-}
 
+  protected void setPaneTick(int tick) {
+    this.displayPanel.setTick(tick);
+  }
+}
