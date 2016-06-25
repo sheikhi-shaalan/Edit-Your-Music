@@ -159,8 +159,6 @@ public class ConcreteGuiViewPanel extends JPanel {
 
     private void updateTime() {
         if (isPlaying && (prevTick < tick)) {
-            System.out.println("POS: " + (tick * PIXEL_SIZE + distanceFromSide));
-            System.out.println("TICK:" + tick);
             this.xlocation = (tick * PIXEL_SIZE) + distanceFromSide;
             this.prevTick = tick;
             repaint();

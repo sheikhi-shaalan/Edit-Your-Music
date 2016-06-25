@@ -32,7 +32,6 @@ public class CompositeView implements GuiView, Playable {
         @Override
         public void run() {
                 while (midi.isPlaying()) {
-                    //System.out.println(midi.sequencer.getTickPosition());
                     gui.setPaneTick(Math.toIntExact(midi.sequencer.getTickPosition()));
                     gui.play();
                 }
