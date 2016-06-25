@@ -168,7 +168,7 @@ public class MusicController implements ActionListener {
   public static void main(String[] args) throws IOException {
     MusicReader reader = new MusicReader();
     CompositionBuilder<MusicCreator> b = MusicCreatorImpl.getBuilder();
-    MusicCreator creator = reader.parseFile(new FileReader("mary-little-lamb.txt"), b);
+    MusicCreator creator = reader.parseFile(new FileReader("df-ttfaf.txt"), b);
 
     MusicEditor m = new MusicEditor();
 

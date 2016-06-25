@@ -2,14 +2,10 @@ package cs3500.music.view;
 
 import cs3500.music.model.Note;
 
-import org.omg.PortableServer.THREAD_POLICY_ID;
-
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
-import java.math.BigDecimal;
 
-import javax.sound.midi.MidiDevice;
 import javax.swing.*;
 
 import cs3500.music.model.MusicCreator;
@@ -108,9 +104,6 @@ public class GuiViewFrame extends JFrame implements GuiView, Playable {
     return ret;
   }
 
-  public void setPaneMidi(int tick) {
-    this.displayPanel.setMidi(tick);
-  }
 
   @Override
   public void play() {
@@ -136,6 +129,10 @@ public class GuiViewFrame extends JFrame implements GuiView, Playable {
   @Override
   public boolean isPlaying() {
     return true;
+  }
+
+  protected void setPaneTick(int tick) {
+    this.displayPanel.setTick(tick);
   }
 }
 
