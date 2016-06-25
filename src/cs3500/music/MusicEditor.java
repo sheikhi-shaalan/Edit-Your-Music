@@ -1,5 +1,10 @@
 package cs3500.music;
 
+import java.io.FileReader;
+import java.io.IOException;
+
+import javax.sound.midi.InvalidMidiDataException;
+
 import cs3500.music.controller.MusicController;
 import cs3500.music.model.MusicCreator;
 import cs3500.music.model.MusicCreatorImpl;
@@ -10,11 +15,6 @@ import cs3500.music.view.ConsoleView;
 import cs3500.music.view.GuiViewFrame;
 import cs3500.music.view.IView;
 import cs3500.music.view.MidiViewImpl;
-
-import java.io.FileReader;
-import java.io.IOException;
-
-import javax.sound.midi.InvalidMidiDataException;
 
 
 /**
@@ -30,7 +30,7 @@ public class MusicEditor {
     MusicEditor m = new MusicEditor();
     IView v = m.create(args[0], creator);
 
-    MusicController controller = new MusicController(creator ,v);
+    MusicController controller = new MusicController(creator, v);
     v.initialize();
 
 
@@ -44,7 +44,7 @@ public class MusicEditor {
         return new MidiViewImpl(creator);
       case "gui":
         return new GuiViewFrame(creator);
-      case "both":
+      case "composite":
         return new CompositeView(new GuiViewFrame(creator),
                 new MidiViewImpl(creator));
       default:
