@@ -7,11 +7,12 @@ import java.util.List;
 
 /**
  * Created by baharsheikhi on 6/20/16.
+ * To represent a mock sequencer for testing purposes
  */
 public class MockSequencer implements Sequencer {
-    private  final StringBuilder stringBuiler;
+    private final StringBuilder stringBuiler;
     private final Sequencer sequencer;
-    private  Sequence sequence;
+    private Sequence sequence;
 
     public MockSequencer() {
         this.stringBuiler = new StringBuilder();
@@ -35,7 +36,7 @@ public class MockSequencer implements Sequencer {
 
     @Override
     public void start() {
-        for (Track t: this.getSequence().getTracks()) {
+        for (Track t : this.getSequence().getTracks()) {
             for (int i = 0; i < t.size(); i++) {
                 try {
                     MidiEvent event = t.get(i);
@@ -54,8 +55,7 @@ public class MockSequencer implements Sequencer {
                                 + "\n" +
                                 " Position: " + event.getTick() + "\n");
                     }
-                }
-                catch (ClassCastException c) {
+                } catch (ClassCastException c) {
 
                 }
             }
@@ -64,7 +64,7 @@ public class MockSequencer implements Sequencer {
 
     @Override
     public void setSequence(Sequence sequence) throws InvalidMidiDataException {
-       this.sequence = sequence;
+        this.sequence = sequence;
     }
 
     @Override
@@ -292,8 +292,7 @@ public class MockSequencer implements Sequencer {
     }
 
     @Override
-    public int[] removeControllerEventListener(ControllerEventListener listener, int[] controllers)
-    {
+    public int[] removeControllerEventListener(ControllerEventListener listener, int[] controllers) {
         throw new IllegalArgumentException("Cannot access this method in a mock Sequencer");
     }
 
