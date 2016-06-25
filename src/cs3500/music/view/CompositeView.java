@@ -62,7 +62,7 @@ public class CompositeView implements GuiView, Playable {
   }
 
   public void skipToEnd() {
-      this.isNotPaused = false;
+    this.isNotPaused = false;
     gui.skipToEnd();
     midi.skipToEnd();
   }

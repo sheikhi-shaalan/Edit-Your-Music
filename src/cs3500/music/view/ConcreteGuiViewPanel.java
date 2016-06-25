@@ -22,6 +22,7 @@ public class ConcreteGuiViewPanel extends JPanel {
   private int max;
   private int dur;
     private int tick;
+  private int prevTick;
   private List<Note> list;
 
 
@@ -31,7 +32,7 @@ public class ConcreteGuiViewPanel extends JPanel {
     min = Collections.min(list).getKeyVal();
     max = Collections.max(list).getKeyVal();
     this.dur = c.getSongDuration();
-
+    this.prevTick = -1;
     this.setVisible(true);
 
   }
@@ -160,10 +161,11 @@ public class ConcreteGuiViewPanel extends JPanel {
   }
 
   private void updateTime() {
-    if (isPlaying) {
+    if (isPlaying && (prevTick < tick)) {
       System.out.println("POS: " + (tick * PIXEL_SIZE + distanceFromSide));
       System.out.println("TICK:" + tick);
       this.xlocation = (tick * PIXEL_SIZE) + distanceFromSide;
+      this.prevTick = tick;
       repaint();
     }
   }

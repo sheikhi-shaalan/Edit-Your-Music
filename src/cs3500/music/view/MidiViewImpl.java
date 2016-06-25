@@ -178,7 +178,7 @@ public class MidiViewImpl implements IView, Playable{
 
   @Override
   public boolean isPlaying() {
-    return this.beatAt <= this.c.getSongDuration();
+    return this.beatAt <= this.sequencer.getTickLength();
   }
 
   public MidiDevice getDevice() {
