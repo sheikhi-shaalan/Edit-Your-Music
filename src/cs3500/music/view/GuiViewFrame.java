@@ -108,15 +108,12 @@ public class GuiViewFrame extends JFrame implements GuiView, Playable {
   }
 
   protected void moveScreen(int tick) {
-    if ((tick * displayPanel.PIXEL_SIZE + displayPanel.distanceFromSide) > (scrollPane.getVisibleRect().x + 800)) {
-      System.out.println(scrollPane.getVisibleRect().x + 800);
-      System.out.println((this.scrollPane.getHorizontalScrollBar().getValue() +
-              this.scrollPane.getHorizontalScrollBar().getUnitIncrement()));
-       this.scrollPane.getHorizontalScrollBar().setValue(
-               this.scrollPane.getHorizontalScrollBar().getValue() +
-       this.scrollPane.getHorizontalScrollBar().getUnitIncrement());
+    if (tick * displayPanel.PIXEL_SIZE >= this.getBounds().getSize().getWidth()
+            - displayPanel.PIXEL_SIZE) {
+      this.scrollPane.getHorizontalScrollBar().setValue(tick * displayPanel.PIXEL_SIZE);
     }
-  }
+    }
+
 
 
 
