@@ -21,8 +21,8 @@ import javax.swing.*;
 public class MusicController implements ActionListener {
   private final MusicCreator creator;
   private IView view;
-  private final KeyboardHandler kbd = new KeyboardHandler();
-  private final MouseListenerImpl ml = new MouseListenerImpl();
+  private  KeyboardHandler kbd = new KeyboardHandler();
+  private  MouseListenerImpl ml = new MouseListenerImpl();
   private boolean isPlaying;
   private boolean removalState;
 
@@ -33,8 +33,8 @@ public class MusicController implements ActionListener {
     this.removalState = false;
 
     if (view instanceof GuiView) {
-      configureMouseListener();
       configureKeyBoardListener();
+      configureMouseListener();
       GuiView view2 = (GuiView) view;
       view2.addActionListener(this);
       this.view = view2;
@@ -158,6 +158,13 @@ public class MusicController implements ActionListener {
   @Override
   public void actionPerformed(ActionEvent e) {
     // Does Nothing
+  }
+
+  public KeyboardHandler getKeyListener() {
+    return this.kbd;
+  }
+  public MouseListenerImpl getMouseListener () {
+    return this.ml;
   }
 
   // Gets a beat from an Xcoord

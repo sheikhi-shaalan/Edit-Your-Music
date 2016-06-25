@@ -27,8 +27,14 @@ public class ConcreteGuiViewPanel extends JPanel {
   public ConcreteGuiViewPanel(MusicCreator c) {
     this.c = c;
     list = c.asList();
-    min = Collections.min(list).getKeyVal();
-    max = Collections.max(list).getKeyVal();
+    if (list.size() != 0) {
+      min = Collections.min(list).getKeyVal();
+      max = Collections.max(list).getKeyVal();
+    }
+    else {
+      min = 0;
+      max = 0;
+    }
     this.dur = c.getSongDuration();
     this.prevTick = -1;
     this.tick = 0;
@@ -36,10 +42,9 @@ public class ConcreteGuiViewPanel extends JPanel {
 
   }
 
-  // TODO fix this
   public Dimension getSongDimensions() {
-    return new Dimension(dur * PIXEL_SIZE + (PIXEL_SIZE * 5), ((max - min + 1) *
-            PIXEL_SIZE) + (2 * PIXEL_SIZE));
+    return new Dimension(dur * PIXEL_SIZE + (2 * distanceFromSide), ((max - min + 1) *
+            PIXEL_SIZE) + distanceFromTop);
   }
 
   @Override
@@ -106,7 +111,7 @@ public class ConcreteGuiViewPanel extends JPanel {
     }
   }
 
-  // Todo add more space inbetween notes
+  // Todo add more space in between notes
   private void paintOctKey(Graphics g) {
     g.setColor(Color.white);
     for (int i = max; i >= min; i--) {

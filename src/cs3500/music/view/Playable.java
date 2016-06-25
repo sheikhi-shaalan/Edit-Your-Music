@@ -30,4 +30,11 @@ public interface Playable {
    * Is this view playing?
    */
   boolean isPlaying();
+
+  /**
+   * Where are we in the song?
+   * @return where we are in
+   */
+  int getBeat();
+
 }

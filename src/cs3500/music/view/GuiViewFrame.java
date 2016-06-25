@@ -137,6 +137,11 @@ public class GuiViewFrame extends JFrame implements GuiView, Playable {
     return true;
   }
 
+  @Override
+  public int getBeat() {
+    return 0;
+  }
+
   // Sets the pane tick in the GUI panel
   protected void setPaneTick(int tick) {
     this.displayPanel.setTick(tick);

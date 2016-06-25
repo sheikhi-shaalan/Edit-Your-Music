@@ -57,6 +57,11 @@ public class CompositeView implements GuiView, Playable {
   }
 
   @Override
+  public int getBeat() {
+    return midi.getBeat();
+  }
+
+  @Override
   public void initialize() {
     this.gui.initialize();
     this.midi.initialize();
