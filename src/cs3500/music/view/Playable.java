@@ -5,10 +5,24 @@ package cs3500.music.view;
  */
 public interface Playable {
 
-  int getMyLocation();
-  void play(int where);
+  /**
+   * Plays a piece
+   */
+  void play();
+
+  /**
+   * Pauses a piece
+   */
   void pause();
+
+  /**
+   * Resets a peice to the beginning
+   */
   void reset();
+
+  /**
+   * Skips to the end of a piece
+   */
   void skipToEnd();
 
 }

@@ -67,8 +67,7 @@ public class MusicController implements ActionListener {
         GuiView view2 = (GuiView) view;
         try {
           creator.addNote(view2.userNote());
-        }
-        catch (NullPointerException e) {
+        } catch (NullPointerException e) {
         }
         view2.refresh(creator);
       }
@@ -81,21 +80,13 @@ public class MusicController implements ActionListener {
           Note remove = null;
           // An array List of notes
           List<Note> list = creator.notesAtBeat(getBeatFromLocation(ml.getXCoord()));
-          System.out.println("YOU MADE IT METHOD");
-          System.out.println("BEAT NO: " + getBeatFromLocation(ml.getXCoord()));
           for (Note n : list) {
-            System.out.println("YOU MADE IT FOR EACH");
-            System.out.println("PITCH NO: " + getPitchFromLocation(ml.getYCoord()));
-            if (n.getKeyVal()== getPitchFromLocation(ml.getYCoord())) {
-              System.out.println("YOU MADE IT IF STATEMENT");
+            if (n.getKeyVal() == getPitchFromLocation(ml.getYCoord())) {
               remove = n;
               break;
             }
           }
-          System.out.println("BEFORE " + creator.asList().size());
-
           creator.removeNote(remove);
-          System.out.println("AFTER " + creator.asList().size());
           view2.refresh(creator);
         }
       }
@@ -118,11 +109,10 @@ public class MusicController implements ActionListener {
         if (view instanceof Playable) {
           isPlaying = !isPlaying;
           Playable view2 = (Playable) view;
-          while (isPlaying) {
-            view2.play(view2.getMyLocation());
-//          } else {
-//            view2.pause();
-//          }
+          if (isPlaying) {
+            view2.play();
+          } else {
+            view2.pause();
           }
         }
       }
@@ -165,13 +155,13 @@ public class MusicController implements ActionListener {
   }
 
   private static int getBeatFromLocation(int x) {
-    return (x - (int) (2.5 * ConcreteGuiViewPanel.PIXEL_SIZE))/ConcreteGuiViewPanel.PIXEL_SIZE ;
+    return (x - ConcreteGuiViewPanel.distanceFromSide) / ConcreteGuiViewPanel.PIXEL_SIZE;
   }
-  private  int getPitchFromLocation(int y) {
+
+  private int getPitchFromLocation(int y) {
     List<Note> list = creator.asList();
-    int  max = Collections.max(list).getKeyVal();
-    return (-(((y - (int) (2.5 * ConcreteGuiViewPanel.PIXEL_SIZE)) /ConcreteGuiViewPanel.PIXEL_SIZE)
-            - max)) - 1 ;
+    int max = Collections.max(list).getKeyVal();
+    return -(((y - ConcreteGuiViewPanel.distanceFromTop) / ConcreteGuiViewPanel.PIXEL_SIZE) - max);
   }
 
 
