@@ -14,10 +14,7 @@ public class MidiViewImpl implements IView, Playable {
   protected final Sequencer sequencer;
   private final Sequence sequence;
   protected MusicCreator c;
-
-
-  protected boolean midiPlaying;
-
+  private boolean isPlaying;
 
   public MidiViewImpl(MusicCreator creator) {
     this.c = creator;
@@ -25,7 +22,6 @@ public class MidiViewImpl implements IView, Playable {
     Receiver tempr = null;
     Sequencer tempseqr = null;
     Sequence tempseq = null;
-    this.midiPlaying = true;
 
     try {
       temps = MidiSystem.getSynthesizer();
@@ -78,8 +74,7 @@ public class MidiViewImpl implements IView, Playable {
     this.sequencer.setTempoInMPQ(c.getTempo());
     for (int i = 0; i <= c.getSongDuration(); i++) {
       try {
-        this.playBeat(c.notesAtBeat(i), track);
-        this.playBeat(c.notesAtBeat(i), track);
+        this.playBeat(c.notesAtBeat(i),track);
       } catch (InvalidMidiDataException e) {
         e.getStackTrace();
       }
@@ -122,7 +117,7 @@ public class MidiViewImpl implements IView, Playable {
   @Override
   public void initialize() {
     this.playComposition();
-    if (midiPlaying) {
+    if (isPlaying) {
       this.sequencer.start();
     }
   }
@@ -141,7 +136,7 @@ public class MidiViewImpl implements IView, Playable {
   // Plays the music
   @Override
   public void play() {
-    this.midiPlaying = true;
+      this.isPlaying = true;
     this.sequencer.setTickPosition(this.sequencer.getTickPosition());
     this.sequencer.setTempoInMPQ(this.c.getTempo());
     this.sequencer.start();
@@ -150,7 +145,7 @@ public class MidiViewImpl implements IView, Playable {
   // Pauses the music
   @Override
   public void pause() {
-    this.midiPlaying = false;
+      this.isPlaying = false;
     this.sequencer.stop();
 
     this.sequencer.setTickPosition(this.sequencer.getTickPosition());
@@ -165,14 +160,16 @@ public class MidiViewImpl implements IView, Playable {
   // Sends the song to the end
   @Override
   public void skipToEnd() {
-    this.sequencer.setTickPosition(sequencer.getTickLength() - 1);
-    this.midiPlaying = false;
+      this.isPlaying = false;
+    this.sequencer.setTickPosition(sequencer.getTickLength() -1 );
     this.pause();
 
   }
 
   @Override
   public boolean isPlaying() {
-    return this.sequencer.getTickPosition() < this.sequencer.getTickLength();
+    return (this.sequencer.getTickPosition() <= this.c.getSongDuration()) && this.isPlaying;
   }
+
+
 }

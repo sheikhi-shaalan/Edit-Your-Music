@@ -10,8 +10,6 @@ import cs3500.music.model.Note;
 public class CompositeView implements GuiView, Playable {
   GuiViewFrame gui;
   MidiViewImpl midi;
-  boolean isNotPaused;
-
 
     //TODO the position of the red line in the beginning and the end
   public CompositeView(GuiViewFrame gui, MidiViewImpl midi) {
@@ -21,7 +19,7 @@ public class CompositeView implements GuiView, Playable {
   class RedLine extends Thread {
     @Override
     public void run() {
-      while (midi.isPlaying() && isNotPaused) {
+      while (midi.isPlaying()) {
         gui.setPanelTick(Math.toIntExact(midi.sequencer.getTickPosition()));
         gui.play();
       }
@@ -31,7 +29,7 @@ public class CompositeView implements GuiView, Playable {
      class redLine extends Thread {
         @Override
         public void run() {
-                while (midi.isPlaying() && isNotPaused) {
+                while (midi.isPlaying()) {
                     //System.out.println(midi.sequencer.getTickPosition());
                     gui.setPaneMidi(Math.toIntExact(midi.sequencer.getTickPosition()));
                     gui.play();
@@ -41,7 +39,6 @@ public class CompositeView implements GuiView, Playable {
 
   @Override
   public void play() {
-      this.isNotPaused = true;
       Thread redLine = new redLine();
       redLine.start();
       this.midi.play();
@@ -49,23 +46,18 @@ public class CompositeView implements GuiView, Playable {
 
   @Override
   public void pause() {
-      this.isNotPaused = false;
       gui.pause();
       midi.pause();
   }
 
   public void reset() {
-    this.isNotPaused = false;
-    Thread redline = new RedLine();
-    redline.start();
-    this.midi.play();
-   // gui.play();
-
+    gui.reset();
+    midi.reset();
+    midi.pause();
   }
 
 
   public void skipToEnd() {
-    this.isNotPaused = false;
     gui.skipToEnd();
     midi.skipToEnd();
   }
@@ -75,11 +67,9 @@ public class CompositeView implements GuiView, Playable {
     return this.midi.isPlaying();
   }
 
-  // Shows up
   @Override
   public void initialize() {
     this.gui.initialize();
-    this.midi.midiPlaying = false;
     this.midi.initialize();
   }
 

@@ -106,8 +106,6 @@ public class GuiViewFrame extends JFrame implements GuiView, Playable {
     this.displayPanel.setMidi(tick);
   }
 
-
-
   @Override
   public void play() {
     this.displayPanel.play();
