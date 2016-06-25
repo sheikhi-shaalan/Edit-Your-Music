@@ -11,7 +11,6 @@ import java.util.Map;
 
 import cs3500.music.model.MusicCreator;
 import cs3500.music.model.Note;
-import cs3500.music.view.CompositeView;
 import cs3500.music.view.ConcreteGuiViewPanel;
 import cs3500.music.view.GuiView;
 import cs3500.music.view.IView;

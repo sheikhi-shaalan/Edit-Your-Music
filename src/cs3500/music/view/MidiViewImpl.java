@@ -1,13 +1,10 @@
 package cs3500.music.view;
 
-import java.awt.event.ActionListener;
-import java.awt.event.KeyListener;
 import java.util.*;
 
 import javax.sound.midi.*;
 
 import cs3500.music.model.MusicCreator;
-import cs3500.music.model.MusicCreatorImpl;
 import cs3500.music.model.Note;
 
 /**
@@ -18,10 +15,8 @@ public class MidiViewImpl implements IView, Playable{
   private final Receiver receiver;
   protected final Sequencer sequencer;
   private final Sequence sequence;
-  private final int ONE_BEAT_COEFF = 1000000;
-  private final int SLEEP_NUMBER = 1000;
   protected MusicCreator c;
-  private boolean isPlaying;
+  protected boolean isPlaying;
 
   public MidiViewImpl(MusicCreator creator) {
     this.c = creator;
@@ -107,7 +102,6 @@ public class MidiViewImpl implements IView, Playable{
       e.printStackTrace();
     }
 
-    //this.sequencer.start();
   }
 
   // Plays all the notes at a specific beat
@@ -116,7 +110,6 @@ public class MidiViewImpl implements IView, Playable{
 
       ShortMessage start = null;
       ShortMessage end = null;
-      ShortMessage changeSound = null;
       try {
         start = new ShortMessage(ShortMessage.NOTE_ON,  n.getInstrument()-1,
                 n.getKeyVal(), n.getVolume());
@@ -139,8 +132,10 @@ public class MidiViewImpl implements IView, Playable{
 
   // Full culmination
   @Override
-  public void initialize() {
+  public void initialize()
+  {
     this.playComposition();
+    this.sequencer.start();
   }
 
   @Override
@@ -161,12 +156,14 @@ public class MidiViewImpl implements IView, Playable{
     this.sequencer.start();
   }
 
+  @Override
   public void pause() {
     this.isPlaying = false;
     this.sequencer.stop();
     this.sequencer.setTickPosition(this.sequencer.getTickPosition());
   }
 
+  @Override
   public void reset() { this.sequencer.setTickPosition(0);}
 
 
@@ -180,7 +177,7 @@ public class MidiViewImpl implements IView, Playable{
 
   @Override
   public boolean isPlaying() {
-    return (this.sequencer.getTickPosition() <= this.c.getSongDuration()) && this.isPlaying;
+    return (this.sequencer.getTickPosition() < this.c.getSongDuration()) && this.isPlaying;
   }
 
 }

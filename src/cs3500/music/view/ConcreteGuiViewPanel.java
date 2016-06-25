@@ -135,7 +135,9 @@ public class ConcreteGuiViewPanel extends JPanel {
 
   protected void reset() {
     this.isPlaying = false;
-    this.xlocation = this.tick;
+    this.tick = 0;
+    this.prevTick = -1;
+    this.xlocation = distanceFromSide;
     repaint();
   }
 
