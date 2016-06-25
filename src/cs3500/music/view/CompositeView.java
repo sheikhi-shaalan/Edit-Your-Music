@@ -1,6 +1,5 @@
 package cs3500.music.view;
 
-import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
@@ -8,7 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import javax.sound.midi.InvalidMidiDataException;
-import javax.swing.*;
+
 
 import cs3500.music.MusicEditor;
 import cs3500.music.model.MusicCreator;
@@ -21,38 +20,56 @@ import cs3500.music.util.MusicReader;
 public class CompositeView implements GuiView, Playable {
   GuiViewFrame gui;
   MidiViewImpl midi;
-// TODO think about ways to abstract
+    boolean isNotPaused;
+
+
+    //TODO the position of the red line in the beginning and the end
   public CompositeView(GuiViewFrame gui, MidiViewImpl midi) {
     this.gui = gui;
     this.midi = midi;
-
   }
 
-  @Override
-  public int getMyLocation() {
-    return this.midi.getMyLocation();
-  }
+     class redLine extends Thread {
+        @Override
+        public void run() {
+                while (midi.isPlaying() && isNotPaused) {
+                    //System.out.println(midi.sequencer.getTickPosition());
+                    gui.setPaneMidi(Math.toIntExact(midi.sequencer.getTickPosition()));
+                    gui.play();
+                }
+        }
+    }
 
   @Override
-  public void play(int where) {
-    this.gui.play(this.midi.getMyLocation());
-    this.midi.play(where);
+  public void play() {
+      this.isNotPaused = true;
+      Thread redLine = new redLine();
+      redLine.start();
+      this.midi.play();
   }
 
   public void pause() {
-    gui.pause();
-    midi.pause();
+      this.isNotPaused = false;
+      gui.pause();
+      midi.pause();
   }
 
   public void reset() {
+      this.isNotPaused = false;
     gui.reset();
     midi.reset();
     midi.pause();
   }
 
   public void skipToEnd() {
+      this.isNotPaused = false;
     gui.skipToEnd();
     midi.skipToEnd();
+  }
+
+  @Override
+  public boolean isPlaying() {
+    return this.midi.isPlaying();
   }
 
   // Shows up

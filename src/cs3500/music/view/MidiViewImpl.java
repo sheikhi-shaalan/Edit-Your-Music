@@ -21,6 +21,7 @@ public class MidiViewImpl implements IView, Playable{
   private final int ONE_BEAT_COEFF = 1000000;
   private final int SLEEP_NUMBER = 1000;
   protected MusicCreator c;
+  private int beatAt;
 
   public MidiViewImpl(MusicCreator creator) {
     this.c = creator;
@@ -46,6 +47,7 @@ public class MidiViewImpl implements IView, Playable{
     this.receiver = tempr;
     this.sequencer = tempseqr;
     this.sequence = tempseq;
+    this.beatAt = 0;
 
   }
 
@@ -95,6 +97,7 @@ public class MidiViewImpl implements IView, Playable{
     this.sequencer.setTempoInMPQ(c.getTempo());
     for (int i = 0; i <= c.getSongDuration(); i++) {
       try {
+        this.beatAt = i;
         this.playBeat(c.notesAtBeat(i),track);
       } catch (InvalidMidiDataException e) {
         e.getStackTrace();
@@ -152,12 +155,8 @@ public class MidiViewImpl implements IView, Playable{
   }
 
   @Override
-  public int getMyLocation() {
-    return Math.toIntExact(this.sequencer.getTickPosition());
-  }
-
-  public void play(int where) {
-    this.sequencer.setTickPosition(where);
+  public void play() {
+    this.sequencer.setTickPosition(this.sequencer.getTickPosition());
     this.sequencer.setTempoInMPQ(this.c.getTempo());
     this.sequencer.start();
   }
@@ -177,5 +176,17 @@ public class MidiViewImpl implements IView, Playable{
 
   }
 
+  @Override
+  public boolean isPlaying() {
+    return this.beatAt <= this.c.getSongDuration();
+  }
 
+  public MidiDevice getDevice() {
+    return this.sequencer;
+  }
+
+
+  public int getBeat() {
+    return this.beatAt;
+  }
 }

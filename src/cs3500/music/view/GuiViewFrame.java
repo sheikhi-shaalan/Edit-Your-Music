@@ -7,7 +7,9 @@ import org.omg.PortableServer.THREAD_POLICY_ID;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
+import java.math.BigDecimal;
 
+import javax.sound.midi.MidiDevice;
 import javax.swing.*;
 
 import cs3500.music.model.MusicCreator;
@@ -106,6 +108,10 @@ public class GuiViewFrame extends JFrame implements GuiView, Playable {
     return ret;
   }
 
+  public void setPaneMidi(int tick) {
+    this.displayPanel.setMidi(tick);
+  }
+
 
 
   @Override
@@ -127,6 +133,11 @@ public class GuiViewFrame extends JFrame implements GuiView, Playable {
   @Override
   public void skipToEnd() {
     this.displayPanel.skipToEnd();
+  }
+
+  @Override
+  public boolean isPlaying() {
+    return true;
   }
 }
 

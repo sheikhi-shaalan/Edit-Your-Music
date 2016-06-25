@@ -1,9 +1,11 @@
 package cs3500.music.view;
 
 import java.awt.*;
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 
+import javax.sound.midi.MidiDevice;
 import javax.swing.*;
 
 import cs3500.music.model.MusicCreator;
@@ -19,7 +21,9 @@ public class ConcreteGuiViewPanel extends JPanel {
   private int min;
   private int max;
   private int dur;
+    private int tick;
   private List<Note> list;
+
 
   public ConcreteGuiViewPanel(MusicCreator c) {
     this.c = c;
@@ -37,6 +41,10 @@ public class ConcreteGuiViewPanel extends JPanel {
     return new Dimension(dur * PIXEL_SIZE + (PIXEL_SIZE * 5), ((max - min + 1) *
             PIXEL_SIZE) + (2 * PIXEL_SIZE));
   }
+
+    public void setMidi(int tick) {
+        this.tick = tick;
+    }
 
   @Override
   public void paintComponent(Graphics g) {
@@ -131,7 +139,7 @@ public class ConcreteGuiViewPanel extends JPanel {
 
   protected void reset() {
     this.isPlaying = false;
-    this.xlocation = (PIXEL_SIZE * 3);
+    this.xlocation = this.tick;
     repaint();
   }
 
@@ -153,7 +161,9 @@ public class ConcreteGuiViewPanel extends JPanel {
 
   private void updateTime() {
     if (isPlaying) {
-      this.xlocation += 1;
+      System.out.println("POS: " + (tick * PIXEL_SIZE + distanceFromSide));
+      System.out.println("TICK:" + tick);
+      this.xlocation = (tick * PIXEL_SIZE) + distanceFromSide;
       repaint();
     }
   }

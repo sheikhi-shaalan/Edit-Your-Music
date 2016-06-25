@@ -25,4 +25,6 @@ public interface Playable {
    */
   void skipToEnd();
 
+  boolean isPlaying();
+
 }
