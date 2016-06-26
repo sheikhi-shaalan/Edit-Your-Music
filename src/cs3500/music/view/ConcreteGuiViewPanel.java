@@ -44,7 +44,6 @@ public class ConcreteGuiViewPanel extends JPanel {
 
   }
 
-
   /**
    * @return the dimension of this panel
    */

@@ -31,7 +31,6 @@ public class MusicEditor {
     IView v = m.create(args[0], creator);
 
     MusicController controller = new MusicController(creator, v);
-    v.initialize();
 
 
   }

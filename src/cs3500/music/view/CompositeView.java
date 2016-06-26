@@ -4,6 +4,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 
+import javax.swing.*;
+
 import cs3500.music.model.MusicCreator;
 import cs3500.music.model.Note;
 
@@ -77,9 +79,23 @@ public class CompositeView implements GuiView, Playable {
 
   @Override
   public void initialize() {
-    this.gui.initialize();
-    this.midi.initialize();
-    this.midi.sequencer.stop();
+
+    int p = JOptionPane.showConfirmDialog(null, "Welcome to Our Music Editor!\n" +
+                    "To play/pause: Hit the space bar\n" +
+                    "To add a note: Click anywhere on the screen and then enter" +
+            " the appropriate info\n" +
+                    "To remove a note: Right click on the head of the note you want to remove \n" +
+                    "To skip to the end: Hit the End key\n" +
+                    "To go to the beginning of the song: Hit the Home key", "Welcome!"
+            , JOptionPane.OK_CANCEL_OPTION);
+    if (p == JOptionPane.OK_OPTION) {
+      this.gui.initialize();
+      this.midi.initialize();
+      this.midi.sequencer.stop();
+    } else {
+      System.exit(0);
+    }
+
   }
 
   @Override
