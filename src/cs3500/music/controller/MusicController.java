@@ -28,8 +28,6 @@ public class MusicController implements ActionListener {
   private final KeyboardHandler kbd;
   private final MouseListenerImpl ml;
   private boolean isPlaying;
-  private boolean removalState;
-
   /**
    * Creates a new MusicController object with the given MusicCreator(model), and IView (view).
    *
@@ -47,7 +45,6 @@ public class MusicController implements ActionListener {
     this.creator = m;
     this.view = v;
     this.isPlaying = false;
-    this.removalState = false;
 
     if (view instanceof GuiView) {
       configureMouseListener();
@@ -82,7 +79,6 @@ public class MusicController implements ActionListener {
     });
     three.put(MouseEvent.MOUSE_CLICKED, new Runnable() {
       public void run() {
-        if (removalState) {
           GuiView view2 = (GuiView) view;
 
           Note remove = null;
@@ -102,7 +98,7 @@ public class MusicController implements ActionListener {
           }
 
         }
-      }
+
     });
 
     this.ml.setOne(one);
@@ -134,15 +130,6 @@ public class MusicController implements ActionListener {
         }
       }
     });
-
-
-    keyPresses.put(KeyEvent.VK_R, new Runnable() {
-      public void run() {
-        removalState = true;
-        JOptionPane.showMessageDialog(null, "Right click on a note to remove it");
-      }
-    });
-
     keyPresses.put(KeyEvent.VK_HOME, new Runnable() {
       public void run() {
         if (view instanceof Playable) {

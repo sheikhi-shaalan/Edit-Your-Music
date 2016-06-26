@@ -160,4 +160,5 @@ public class GuiViewFrame extends JFrame implements GuiView, Playable {
   protected void setPaneTick(int tick) {
     this.displayPanel.setTick(tick);
   }
+
 }
