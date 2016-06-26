@@ -2,11 +2,22 @@ Nadine Shaalan and Bahar Haji-Sheikhi
 CS 3500
 Summer I 2016
 
-HW 6:
+HW 7:
+---------------------------------------------------------------------------------------
+
+HOW TO USE:
+PLAYING: press the spacebar
+PAUSING: press the spacebar
+ADDING A NOTE: click anywhere and then enter the prompted information
+REMOVING A NOTE: right click on any note
+GOING TO BEGINNING: press the home key
+GOING TO THE END: press the end key
+
+---------------------------------------------------------------------------------------
 
 MODEL:
 
-------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
 
 For this weeks assignment, I created a interface and a basic implementation of a
 music editor.
@@ -23,9 +34,6 @@ Requires the following functionality
 	- Get the list of notes at the specified beat
 	- Renders the piece as a string
 	- Gets the tempo of the piece
-
-Modifications made to the interface for homework 6:
-- getTempo method was created to get a piece's tempo
 
 The Implementation of the Interface (The class MusicCreatorImpl):
 ------------------------------------------------------------------
@@ -49,17 +57,6 @@ The Implementation of the Interface (The class MusicCreatorImpl):
 			and not one that you had previously replaced.
 
 
-Modifications added to this class for homework 6:
-- Added a tempo field to keep track of a piece's tempo
-- Added a builder as specified in the assignment
-- A getBuilder() method was created to get a builder for the class
-- A piece was previously represented via KeyVal (octave and pitch number) to
- ArrayList<Note>, but this
-implementation was changed in order to allow the view to play notes a beat
-at a time.
-- Rendering was removed from this class
-
-
 Helper Class- Note:
 -------------------
 	A note contains the starting beat, the Key (number to represent the key and
@@ -71,13 +68,7 @@ Helper Class- Note:
 		-  A beat has a duration but it only exists in the arraylist of the beat
 		it starts on
 
-Modifications added to this class for homework 6:
-- A second constructor as specified by the builder was added.
-- Instrument and volume fields (ints) were added
-- public getters for the instrument and volume were added.
-- implementation of the note was changed such that a note was added only at the first
-beat it was played, however, it had a duration. Previously, a note existed at
-every beat it was played.
+---------------------------------------------------------------------------------------
 
 VIEW:
 
@@ -86,7 +77,17 @@ VIEW:
 Interface: IView
 ----------------
 This class represents the different types of views for this assignment. It has one
-methodinitialize(), which starts the desired view type.
+method initialize(), which starts the desired view type.
+
+Interface: GuiView
+-------------------
+This class represents a view that has the capability to handle keyboard and mouse events.
+It extends the IView interface.
+
+Interface Playable
+-------------------
+This class represents a view that can be played: meaning it has the functionality to be
+played, paused, skipped to the end, and brought to the beginning.
 
 Class: ConsoleView
 -------------------
@@ -104,26 +105,65 @@ Adds each note--via a midiEvent--, by using the interface's notesAtBeat method
 gets added to a sequence, which gets added to the sequencer.
 And then starts the sequencer.
 
+Changes made for hw07:
+MidiViewImpl now implements the Playable interface and thus has the methods:
+play, pause, reset, skipToEnd, isPlaying, and getBeat.
+a boolean field was added: isPlaying to help with these methods.
+
 Class: ConcreteGuiViewPanel:
 ----------------------------
 Paints the beat, paints the grid, and overrides paintComponent in order to display the GUI.
+
+Changes made for hw07:
+a tick, prevTick, and xLocation instance variables were added to keep track of
+where the red line should be drawn.
+A setTick method was created to allow the functionality to mutate the tick.
+Subsequently, a paintLine method was added to draw the red line in the panel.
+Protected methods were added for each method in the playable interface, even though
+this method does NOT implement the playable interface. They were added as helpers
+to the public methods in the guiViewFrame class.
+UpdateTime() was added in order to update the xLocation, tick, and prevTick
 
 Class: GuiViewFrame:
 --------------------
 Using the ConcreteGuiViewPanel class, adds the grid and the notes to a frame.
 Allows scrolling as well.
 
-Class: MockMidi
-----------------
-Represents a synthesizer but for testing purposes.
-Has a stringBuilder to accumulate messages sent.
+Changes made for hw07:
+This class implements the Playable interface and thus has the methods:
+play, pause, reset, skipToEnd, isPlaying, and getBeat.
+getBeat returns 0 and isPlaying returns true on default.
 
-Class: MockMidiReciever
+Class: MockSequencer:
+----------------------
+A mock sequencer that when start() is called, accumulates information about the midiEvents in a
+StringBuilder().
+
+Class: CompositeView:
+----------------------
+A class that has a gui and a midi. Synchronizes the gui and the midi such that the gui displays
+its red line bar at the beat number that the midi plays.
+
+---------------------------------------------------------------------------------------
+
+CONTROLLER:
+
+---------------------------------------------------------------------------------------
+
+Class: KeyboardHandler:
+-----------------------
+Allows the functionality to take in input from the keyboard.
+
+
+Class: MouseListener:
+---------------------
+Allows the functionality to take in input from the mouse.
+
+
+Class: MouseController:
 ------------------------
-Represents a synthesizer but for testing purposes.
-Accumulates MidiMessages sent via the "send" method
-which stores it in its StringBuilder.
-
+Takes input from the keyboard and mouse, allows the model
+to react to the input, and the view to display it.
 
 
 
