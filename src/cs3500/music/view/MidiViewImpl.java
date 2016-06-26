@@ -210,5 +210,10 @@ public class MidiViewImpl implements IView, Playable {
     return this.sequencer.getTickPosition() <= (this.c.getSongDuration()) && this.isPlaying;
   }
 
+  @Override
+  public int getBeat() {
+    return Math.toIntExact(this.sequencer.getTickPosition());
+  }
+
 
 }
