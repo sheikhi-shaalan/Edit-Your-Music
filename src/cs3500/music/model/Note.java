@@ -75,6 +75,7 @@ public class Note implements Comparable<Note> {
   private boolean start;
   private int instrument;
   private int volume;
+  private int shadowBeat;
 
 
   /**
@@ -108,6 +109,7 @@ public class Note implements Comparable<Note> {
     this.start = true;
     this.volume = 64;
     this.instrument = 1;
+    this.shadowBeat = beat;
   }
 
   /**
@@ -133,6 +135,7 @@ public class Note implements Comparable<Note> {
     this.keyVal = pitch;
     this.instrument = instrument;
     this.volume = volume;
+      this.shadowBeat = beat;
   }
 
   /**
@@ -222,6 +225,14 @@ public class Note implements Comparable<Note> {
   public int getVolume() {
     return this.volume;
   }
+
+    public void setShadowBeat(int newBrother) {
+        this.shadowBeat = newBrother;
+    }
+
+    public int getShadowBeat() {
+        return this.shadowBeat;
+    }
 
 }
 

@@ -1,18 +1,10 @@
 package cs3500.music.view;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.MidiChannel;
-import javax.sound.midi.MidiEvent;
-import javax.sound.midi.MidiMessage;
-import javax.sound.midi.MidiSystem;
-import javax.sound.midi.Receiver;
-import javax.sound.midi.Sequence;
-import javax.sound.midi.Sequencer;
-import javax.sound.midi.ShortMessage;
-import javax.sound.midi.Synthesizer;
-import javax.sound.midi.Track;
+import javax.sound.midi.*;
 
 import cs3500.music.model.MusicCreator;
 import cs3500.music.model.Note;
@@ -27,6 +19,7 @@ public class MidiViewImpl implements IView, Playable {
   private final Sequence sequence;
   protected MusicCreator c;
   protected boolean isPlaying;
+  protected final  Map<Integer, Integer> tickToBeat;
 
   /**
    * Creates a synthesizer, receiver, sequencer, and sequence and links them properly
@@ -57,6 +50,7 @@ public class MidiViewImpl implements IView, Playable {
     this.receiver = tempr;
     this.sequencer = tempseqr;
     this.sequence = tempseq;
+    this.tickToBeat = new HashMap<>();
 
   }
 
@@ -89,6 +83,7 @@ public class MidiViewImpl implements IView, Playable {
     this.receiver = tempr;
     this.sequencer = sequencer;
     this.sequence = tempseq;
+    this.tickToBeat = new HashMap<>();
   }
 
 
@@ -136,7 +131,7 @@ public class MidiViewImpl implements IView, Playable {
    */
   private void playBeat(List<Note> list, Track track) throws InvalidMidiDataException {
     for (Note n : list) {
-
+      this.tickToBeat.put(n.getStartbeatNo(), n.getShadowBeat());
       ShortMessage start = null;
       ShortMessage end = null;
       try {
@@ -148,10 +143,10 @@ public class MidiViewImpl implements IView, Playable {
       } catch (InvalidMidiDataException e) {
         e.printStackTrace();
       }
-
-      MidiEvent eventOn = new MidiEvent(start, n.getStartbeatNo());
-      MidiEvent eventOff = new MidiEvent(end, n.getStartbeatNo() + n.getDuration() + 1);
-
+        MidiEvent eventOn;
+        MidiEvent eventOff;
+          eventOn = new MidiEvent(start, n.getStartbeatNo());
+          eventOff = new MidiEvent(end, n.getStartbeatNo() + n.getDuration() + 1);
 
       track.add(eventOn);
       track.add(eventOff);
@@ -162,7 +157,7 @@ public class MidiViewImpl implements IView, Playable {
   @Override
   public void initialize() {
     this.playComposition();
-    this.sequencer.start();
+    //this.sequencer.start();
   }
 
   @Override
@@ -213,7 +208,7 @@ public class MidiViewImpl implements IView, Playable {
   @Override
   public int getBeat() {
     return Math.toIntExact(this.sequencer.getTickPosition());
-  }
 
+  }
 
 }
