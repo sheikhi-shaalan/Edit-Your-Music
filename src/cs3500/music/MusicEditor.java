@@ -29,10 +29,6 @@ public class MusicEditor {
     MusicReader reader = new MusicReader();
     CompositionBuilder<MusicCreatorRepeat> b = MusicCreatorRepeatImpl.getBuilderRep();
     MusicCreatorRepeat creator = reader.parseFile(new FileReader(args[1]), b);
-//    for (Note n: creator.asList()) {
-//      System.out.println("PITCH: " + n.getKeyVal() + " BEAT NO: " + n.getStartbeatNo() + "\n");
-//    }
-   // creator.addRepeat(0,8);
     for (Note n: creator.asList()) {
       System.out.println("PITCH: " + n.getKeyVal() + " BEAT NO: " + n.getStartbeatNo() + "\n");
    }

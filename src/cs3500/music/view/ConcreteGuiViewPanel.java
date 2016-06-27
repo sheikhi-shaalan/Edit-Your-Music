@@ -109,14 +109,16 @@ public class ConcreteGuiViewPanel extends JPanel {
     for (Note n : list) {
       // DRAWS THE TRAIL
       g.setColor(new Color(177, 95, 171));
-      g.fillRect(n.getStartbeatNo() * PIXEL_SIZE + DISTANCE_FROM_SIDE,
-              (max - n.getKeyVal()) * PIXEL_SIZE + DISTANCE_FROM_TOP,
-              n.getDuration() * PIXEL_SIZE, PIXEL_SIZE);
-      // DRAWS THE STARTING HEADER
-      g.setColor(new Color(204, 196, 36));
-      g.fillRect(n.getStartbeatNo() * PIXEL_SIZE + DISTANCE_FROM_SIDE,
-              (max - n.getKeyVal()) * PIXEL_SIZE + DISTANCE_FROM_TOP,
-              PIXEL_SIZE, PIXEL_SIZE);
+
+        g.fillRect(n.getShadowBeat() * PIXEL_SIZE + DISTANCE_FROM_SIDE,
+                (max - n.getKeyVal()) * PIXEL_SIZE + DISTANCE_FROM_TOP,
+                n.getDuration() * PIXEL_SIZE, PIXEL_SIZE);
+        // DRAWS THE STARTING HEADER
+        g.setColor(new Color(204, 196, 36));
+        g.fillRect(n.getShadowBeat() * PIXEL_SIZE + DISTANCE_FROM_SIDE,
+                (max - n.getKeyVal()) * PIXEL_SIZE + DISTANCE_FROM_TOP,
+                PIXEL_SIZE, PIXEL_SIZE);
+
     }
   }
 
