@@ -115,7 +115,7 @@ public class MidiViewImpl implements IView, Playable {
           tickToBeat.put(i,tickToBeat.get(i-1) + 1);
           // Could be dangerous
         }
-        this.tickToBeat.put(i, i);
+        else {this.tickToBeat.put(i, i); }
 
         this.playBeat(c.notesAtBeat(i), track);
       } catch (InvalidMidiDataException e) {

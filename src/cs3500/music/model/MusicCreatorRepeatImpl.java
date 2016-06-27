@@ -27,26 +27,13 @@ public class MusicCreatorRepeatImpl extends MusicCreatorImpl implements MusicCre
     MusicCreatorRepeat rep1 = this.trim(start, end);
     MusicCreatorRepeat ending = this.trim(end + 1, this.getSongDuration());
     for (Note n : rep1.asList()) {
-//      n.setShadowBeat(trueBro);
-//      trueBro++;
       n.setShadowBeat(start + (n.getStartbeatNo() - start));
-      System.out.println("REPREPREP");
-
-      System.out.println("StartBeatNo: " + n.getStartbeatNo() + " SHADOW: " + n.getShadowBeat());
     }
     this.composition.clear();
     this.combineCon(starting); // BA
     this.combineConEnd(rep1, end-start+1);// AG
     this.combineConEnd(ending, end - start + 1); //G#
     int trueBro = start;
-    System.out.println(rep1.asList().size());
-
-    List<Note> list = this.asList();
-    for (int i = 0; i <list.size() ; i ++) {
-      System.out.println("StartBeatNo: " + list.get(i).getStartbeatNo() + " SHADOW: " + list.get(i).getShadowBeat());
-    }
-
-
   }
 
   public void combineConEnd(MusicCreator c2, int rep) {
