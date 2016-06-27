@@ -3,6 +3,7 @@ package cs3500.music.view;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
+import java.util.List;
 
 import javax.swing.*;
 
@@ -119,6 +120,11 @@ public class CompositeView implements GuiView, Playable {
   @Override
   public Note userNote() {
     return this.gui.userNote();
+  }
+
+  @Override
+  public List<Integer> getRepeat() {
+    return this.gui.getRepeat();
   }
 
   @Override

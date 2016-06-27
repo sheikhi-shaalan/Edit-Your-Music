@@ -3,6 +3,7 @@ package cs3500.music.view;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
+import java.util.List;
 
 import cs3500.music.model.Note;
 
@@ -44,5 +45,7 @@ public interface GuiView extends IView {
    * @return a note based on user input
    */
   Note userNote();
+
+  List<Integer> getRepeat();
 
 }

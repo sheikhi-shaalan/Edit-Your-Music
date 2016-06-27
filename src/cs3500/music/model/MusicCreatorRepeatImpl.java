@@ -1,9 +1,7 @@
 package cs3500.music.model;
 
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.sound.midi.InvalidMidiDataException;
@@ -14,9 +12,6 @@ import cs3500.music.util.CompositionBuilder;
 import cs3500.music.util.MusicReader;
 import cs3500.music.view.IView;
 import cs3500.music.view.MidiViewImpl;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 /**
  * Created by NadineShaalan on 6/26/16.
@@ -35,7 +30,7 @@ public class MusicCreatorRepeatImpl extends MusicCreatorImpl implements MusicCre
     MusicCreatorRepeat ending = this.trim(end + 1, this.getSongDuration());
     this.composition.clear();
     this.combineCon(starting); // BA
-    this.combineCon(rep1);// AG
+    this.combineConEnd(rep1,end-start+1);// AG
     this.combineConEnd(ending, end-start+1); //G#
 
   }
@@ -98,6 +93,52 @@ public class MusicCreatorRepeatImpl extends MusicCreatorImpl implements MusicCre
     MusicController controller = new MusicController(creator, v);
 
 
+  }
+  /**
+   * @return a builder for this class
+   */
+
+  public static Builder getBuilderRep() {
+    return new MusicCreatorRepeatImpl.Builder();
+  }
+
+
+
+  /**
+   * represents a builder for creating MusicCreatorImpl objects
+   */
+  public static final class Builder implements CompositionBuilder<MusicCreatorRepeat> {
+
+    private List<Note> composition;
+    private int tempo;
+
+    /**
+     * A constructor that default sets the tempo to 2,000,000 microseconds per quarter note and the
+     * composition to an empty arraylist of notes
+     */
+    private Builder() {
+      this.tempo = 200000;
+      this.composition = new ArrayList<Note>();
+    }
+
+    @Override
+    public MusicCreatorRepeat build() {
+      MusicCreatorRepeat c = new MusicCreatorRepeatImpl(tempo, composition);
+      return c;
+    }
+
+    @Override
+    public CompositionBuilder<MusicCreatorRepeat> setTempo(int tempo) {
+      this.tempo = tempo;
+      return this;
+    }
+
+    @Override
+    public CompositionBuilder<MusicCreatorRepeat>
+    addNote(int start, int end, int instrument, int pitch, int volume) {
+      this.composition.add(new Note(start, pitch, (end - start), instrument, volume));
+      return this;
+    }
   }
 
 }

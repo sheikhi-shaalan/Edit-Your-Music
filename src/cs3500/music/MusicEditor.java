@@ -8,6 +8,9 @@ import javax.sound.midi.InvalidMidiDataException;
 import cs3500.music.controller.MusicController;
 import cs3500.music.model.MusicCreator;
 import cs3500.music.model.MusicCreatorImpl;
+import cs3500.music.model.MusicCreatorRepeat;
+import cs3500.music.model.MusicCreatorRepeatImpl;
+import cs3500.music.model.Note;
 import cs3500.music.util.CompositionBuilder;
 import cs3500.music.util.MusicReader;
 import cs3500.music.view.CompositeView;
@@ -24,14 +27,19 @@ public class MusicEditor {
   public static void main(String[] args) throws IOException, InvalidMidiDataException {
 
     MusicReader reader = new MusicReader();
-    CompositionBuilder<MusicCreator> b = MusicCreatorImpl.getBuilder();
-    MusicCreator creator = reader.parseFile(new FileReader(args[1]), b);
-
+    CompositionBuilder<MusicCreatorRepeat> b = MusicCreatorRepeatImpl.getBuilderRep();
+    MusicCreatorRepeat creator = reader.parseFile(new FileReader(args[1]), b);
+//    for (Note n: creator.asList()) {
+//      System.out.println("PITCH: " + n.getKeyVal() + " BEAT NO: " + n.getStartbeatNo() + "\n");
+//    }
+   // creator.addRepeat(0,8);
+    for (Note n: creator.asList()) {
+      System.out.println("PITCH: " + n.getKeyVal() + " BEAT NO: " + n.getStartbeatNo() + "\n");
+   }
     MusicEditor m = new MusicEditor();
     IView v = m.create(args[0], creator);
 
     MusicController controller = new MusicController(creator, v);
-
 
   }
 

@@ -48,7 +48,7 @@ public class ConcreteGuiViewPanel extends JPanel {
    * @return the dimension of this panel
    */
   protected Dimension getSongDimensions() {
-    return new Dimension(dur * PIXEL_SIZE + (PIXEL_SIZE * 5), ((max - min + 1) *
+    return new Dimension(dur * (3 * PIXEL_SIZE) + (PIXEL_SIZE * 5), ((max - min + 1) *
             PIXEL_SIZE) + (2 * PIXEL_SIZE));
   }
 

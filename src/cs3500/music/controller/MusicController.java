@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.swing.*;
 
 import cs3500.music.model.MusicCreator;
+import cs3500.music.model.MusicCreatorRepeat;
 import cs3500.music.model.Note;
 import cs3500.music.view.ConcreteGuiViewPanel;
 import cs3500.music.view.GuiView;
@@ -128,6 +129,17 @@ public class MusicController implements ActionListener {
             view2.pause();
           }
         }
+      }
+    });
+    keyPresses.put(KeyEvent.VK_K, new Runnable() {
+      public void run() {
+        if (creator instanceof MusicCreatorRepeat) {
+          GuiView view2 = (GuiView) view;
+          ((MusicCreatorRepeat) creator).addRepeat(view2.getRepeat().get(0),view2.getRepeat().get(1));
+        }
+        GuiView view2 = (GuiView) view;
+        view2.refresh(creator);
+
       }
     });
     keyPresses.put(KeyEvent.VK_HOME, new Runnable() {

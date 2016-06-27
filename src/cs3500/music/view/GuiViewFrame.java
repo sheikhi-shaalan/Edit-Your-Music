@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.util.*;
+import java.util.List;
 
 import javax.swing.*;
 
@@ -107,6 +108,32 @@ public class GuiViewFrame extends JFrame implements GuiView, Playable {
     }
 
     return ret;
+  }
+
+  @Override
+  public List<Integer> getRepeat() {
+    ArrayList<Integer> list = new ArrayList<>();
+    JPanel panel = new JPanel();
+    JLabel startLabel = new JLabel("Start: ");
+    JLabel endLabel = new JLabel("End: ");
+    JTextField start = new JTextField(5);
+    JTextField end = new JTextField(5);
+    panel.add(startLabel);
+    panel.add(start);
+    panel.add(endLabel);
+    panel.add(end);
+    int result = JOptionPane.showConfirmDialog(null, panel, "Repeat Interval",
+            JOptionPane.OK_CANCEL_OPTION);
+    try {
+      if (result == JOptionPane.OK_OPTION) {
+        list.add(Integer.parseInt(start.getText()));
+        list.add(Integer.parseInt(end.getText()));
+      }
+    } catch (Exception e) {
+      JOptionPane.showMessageDialog(null, "Please enter valid values: ");
+      this.getRepeat();
+    }
+    return list;
   }
 
 
