@@ -108,8 +108,15 @@ public class MidiViewImpl implements IView, Playable {
     Track track = sequence.createTrack();
 
     this.sequencer.setTempoInMPQ(c.getTempo());
+
     for (int i = 0; i <= c.getSongDuration(); i++) {
       try {
+        if (c.notesAtBeat(i).size() == 0 && (i != 0) && tickToBeat.get(i-1) < i-1) {
+          tickToBeat.put(i,tickToBeat.get(i-1) + 1);
+          // Could be dangerous
+        }
+        this.tickToBeat.put(i, i);
+
         this.playBeat(c.notesAtBeat(i), track);
       } catch (InvalidMidiDataException e) {
         e.getStackTrace();
@@ -130,8 +137,10 @@ public class MidiViewImpl implements IView, Playable {
    * @param track the track to add them to
    */
   private void playBeat(List<Note> list, Track track) throws InvalidMidiDataException {
+
     for (Note n : list) {
-      this.tickToBeat.put(n.getStartbeatNo(), n.getShadowBeat());
+      this.tickToBeat.put(n.getStartbeatNo(),n.getShadowBeat());
+
       ShortMessage start = null;
       ShortMessage end = null;
       try {
@@ -206,7 +215,7 @@ public class MidiViewImpl implements IView, Playable {
   }
 
   @Override
-  public int getBeat() {
+  public int getTick() {
     return Math.toIntExact(this.sequencer.getTickPosition());
 
   }

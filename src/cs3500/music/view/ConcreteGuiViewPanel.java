@@ -193,9 +193,9 @@ public class ConcreteGuiViewPanel extends JPanel {
    * Update's the tick of this musicCreator
    */
   private void updateTime() {
-    if (isPlaying && (prevTick < tick)) {
+    if (isPlaying){// && (prevTick < tick)) {
       this.xLocation = (tick * PIXEL_SIZE) + DISTANCE_FROM_SIDE;
-      this.prevTick = tick;
+     // this.prevTick = tick;
       repaint();
     }
   }

@@ -35,8 +35,8 @@ public class CompositeView implements GuiView, Playable {
     @Override
     public void run() {
       while (midi.isPlaying()) {
-        gui.setPaneTick(midi.tickToBeat.get(midi.getBeat()));
-        gui.moveScreen(midi.tickToBeat.get(midi.getBeat()));
+        gui.setPaneTick(midi.tickToBeat.get(midi.getTick()));
+        gui.moveScreen(midi.tickToBeat.get(midi.getTick()));
         gui.play();
       }
     }
@@ -74,8 +74,8 @@ public class CompositeView implements GuiView, Playable {
   }
 
   @Override
-  public int getBeat() {
-    return this.midi.getBeat();
+  public int getTick() {
+    return this.midi.getTick();
   }
 
   @Override

@@ -34,5 +34,5 @@ public interface Playable {
   /**
    * @return where are we in the song?
    */
-  int getBeat();
+  int getTick();
 }

@@ -91,7 +91,7 @@ public class ControllerTest {
   public void testHomeKeyWorks() {
     init();
     // Song is at the beginning
-    assertEquals(0, this.view.getBeat());
+    assertEquals(0, this.view.getTick());
 
     //Play the song
     kh.keyPressed(spaceBar);
@@ -101,12 +101,12 @@ public class ControllerTest {
       e.printStackTrace();
     }
     // Song is no longer at the beginning
-    assertNotEquals(0, this.view.getBeat());
+    assertNotEquals(0, this.view.getTick());
 
     // Go to the beginning of the song
     kh.keyPressed(homeKey);
     // Song is now at the beginning again
-    assertEquals(0, this.view.getBeat());
+    assertEquals(0, this.view.getTick());
 
 
   }
@@ -115,11 +115,11 @@ public class ControllerTest {
   public void testKey() {
     init();
     // Song is NOT at the end
-    assertNotEquals(model.getSongDuration(), this.view.getBeat());
+    assertNotEquals(model.getSongDuration(), this.view.getTick());
     // Go to the end of the song
     kh.keyPressed(endKey);
     // Song is now at the end
-    assertEquals(model.getSongDuration(), this.view.getBeat() -1);
+    assertEquals(model.getSongDuration(), this.view.getTick() -1);
 
   }
 }

@@ -178,7 +178,7 @@ public class GuiViewFrame extends JFrame implements GuiView, Playable {
   }
 
   @Override
-  public int getBeat() {
+  public int getTick() {
     return 0;
   }
 
