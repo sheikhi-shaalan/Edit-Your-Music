@@ -14,7 +14,7 @@ import cs3500.music.util.CompositionBuilder;
  */
 public class MusicCreatorImpl implements MusicCreator {
 
-  private Map<Integer, List<Note>> composition;
+  protected Map<Integer, List<Note>> composition;
   private int tempo;
 
   /**
@@ -100,8 +100,13 @@ public class MusicCreatorImpl implements MusicCreator {
     if (c2 == null) {
       throw new IllegalArgumentException("c2 must be initialized!");
     }
+//    for (int i = 0; i < c2.asList().size(); i++) {
+//      Note n= c2.asList().get(i);
+//      n.baharChangeStart(dur + i);
+//      this.addNote(c2.asList().get(i));
+//    }
     for (Note n : c2.asList()) {
-      n.changeStart(dur + 1);
+      n.changeStart(dur);
       this.addNote(n);
     }
   }

@@ -145,6 +145,10 @@ public class Note implements Comparable<Note> {
     this.startbeatNo += growth;
   }
 
+  public void baharChangeStart(int newNum) {
+    this.startbeatNo = newNum;
+  }
+
   @Override
   public int hashCode() {
     return Objects.hash(this.keyVal, this.start, this.duration, this.startbeatNo);
@@ -194,6 +198,9 @@ public class Note implements Comparable<Note> {
     return this.pitch;
   }
 
+  protected int getOctave() {
+    return this.octave;
+  }
 
   /**
    * @return the keyVal of the note
